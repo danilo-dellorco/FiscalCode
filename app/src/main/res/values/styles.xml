@@ -18,6 +18,8 @@
         <item name="android:editTextColor">@color/colorEditTextDark</item>
         <item name="android:textColorHint">@color/colorHintDark</item>
         <item name="android:editTextStyle">@color/colorAccentLight</item>
+        <item name="android:popupBackground">@color/colorBackgroundDark</item>
+        <item name="colorButtonNormal">@color/colorButtonDark</item>
     </style>
 
 </resources>
