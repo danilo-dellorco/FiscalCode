@@ -11,9 +11,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView tvRisultato = findViewById(R.id.tvRisultato);
 
-    CodiceFiscale prova = new CodiceFiscale("Pippo", "Lo Presti", 7,5,1900, 'F', "Tecchiena");
-    prova.calculateNomeCF();
+    CodiceFiscale prova = new CodiceFiscale("Gesu", "Lo Presti", 7,5,1900, 'F', "Tecchiena");
+    String result = prova.calculateNomeCF();
+    tvRisultato.setText(result);
     }
 
 }

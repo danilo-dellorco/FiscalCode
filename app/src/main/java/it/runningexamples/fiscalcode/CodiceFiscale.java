@@ -34,15 +34,31 @@ public class CodiceFiscale {
 //    public String calculateCF(){}
 
     public String calculateNomeCF(){
-        String nomeCF = null;
-        int nConsonanti;
+        String codiceNome;
+        int numeroConsonanti = 0;
+        nome = StringUtilis.eliminaSpaziBianchi(nome).toUpperCase();
 
-        if (nome.length()>=3){
-            nConsonanti = StringUtilis.getNumConsonanti(nome);
-            if (nConsonanti >=3){
-                nomeCF = StringUtilis.getConsonanti(nome);
+        if(nome.length() >= 3){
+            numeroConsonanti = StringUtilis.getNumConsonanti(nome);
+
+            if(numeroConsonanti >= 4){
+                codiceNome = StringUtilis.getConsonanteI(nome, 1) + StringUtilis.getConsonanteI(nome, 3) + StringUtilis.getConsonanteI(nome, 4);
+            }
+            else if(numeroConsonanti >= 3){
+
+                codiceNome = StringUtilis.getPrimeConsonanti(nome, 3);
+            }
+            else{
+                codiceNome = StringUtilis.getPrimeConsonanti(nome, numeroConsonanti);
+                codiceNome += StringUtilis.getPrimeVocali(nome, 3 - numeroConsonanti);
             }
         }
-        return nomeCF;
+        else{
+            int numeroCaratteri = nome.length();
+            codiceNome = nome + StringUtilis.nXChar(3 - numeroCaratteri);
+        }
+
+
+        return codiceNome;
     }
 }
