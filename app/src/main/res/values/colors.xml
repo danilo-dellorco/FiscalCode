@@ -8,7 +8,7 @@
     <color name="colorPrimaryDark">#32DE84</color>
     <color name="colorBackgroundDark">#06091E</color>
     <color name="colorStatusBarDark">#1E834E</color>
-    <color name="colorAccentDark">#03DAC5</color>
+    <color name="colorAccentDark">#32DE84</color>
     <color name="colorTextDark">#FFFFFF</color>
     <color name="colorEditTextDark">#FFFFFF</color>
     <color name="colorHintDark">#676767</color>
