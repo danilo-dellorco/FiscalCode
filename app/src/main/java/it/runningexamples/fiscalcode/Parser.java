@@ -19,10 +19,9 @@ public class Parser {
 
     public Parser(Context context){
         this.context = context;
-        parse();
     }
 
-    private static List<Comune> parse() {
+    public  List<Comune> parse() {
         try {
             reader = new BufferedReader(new InputStreamReader(context.getAssets().open("comuni.csv")));
         } catch (IOException e) {
@@ -53,4 +52,6 @@ public class Parser {
         }
         return comuni;
     }
+
+
 }
