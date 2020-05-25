@@ -15,4 +15,19 @@ public class CodiceFiscale {
         this.sesso = sesso;
     }
 
+    public String getNome(){
+        return nome;
+    }
+
+    public String getCognome(){
+        return cognome;
+    }
+
+    public String getDataNascita(){
+        return String.format("%d/%d/%d", giornoNascita, meseNascita, annoNascita);
+    }
+
+    public String getComuneNascita(){
+        return comuneNascita;
+    }
 }
