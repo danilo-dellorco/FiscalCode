@@ -5,11 +5,14 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">#FFFFFF</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppNightTheme" parent = "Theme.AppCompat.DayNight">
-
+    <style name="AppNightTheme" parent = "Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">#32DE84</item>
+        <item name="colorPrimaryDark">#1E834E</item>
+        <item name="android:windowBackground">#192BA5</item>
     </style>
 
 </resources>
