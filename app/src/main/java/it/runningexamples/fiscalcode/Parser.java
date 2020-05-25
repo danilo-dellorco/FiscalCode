@@ -22,14 +22,15 @@ public class Parser {
     }
 
     public  List<Comune> parse() {
+        List<Comune> comuni = new ArrayList<>();
+        String line;
+
         try {
             reader = new BufferedReader(new InputStreamReader(context.getAssets().open("comuni.csv")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        List<Comune> comuni = new ArrayList<>();
-        String line;
         try {
             line = reader.readLine();
         } catch (IOException e) {
