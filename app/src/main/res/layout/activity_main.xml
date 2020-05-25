@@ -58,7 +58,9 @@
             android:ems="10"
             android:completionHint="Comune di nascita"
             android:hint="Comune di nascita"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:completionThreshold="1"
+             />
 
         <RadioButton
             android:id="@+id/rbSessoM"
