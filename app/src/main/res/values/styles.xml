@@ -1,18 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">#FFFFFF</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryDark">@color/colorStatusBarLight</item>
+        <item name="android:windowBackground">@color/colorBackgroundLight</item>
+        <item name="colorAccent">@color/colorAccentLight</item>
     </style>
 
-    <style name="AppNightTheme" parent = "Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">#32DE84</item>
-        <item name="colorPrimaryDark">#1E834E</item>
-        <item name="android:windowBackground">#192BA5</item>
+    <style name="DarkTheme" parent = "Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorStatusBarDark</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
     </style>
 
 </resources>
