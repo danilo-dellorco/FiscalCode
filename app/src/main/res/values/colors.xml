@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryLight">#6200EE</color>
+    <color name="colorPrimaryLight">#0037FF</color>
     <color name="colorStatusBarLight">#3700B3</color>
     <color name="colorAccentLight">#03DAC5</color>
     <color name="colorBackgroundLight">#FFFFFF</color>
