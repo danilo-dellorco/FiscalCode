@@ -14,7 +14,8 @@
         <item name="colorPrimaryDark">@color/colorStatusBarDark</item>
         <item name="android:windowBackground">@color/colorBackgroundDark</item>
         <item name="android:textColor">@color/colorTextDark</item>
-        <item name="editTextColor">@color/colorEditText</item>
+        <item name="android:editTextColor">@color/colorEditTextDark</item>
+        <item name="android:textColorHint">@color/colorHintDark</item>
     </style>
 
 </resources>
