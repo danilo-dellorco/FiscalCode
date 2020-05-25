@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryLight</item>
         <item name="colorPrimaryDark">@color/colorStatusBarLight</item>
         <item name="android:windowBackground">@color/colorBackgroundLight</item>
@@ -18,8 +16,12 @@
         <item name="android:editTextColor">@color/colorEditTextDark</item>
         <item name="android:textColorHint">@color/colorHintDark</item>
         <item name="android:editTextStyle">@color/colorAccentLight</item>
-        <item name="android:popupBackground">@color/colorBackgroundDark</item>
-        <item name="colorButtonNormal">@color/colorButtonDark</item>
+        <item name="colorButtonNormal">@color/colorSecondaryDark</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutocompleteTextViewDark </item>
+    </style>
+
+    <style name="AutocompleteTextViewDark" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:popupBackground">@drawable/ic_launcher_background </item>
     </style>
 
 </resources>

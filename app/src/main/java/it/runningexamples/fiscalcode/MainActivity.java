@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         public Holder(){
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
+            atComuni = findViewById(R.id.atComuni);
+            atComuni.setDropDownBackgroundResource(R.color.colorSecondaryDark);
             parser = new Parser(MainActivity.this);
             comuniList = parser.parse();
             onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void setUpAutoCompleteTextView() {
-            atComuni = findViewById(R.id.atComuni);
             ArrayAdapter<Comune> dataAdapter = new ArrayAdapter<Comune>(MainActivity.this,
                     android.R.layout.simple_dropdown_item_1line, comuniList);
             atComuni.setAdapter(dataAdapter);
