@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CodiceFiscale {
-    private String nome, cognome;
-    Comune comuneNascita;
-    int year, day, month;
+    private String nome,cognome,  finalFiscalCode;
+    private Comune comuneNascita;
+    private int year, day, month;
     private Date birthday;
     private char gender;
+
+
     private static Map monthCode = new HashMap<Integer, Character>() {{
         put(1, 'A');
         put(2, 'B');
@@ -28,11 +30,118 @@ public class CodiceFiscale {
         put(12, 'T');
     }};
 
+    private static Map evenCode = new HashMap<Character, Integer>() {{
+        put('0', 0);
+        put('1', 1);
+        put('2', 2);
+        put('3', 3);
+        put('4', 4);
+        put('5', 5);
+        put('6', 6);
+        put('7', 7);
+        put('8', 8);
+        put('9', 9);
+        put('A', 0);
+        put('B', 1);
+        put('C', 2);
+        put('D', 3);
+        put('E', 4);
+        put('F', 5);
+        put('G', 6);
+        put('H', 7);
+        put('I', 8);
+        put('J', 9);
+        put('K', 10);
+        put('L', 11);
+        put('M', 12);
+        put('N', 13);
+        put('O', 14);
+        put('P', 15);
+        put('Q', 16);
+        put('R', 17);
+        put('S', 18);
+        put('T', 19);
+        put('U', 20);
+        put('V', 21);
+        put('W', 22);
+        put('X', 23);
+        put('Y', 24);
+        put('Z', 25);
+    }};
+
+    private static Map remainderCode = new HashMap<Integer, Character>() {{
+        put(0, 'A');
+        put(1, 'B');
+        put(2, 'C');
+        put(3, 'D');
+        put(4, 'E');
+        put(5, 'F');
+        put(6, 'G');
+        put(7, 'H');
+        put(8, 'I');
+        put(9, 'J');
+        put(10, 'K');
+        put(11, 'L');
+        put(12, 'M');
+        put(13, 'N');
+        put(14, 'O');
+        put(15, 'P');
+        put(16, 'Q');
+        put(17, 'R');
+        put(18, 'S');
+        put(19, 'T');
+        put(20, 'U');
+        put(21, 'V');
+        put(22, 'W');
+        put(23, 'X');
+        put(24, 'Y');
+        put(25, 'Z');
+    }};
+
+    private static Map oddCode = new HashMap<Character, Integer>() {{
+        put('0', 1);
+        put('1', 0);
+        put('2', 5);
+        put('3', 7);
+        put('4', 9);
+        put('5', 13);
+        put('6', 15);
+        put('7', 17);
+        put('8', 19);
+        put('9', 21);
+        put('A', 1);
+        put('B', 0);
+        put('C', 5);
+        put('D', 7);
+        put('E', 9);
+        put('F', 13);
+        put('G', 15);
+        put('H', 17);
+        put('I', 19);
+        put('J', 21);
+        put('K', 2);
+        put('L', 4);
+        put('M', 18);
+        put('N', 20);
+        put('O', 11);
+        put('P', 3);
+        put('Q', 6);
+        put('R', 8);
+        put('S', 12);
+        put('T', 14);
+        put('U', 16);
+        put('V', 10);
+        put('W', 22);
+        put('X', 25);
+        put('Y', 24);
+        put('Z', 23);
+    }};
+
 
 
     public CodiceFiscale(String nome, String cognome, Date birthDay, char gender, Comune comuneNascita) {
-        this.nome = nome.toUpperCase(); // aggiungere eliminazione spazi bianchi
-        this.cognome = cognome.toUpperCase();
+        this.nome = nome;
+        this.cognome = cognome;
         this.birthday = birthDay;
         this.comuneNascita = comuneNascita;
         this.gender = gender;
@@ -53,7 +162,28 @@ public class CodiceFiscale {
     public String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
-        return surnameCode + nameCode;
+        String birthdayCode = getBirthdayCF();
+        String result = surnameCode + nameCode + birthdayCode + comuneNascita.getCode();
+        finalFiscalCode = result + checkCharacter(result);
+        return finalFiscalCode;
+    }
+
+    private String checkCharacter(String result) {
+
+        char[] fiscalCodeCharArray = result.toCharArray();  // Get array of character
+
+        int sum = 0;
+
+        for (int i = 0; i < fiscalCodeCharArray.length; i++) {  // Sum all character code
+            Character character = fiscalCodeCharArray[i];
+            if ((i+1) % 2 == 0) {
+                sum = sum + (int) evenCode.get(character);
+            } else {
+                sum = sum + (int) oddCode.get(character);
+            }
+        }
+
+        return (remainderCode.get(sum % 26)).toString();
     }
 
     private String getNameCF() {
@@ -153,19 +283,21 @@ public class CodiceFiscale {
 
     }
 
-    private String getEncodedBirthday() {
-
+    private String getBirthdayCF() {
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // Get day into two digit
         day = Integer.parseInt(dayFormat.format(this.birthday));
 
         SimpleDateFormat monthFormat = new SimpleDateFormat("M");  // Get month into one digit
         month = Integer.parseInt(monthFormat.format(this.birthday));
 
-        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");  // Get last two digit of year
+        SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // Get last two digit of year
         year = Integer.parseInt(yearFormat.format(this.birthday));
-
+        Log.d("FiscalCode", String.valueOf(birthday)+" |"+year);
         // Return the string coded with female having +40 to day code
-        return String.valueOf(year) + monthCode.get(month) + (this.gender.equals(Gender.MALE) ? String.format("%02d", day) : String.format("%02d", day + 40));
+        if (gender == 'F'){
+            return String.valueOf(year)+monthCode.get(month) + String.format("%02d", day + 40);
+        }
+        return String.format("%02d", year) + monthCode.get(month) +String.format("%02d", day);
     }
 }
-}
+
