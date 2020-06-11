@@ -1,6 +1,5 @@
 package it.runningexamples.fiscalcode;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
@@ -16,8 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+//TODO menu in alto è nero anche nel tema light
+//TODO riordinare main activity ed inserire edittext material
+//TODO terminare datepicker
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -37,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
         int theme = sharedPreferences.getInt(THEME,0);
-        Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
         if (theme == 0){
             setTheme(R.style.LightTheme);
         }
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Holder implements View.OnClickListener {
+    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener {
         Parser parser;
         List<Comune> comuniList;
         AutoCompleteTextView atComuni;
@@ -68,30 +71,36 @@ public class MainActivity extends AppCompatActivity {
         String comuneCode;
         String prov;
         Toolbar toolbar;
+        Switch swEstero;
 
         Character gender;
         TextView tvRisultato;
-        TextView etBirthday;
+        Button btnBirthday;
         EditText etName;
         EditText etSurname;
         RadioGroup rgGender;
+
+        com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
         AdapterView.OnItemClickListener onItemClickListener;
 
         public Holder() {
             tvRisultato = findViewById(R.id.tvRisultato);
             rgGender = findViewById(R.id.rgGender);
-            etBirthday = findViewById(R.id.etData);
+            btnBirthday = findViewById(R.id.btnData);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
+            swEstero = findViewById(R.id.swEstero);
+            swEstero.setOnCheckedChangeListener(this);
             comuniList = parser.parse();
             toolbar = findViewById(R.id.toolbar);
-            btnChangeTheme = findViewById(R.id.btn_changeTheme);
-            btnChangeTheme.setOnClickListener(this);
+            autocompleteLayout = findViewById(R.id.autocompleteLayout);
+            //btnChangeTheme = findViewById(R.id.btn_changeTheme);
+            //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             setUpDateDialog();
@@ -104,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             // set current Date
-            etBirthday.setText(String.format("%02d/%02d/%d", day, month + 1, year));
+            btnBirthday.setText(String.format("%02d/%02d/%d", day, month + 1, year));
 
             View.OnClickListener birthdayListener = new View.OnClickListener() {
                 @Override
@@ -112,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     showDatePickerDialog(v);
                 }
             };
-            etBirthday.setOnClickListener(birthdayListener);
+            btnBirthday.setOnClickListener(birthdayListener);
         }
 
         private void setUpAutoCompleteTextView() {
@@ -143,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
                 hideKeyboard();
                 String surname = etSurname.getText().toString();
                 String name = etName.getText().toString();
-                gender = rgGender.getCheckedRadioButtonId().get
+                //gender = rgGender.getCheckedRadioButtonId().get
 
                 // Get birthday
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Date birthDay = new Date();
                 try {
-                    birthDay = simpleDateFormat.parse(etBirthday.getText().toString());
+                    birthDay = simpleDateFormat.parse(btnBirthday.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -162,13 +171,28 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
                 }
             }
-            if (v.getId() == R.id.btn_changeTheme){
+            /*if (v.getId() == R.id.btn_changeTheme){
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(THEME,1);
-                editor.apply();
                 int theme = sharedPreferences.getInt(THEME,0);
-                Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
+                if (theme == 1){
+                    editor.putInt(THEME,0);
+                }
+                else{
+                    editor.putInt(THEME,1);
+                }
+                editor.apply();
+            }*/
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            atComuni.getText().clear();
+            if (swEstero.isChecked()){
+                autocompleteLayout.setHint("Stato Estero di Nascita");
+            }
+            else{
+                autocompleteLayout.setHint("Comune di Nascita");
             }
         }
     }

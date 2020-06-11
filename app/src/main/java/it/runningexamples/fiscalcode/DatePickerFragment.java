@@ -3,6 +3,7 @@ package it.runningexamples.fiscalcode;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        CharSequence oldDate = ((TextView) getActivity().findViewById(R.id.etData)).getText();
+        CharSequence oldDate = ((Button) getActivity().findViewById(R.id.btnData)).getText();
         int year = Integer.parseInt(oldDate.subSequence(6, 10).toString());
         int month = Integer.parseInt(oldDate.subSequence(3, 5).toString()) - 1;  //
         int day = Integer.parseInt(oldDate.subSequence(0, 2).toString());
@@ -25,6 +26,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-            ((TextView) getActivity().findViewById(R.id.etData)).setText(String.format("%02d/%02d/%d", day, month + 1, year));
+            ((Button) getActivity().findViewById(R.id.btnData)).setText(String.format("%02d/%02d/%d", day, month + 1, year));
     }
 }
