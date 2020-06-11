@@ -79,13 +79,7 @@ public class MainActivity extends AppCompatActivity {
             // set current Date
             etBirthday.setText(String.format("%02d/%02d/%d", day, month + 1, year));
 
-            View.OnClickListener birthdayListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDatePickerDialog(v);
-                }
-            };
-            etBirthday.setOnClickListener(birthdayListener);
+            etBirthday.setOnClickListener(this);
         }
 
         private void setUpAutoCompleteTextView() {
@@ -113,27 +107,34 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
-                String surname = etSurname.getText().toString();
-                String name = etName.getText().toString();
-                int radioID = rgGender.getCheckedRadioButtonId();
+                computeCF();
+            }
+            if (v.getId() == R.id.etData || v.getId() == R.id.btn_calendar){
+                showDatePickerDialog(v);
+            }
+        }
 
-                String gender = (String) ((RadioButton) findViewById(radioID)).getText();
-                // Get birthday
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date birthDay = new Date();
-                try {
-                    birthDay = simpleDateFormat.parse(etBirthday.getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
-                    CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
-                    String fiscalCode = codiceFiscale.calculateCF();
+        private void computeCF() {
+            String surname = etSurname.getText().toString();
+            String name = etName.getText().toString();
+            int radioID = rgGender.getCheckedRadioButtonId();
 
-                    tvRisultato.setText(fiscalCode);
-                }else{
-                    Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
-                }
+            String gender = (String) ((RadioButton) findViewById(radioID)).getText();
+            // Get birthday
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date birthDay = new Date();
+            try {
+                birthDay = simpleDateFormat.parse(etBirthday.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
+                CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
+                String fiscalCode = codiceFiscale.calculateCF();
+
+                tvRisultato.setText(fiscalCode);
+            } else {
+                Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
             }
         }
     }
