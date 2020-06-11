@@ -6,15 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvTitolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="Calcola il tuo codice fiscale!"
-        app:layout_constraintEnd_toEndOf="parent"
         android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -42,14 +54,6 @@
             android:ems="10"
             android:hint="Cognome"
             android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/etData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Data di nascita"
-            android:inputType="date" />
 
         <AutoCompleteTextView
             android:id="@+id/atComuni"
@@ -95,10 +99,34 @@
             android:textSize="50dp"
             android:layout_gravity="center"/>
 
-        <Spinner
-            android:id="@+id/spComuni"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_changeTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/etData"
+                android:layout_width="121dp"
+                android:layout_height="30dp"
+                android:ems="10"
+                android:hint="Data di nascita"
+                android:inputType="date" />
+
+            <ImageButton
+                android:id="@+id/btn_calendar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/calendar"
+                android:scaleType="fitCenter" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

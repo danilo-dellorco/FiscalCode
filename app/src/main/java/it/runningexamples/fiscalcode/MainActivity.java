@@ -1,11 +1,15 @@
 package it.runningexamples.fiscalcode;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -26,11 +30,22 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String THEME = "1";
     Holder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.DarkTheme);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+        int theme = sharedPreferences.getInt(THEME,0);
+        Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
+        if (theme == 0){
+            setTheme(R.style.LightTheme);
+        }
+        else{
+            setTheme(R.style.DarkTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,13 +53,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_bar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     private class Holder implements View.OnClickListener {
         Parser parser;
         List<Comune> comuniList;
         AutoCompleteTextView atComuni;
-        Button btnCalcola;
+        Button btnCalcola,btnChangeTheme;
         Comune comuneSelected;
+        String comuneCode;
+        String prov;
+        Toolbar toolbar;
 
         TextView tvRisultato;
         TextView etBirthday;
@@ -63,10 +87,13 @@ public class MainActivity extends AppCompatActivity {
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
             atComuni = findViewById(R.id.atComuni);
-            atComuni.setDropDownBackgroundResource(R.color.colorSecondaryDark);
             parser = new Parser(MainActivity.this);
             comuniList = parser.parse();
-
+            toolbar = findViewById(R.id.toolbar);
+            btnChangeTheme = findViewById(R.id.btn_changeTheme);
+            btnChangeTheme.setOnClickListener(this);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             setUpDateDialog();
             setUpAutoCompleteTextView();
         }
@@ -103,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             newFragment.show(getSupportFragmentManager(), "datePicker");
         }
 
+
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.btnCalcola) {
@@ -136,8 +164,18 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
             }
+            if (v.getId() == R.id.btn_changeTheme){
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(THEME,1);
+                editor.apply();
+                int theme = sharedPreferences.getInt(THEME,0);
+                Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
+
 
     private void hideKeyboard() {
         // Check if no view has focus:
