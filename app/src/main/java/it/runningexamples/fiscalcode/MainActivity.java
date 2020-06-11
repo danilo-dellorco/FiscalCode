@@ -1,17 +1,25 @@
 package it.runningexamples.fiscalcode;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,12 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.DarkTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tvRisultato = findViewById(R.id.tvRisultato);
+
         holder = new Holder();
 
-        CodiceFiscale prova = new CodiceFiscale("Michele", "Salvatori", 7,5,1900, 'F', "Tecchiena");
-        String result = prova.calculateCF();
-        tvRisultato.setText(result);
     }
 
 
@@ -41,10 +46,19 @@ public class MainActivity extends AppCompatActivity {
         String comuneCode;
         String prov;
 
+        TextView tvRisultato;
+        TextView etBirthday;
+        EditText etName;
+        EditText etSurname;
+
 
         AdapterView.OnItemClickListener onItemClickListener;
 
         public Holder(){
+            tvRisultato = findViewById(R.id.tvRisultato);;
+            etBirthday = findViewById(R.id.etData);
+            etName = findViewById(R.id.etNome);
+            etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
             atComuni = findViewById(R.id.atComuni);
@@ -52,29 +66,74 @@ public class MainActivity extends AppCompatActivity {
             parser = new Parser(MainActivity.this);
             comuniList = parser.parse();
 
-            onItemClickListener = new AdapterView.OnItemClickListener() {
+            setUpDateDialog();
+            setUpAutoCompleteTextView();
+        }
+
+        private void setUpDateDialog() {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            // set current Date
+            etBirthday.setText(String.format("%02d/%02d/%d", day, month + 1, year));
+
+            View.OnClickListener birthdayListener = new View.OnClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      //TODO quando clicca
-                    comuneSelected = (Comune) parent.getItemAtPosition(position);
-                    Log.d(TAG, comuneSelected.getCode()+" "+comuneSelected.getName());
+                public void onClick(View v) {
+                    showDatePickerDialog(v);
                 }
             };
-            setUpAutoCompleteTextView();
+            etBirthday.setOnClickListener(birthdayListener);
         }
 
         private void setUpAutoCompleteTextView() {
             ArrayAdapter<Comune> dataAdapter = new ArrayAdapter<Comune>(MainActivity.this,
                     android.R.layout.simple_dropdown_item_1line, comuniList);
+
+            onItemClickListener = new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      //TODO quando clicca
+                    comuneSelected = (Comune) parent.getItemAtPosition(position);
+                    hideKeyboard();
+                    Log.d(TAG, comuneSelected.getCode()+" "+comuneSelected.getName());
+                }
+            };
             atComuni.setAdapter(dataAdapter);
             atComuni.setOnItemClickListener(onItemClickListener);
         }
 
-
+        private void showDatePickerDialog(View v) {
+            DialogFragment newFragment = new DatePickerFragment();
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        }
 
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.btnCalcola){
+                hideKeyboard();
+                String surname = etSurname.getText().toString();
+                String name = etName.getText().toString();
+
+                // Get birthday
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date birthDay = new Date();
+                try {
+                    birthDay = simpleDateFormat.parse(etBirthday.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
+        }
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }

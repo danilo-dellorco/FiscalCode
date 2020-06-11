@@ -2,12 +2,15 @@ package it.runningexamples.fiscalcode;
 
 import android.util.Log;
 
+import java.util.Date;
+
 public class CodiceFiscale {
-    private String nome, cognome, comuneNascita;
+    private String nome, cognome;
+    Comune comuneNascita;
     private int giornoNascita, meseNascita, annoNascita;
     private char sesso;
 
-    public CodiceFiscale(String nome, String cognome, int giornoNascita, int meseNascita, int annoNascita, char sesso, String comuneNascita){
+    public CodiceFiscale(String nome, String cognome, Date birthDay, char sesso, Comune comuneNascita){
         this.nome = nome.toUpperCase(); // aggiungere eliminazione spazi bianchi
         this.cognome = cognome.toUpperCase();
         this.annoNascita = annoNascita;
@@ -27,10 +30,6 @@ public class CodiceFiscale {
 
     public String getDataNascita(){
         return String.format("%d/%d/%d", giornoNascita, meseNascita, annoNascita);
-    }
-
-    public String getComuneNascita(){
-        return comuneNascita;
     }
 
     public String calculateCF(){
