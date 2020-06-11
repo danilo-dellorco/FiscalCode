@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,14 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.top_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
 
-    private class Holder implements View.OnClickListener{
+    private class Holder implements View.OnClickListener {
         Parser parser;
         List<Comune> comuniList;
         AutoCompleteTextView atComuni;
@@ -70,16 +69,18 @@ public class MainActivity extends AppCompatActivity {
         String prov;
         Toolbar toolbar;
 
+        Character gender;
         TextView tvRisultato;
         TextView etBirthday;
         EditText etName;
         EditText etSurname;
-
+        RadioGroup rgGender;
 
         AdapterView.OnItemClickListener onItemClickListener;
 
-        public Holder(){
-            tvRisultato = findViewById(R.id.tvRisultato);;
+        public Holder() {
+            tvRisultato = findViewById(R.id.tvRisultato);
+            rgGender = findViewById(R.id.rgGender);
             etBirthday = findViewById(R.id.etData);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
@@ -115,15 +116,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void setUpAutoCompleteTextView() {
-            ArrayAdapter<Comune> dataAdapter = new ArrayAdapter<Comune>(MainActivity.this,
+            ArrayAdapter<Comune> dataAdapter = new ArrayAdapter<>(MainActivity.this,
                     android.R.layout.simple_dropdown_item_1line, comuniList);
 
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      //TODO quando clicca
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     comuneSelected = (Comune) parent.getItemAtPosition(position);
                     hideKeyboard();
-                    Log.d(TAG, comuneSelected.getCode()+" "+comuneSelected.getName());
+                    Log.d(TAG, comuneSelected.getCode() + " " + comuneSelected.getName());
                 }
             };
             atComuni.setAdapter(dataAdapter);
@@ -138,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.btnCalcola){
+            if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
                 String surname = etSurname.getText().toString();
                 String name = etName.getText().toString();
+                gender = rgGender.getCheckedRadioButtonId().get
 
                 // Get birthday
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -150,6 +152,14 @@ public class MainActivity extends AppCompatActivity {
                     birthDay = simpleDateFormat.parse(etBirthday.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
+                }
+                if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
+                    CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, 'M', comuneSelected);
+                    String fiscalCode = codiceFiscale.calculateCF();
+
+                    tvRisultato.setText(fiscalCode);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
                 }
             }
             if (v.getId() == R.id.btn_changeTheme){
@@ -174,3 +184,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
