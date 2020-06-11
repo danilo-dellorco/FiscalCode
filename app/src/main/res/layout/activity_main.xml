@@ -85,7 +85,6 @@
         </RadioGroup>
 
 
-
         <Button
             android:id="@+id/btnCalcola"
             android:layout_width="match_parent"
@@ -96,8 +95,11 @@
             android:id="@+id/tvRisultato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding ="20dp"
             android:text="RISULTATO"
             android:textSize="50dp"
+            android:autoSizeTextType="uniform"
+            android:lines="1"
             android:layout_gravity="center"/>
 
         <Button
