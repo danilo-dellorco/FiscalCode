@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         Button btnCalcola;
         Comune comuneSelected;
 
-        Character gender;
         TextView tvRisultato;
         TextView etBirthday;
         EditText etName;
@@ -115,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 hideKeyboard();
                 String surname = etSurname.getText().toString();
                 String name = etName.getText().toString();
-                gender = rgGender.getCheckedRadioButtonId().get
+                int radioID = rgGender.getCheckedRadioButtonId();
 
+                String gender = (String) ((RadioButton) findViewById(radioID)).getText();
                 // Get birthday
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Date birthDay = new Date();
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
-                    CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, 'M', comuneSelected);
+                    CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
                     String fiscalCode = codiceFiscale.calculateCF();
 
                     tvRisultato.setText(fiscalCode);
