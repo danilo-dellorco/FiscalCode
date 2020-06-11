@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Holder implements View.OnClickListener{
+    private class Holder implements View.OnClickListener {
         Parser parser;
         List<Comune> comuniList;
         AutoCompleteTextView atComuni;
@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         AdapterView.OnItemClickListener onItemClickListener;
 
-        public Holder(){
-            tvRisultato = findViewById(R.id.tvRisultato);;
+        public Holder() {
+            tvRisultato = findViewById(R.id.tvRisultato);
+            ;
             etBirthday = findViewById(R.id.etData);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
@@ -93,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
 
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      //TODO quando clicca
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     comuneSelected = (Comune) parent.getItemAtPosition(position);
                     hideKeyboard();
-                    Log.d(TAG, comuneSelected.getCode()+" "+comuneSelected.getName());
+                    Log.d(TAG, comuneSelected.getCode() + " " + comuneSelected.getName());
                 }
             };
             atComuni.setAdapter(dataAdapter);
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.btnCalcola){
+            if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
                 String surname = etSurname.getText().toString();
                 String name = etName.getText().toString();
@@ -123,7 +124,13 @@ public class MainActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
+                if (!name.equals("") & !surname.equals("")) {   // Aggiungere controllo sulla data?
+                    CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, 'M', comuneSelected);
+                    String fiscalCode = codiceFiscale.calculateCF();
+                    tvRisultato.setText(fiscalCode);
+                }else{
+                    //todo toast
+                }
             }
         }
     }
@@ -137,3 +144,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+

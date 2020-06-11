@@ -2,43 +2,61 @@ package it.runningexamples.fiscalcode;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CodiceFiscale {
     private String nome, cognome;
     Comune comuneNascita;
-    private int giornoNascita, meseNascita, annoNascita;
-    private char sesso;
+    int year, day, month;
+    private Date birthday;
+    private char gender;
+    private static Map monthCode = new HashMap<Integer, Character>() {{
+        put(1, 'A');
+        put(2, 'B');
+        put(3, 'C');
+        put(4, 'D');
+        put(5, 'E');
+        put(6, 'H');
+        put(7, 'L');
+        put(8, 'M');
+        put(9, 'P');
+        put(10, 'R');
+        put(11, 'S');
+        put(12, 'T');
+    }};
 
-    public CodiceFiscale(String nome, String cognome, Date birthDay, char sesso, Comune comuneNascita){
+
+
+    public CodiceFiscale(String nome, String cognome, Date birthDay, char gender, Comune comuneNascita) {
         this.nome = nome.toUpperCase(); // aggiungere eliminazione spazi bianchi
         this.cognome = cognome.toUpperCase();
-        this.annoNascita = annoNascita;
-        this.meseNascita = meseNascita;
-        this.giornoNascita = giornoNascita;
+        this.birthday = birthDay;
         this.comuneNascita = comuneNascita;
-        this.sesso = sesso;
+        this.gender = gender;
     }
 
-    public String getNome(){
+    public String getNome() {
         return nome;
     }
 
-    public String getCognome(){
+    public String getCognome() {
         return cognome;
     }
 
-    public String getDataNascita(){
-        return String.format("%d/%d/%d", giornoNascita, meseNascita, annoNascita);
+    public String getDataNascita() {
+        return String.format("%d/%d/%d", day, month, year);
     }
 
-    public String calculateCF(){
+    public String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
-        return surnameCode+nameCode;
+        return surnameCode + nameCode;
     }
 
-    private String getNameCF(){
+    private String getNameCF() {
 
         nome = nome.replaceAll(" ", "").toUpperCase();
         String nameCons = "";
@@ -49,44 +67,44 @@ public class CodiceFiscale {
 
         String result = "";
 
-        if(!nome.isEmpty()){
-            if(nameCons.length() >= 4){
+        if (!nome.isEmpty()) {
+            if (nameCons.length() >= 4) {
                 result = nameCons.substring(0, 1) + nameCons.substring(2, 4);
-            }else if(nameCons.length() == 3){
+            } else if (nameCons.length() == 3) {
                 result = nameCons;
-            }else if(nameCons.length() == 2){
-                if(nameVows.isEmpty()){
+            } else if (nameCons.length() == 2) {
+                if (nameVows.isEmpty()) {
                     result = nameCons + "X";
-                }else{
+                } else {
                     result = nameCons + nameVows.substring(0, 1);
                 }
-            }else if(nameCons.length() == 1){
-                if(nameVows.isEmpty()){
+            } else if (nameCons.length() == 1) {
+                if (nameVows.isEmpty()) {
                     result = nameCons + "XX";
-                }else{
-                    if(nameVows.length() >= 2){
+                } else {
+                    if (nameVows.length() >= 2) {
                         result = nameCons + nameVows.substring(0, 2);
-                    }else if(nameVows.length() == 1){
+                    } else if (nameVows.length() == 1) {
                         result = nameCons + nameVows + "X";
                     }
                 }
-            }else{
-                if(nameVows.length() >= 3){
+            } else {
+                if (nameVows.length() >= 3) {
                     result = nameVows.substring(0, 3);
-                }else if(nameVows.length() == 2){
+                } else if (nameVows.length() == 2) {
                     result = nameVows + "X";
-                }else if(nameVows.length() == 1){
+                } else if (nameVows.length() == 1) {
                     result = nameVows + "XX";
                 }
             }
-        }else{
+        } else {
             result = "XXX";
         }
 
         return result;
     }
 
-    private String getSurnameCF(){
+    private String getSurnameCF() {
         cognome = cognome.replaceAll(" ", "").toUpperCase();
 
         String surnameCons = "";
@@ -97,35 +115,35 @@ public class CodiceFiscale {
 
         String result = "";
 
-        if(cognome.isEmpty()){
+        if (cognome.isEmpty()) {
             result = "XXX";
-        }else{
-            if(surnameCons.length() >= 3){
+        } else {
+            if (surnameCons.length() >= 3) {
                 result = surnameCons.substring(0, 3);
-            }else if(surnameCons.length() == 2){
-                if(!surnameVows.isEmpty()){
+            } else if (surnameCons.length() == 2) {
+                if (!surnameVows.isEmpty()) {
                     result = surnameCons + surnameVows.substring(0, 1);
-                }else{
+                } else {
                     result = surnameCons + "X";
                 }
-            }else if(surnameCons.length() == 1){
-                if(!surnameVows.isEmpty()){
-                    if(surnameVows.length() >= 2){
+            } else if (surnameCons.length() == 1) {
+                if (!surnameVows.isEmpty()) {
+                    if (surnameVows.length() >= 2) {
                         result = surnameCons + surnameVows.substring(0, 2);
-                    }else if(surnameVows.length() == 1){
+                    } else if (surnameVows.length() == 1) {
                         result = surnameCons + surnameVows + "X";
                     }
-                }else{
+                } else {
                     result = surnameCons + "XX";
                 }
-            }else{// no consonants
-                if(surnameVows.length() >= 3){
+            } else {// no consonants
+                if (surnameVows.length() >= 3) {
                     result = surnameVows.substring(0, 3);
-                }else if(surnameVows.length() == 2){
+                } else if (surnameVows.length() == 2) {
                     result = surnameVows + "X";
-                }else if(surnameVows.length() == 1){
+                } else if (surnameVows.length() == 1) {
                     result = surnameVows + "XX";
-                }else{
+                } else {
                     result = "XXX";
                 }
             }
@@ -135,11 +153,19 @@ public class CodiceFiscale {
 
     }
 
-//    public static String getBirthDateYearCF(Calendar birthDate){
-//        int year = birthDate.get(Calendar.YEAR);
-//
-//        String result = Integer.toString(year);
-//
-//        return result.substring(result.length() - 2, result.length());
-//    }
+    private String getEncodedBirthday() {
+
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // Get day into two digit
+        day = Integer.parseInt(dayFormat.format(this.birthday));
+
+        SimpleDateFormat monthFormat = new SimpleDateFormat("M");  // Get month into one digit
+        month = Integer.parseInt(monthFormat.format(this.birthday));
+
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");  // Get last two digit of year
+        year = Integer.parseInt(yearFormat.format(this.birthday));
+
+        // Return the string coded with female having +40 to day code
+        return String.valueOf(year) + monthCode.get(month) + (this.gender.equals(Gender.MALE) ? String.format("%02d", day) : String.format("%02d", day + 40));
+    }
+}
 }
