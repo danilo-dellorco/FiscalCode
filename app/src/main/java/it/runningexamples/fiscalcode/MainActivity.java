@@ -49,9 +49,10 @@ public class MainActivity extends AppCompatActivity {
             btnCalcola.setOnClickListener(this);
             parser = new Parser(MainActivity.this);
             comuniList = parser.parse();
+
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      //TODO quando clicca
                     comuneSelected = (Comune) parent.getItemAtPosition(position);
                     Log.d(TAG, comuneSelected.getCode()+" "+comuneSelected.getName());
                 }
