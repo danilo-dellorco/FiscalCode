@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/autoAwb"
-        android:title="Porcoddio"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_favorites"
+        android:title="Preferiti"
+        app:showAsAction="always"
+        android:icon="@drawable/star"
+        />
+    <item android:id="@+id/menu_settings"
+        android:title="Impostazioni"
+        app:showAsAction="always"
+        android:icon="@drawable/settings"
+        />
 </menu>

@@ -1,6 +1,5 @@
 package it.runningexamples.fiscalcode;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
@@ -97,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
             btnChangeTheme = findViewById(R.id.btn_changeTheme);
             btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
             setUpDateDialog();
             setUpAutoCompleteTextView();
         }
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             // set current Date
             etBirthday.setText(String.format("%02d/%02d/%d", day, month + 1, year));
-
             etBirthday.setOnClickListener(this);
         }
 
