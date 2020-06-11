@@ -60,17 +60,26 @@
             android:hint="Comune di nascita"
             android:inputType="textPersonName" />
 
-        <RadioButton
-            android:id="@+id/rbSessoM"
+        <RadioGroup
+            android:id="@+id/rgGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="M" />
+            android:checkedButton="@id/rbFemale">
 
-        <RadioButton
-            android:id="@+id/rbSessoF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="F" />
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="F" />
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="M" />
+        </RadioGroup>
+
+
 
         <Button
             android:id="@+id/btnCalcola"
