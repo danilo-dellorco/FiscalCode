@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -65,9 +66,8 @@ public class MainActivity extends AppCompatActivity {
         List<Comune> comuniList;
         AutoCompleteTextView atComuni;
         Button btnCalcola,btnChangeTheme;
+        ImageButton btnCalendar;
         Comune comuneSelected;
-        String comuneCode;
-        String prov;
         Toolbar toolbar;
 
         TextView tvRisultato;
@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
+
+            btnCalendar = findViewById(R.id.btn_calendar);
+            btnCalendar.setOnClickListener(this);
+
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
             comuniList = parser.parse();
@@ -137,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
                 hideKeyboard();
                 computeCF();
             }
+            if (v.getId() == R.id.btn_changeTheme){
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(THEME,1);
+                editor.apply();
+                int theme = sharedPreferences.getInt(THEME,0);
+                Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
+            }
+
             if (v.getId() == R.id.etData || v.getId() == R.id.btn_calendar){
                 showDatePickerDialog(v);
             }
@@ -163,14 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 tvRisultato.setText(fiscalCode);
             } else {
                 Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
-            }
-            if (v.getId() == R.id.btn_changeTheme){
-                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(THEME,1);
-                editor.apply();
-                int theme = sharedPreferences.getInt(THEME,0);
-                Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
             }
         }
     }
