@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryLight">#6200EE</color>
+    <color name="colorPrimaryLight">#0037FF</color>
     <color name="colorStatusBarLight">#3700B3</color>
     <color name="colorAccentLight">#03DAC5</color>
     <color name="colorBackgroundLight">#FFFFFF</color>
 
     <color name="colorPrimaryDark">#32DE84</color>
+    <color name="colorSecondaryDark">#1A1C27</color>
     <color name="colorBackgroundDark">#06091E</color>
     <color name="colorStatusBarDark">#1E834E</color>
     <color name="colorAccentDark">#32DE84</color>
     <color name="colorTextDark">#FFFFFF</color>
     <color name="colorEditTextDark">#FFFFFF</color>
     <color name="colorHintDark">#676767</color>
-    <color name="colorButtonDark">#1A1C27</color>
 </resources>
