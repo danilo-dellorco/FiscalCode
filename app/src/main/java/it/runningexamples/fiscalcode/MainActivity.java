@@ -174,8 +174,10 @@ public class MainActivity extends AppCompatActivity {
                 String fiscalCode = codiceFiscale.calculateCF();
 
                 tvRisultato.setText(fiscalCode);
-            } else {
-                Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
+            } else if(comuneSelected == null) {
+                Toast.makeText(getApplicationContext(), "Selezionare un comune di nascita", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
             }
         }
     }

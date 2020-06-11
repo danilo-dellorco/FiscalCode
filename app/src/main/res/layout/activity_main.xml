@@ -98,7 +98,7 @@
             android:padding ="20dp"
             android:text="RISULTATO"
             android:textSize="50dp"
-            android:autoSizeTextType="uniform"
+            app:autoSizeTextType="uniform"
             android:lines="1"
             android:layout_gravity="center"/>
 
@@ -127,9 +127,9 @@
                 android:layout_height="50dp"
                 android:background="@drawable/calendar"
                 android:scaleType="fitCenter" />
-
         </LinearLayout>
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
