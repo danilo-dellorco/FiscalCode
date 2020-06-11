@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         TextView tvRisultato = findViewById(R.id.tvRisultato);
         holder = new Holder();
 
-        CodiceFiscale prova = new CodiceFiscale("Gesu", "Lo Presti", 7,5,1900, 'F', "Tecchiena");
-        String result = prova.calculateNomeCF();
+        CodiceFiscale prova = new CodiceFiscale("Michele", "Salvatori", 7,5,1900, 'F', "Tecchiena");
+        String result = prova.calculateCF();
         tvRisultato.setText(result);
     }
 

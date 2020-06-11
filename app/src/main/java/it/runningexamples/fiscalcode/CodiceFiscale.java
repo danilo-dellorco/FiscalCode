@@ -1,5 +1,7 @@
 package it.runningexamples.fiscalcode;
 
+import android.util.Log;
+
 public class CodiceFiscale {
     private String nome, cognome, comuneNascita;
     private int giornoNascita, meseNascita, annoNascita;
@@ -31,34 +33,114 @@ public class CodiceFiscale {
         return comuneNascita;
     }
 
-//    public String calculateCF(){}
-
-    public String calculateNomeCF(){
-        String codiceNome;
-        int numeroConsonanti = 0;
-        nome = StringUtilis.eliminaSpaziBianchi(nome).toUpperCase();
-
-        if(nome.length() >= 3){
-            numeroConsonanti = StringUtilis.getNumConsonanti(nome);
-
-            if(numeroConsonanti >= 4){
-                codiceNome = StringUtilis.getConsonanteI(nome, 1) + StringUtilis.getConsonanteI(nome, 3) + StringUtilis.getConsonanteI(nome, 4);
-            }
-            else if(numeroConsonanti >= 3){
-
-                codiceNome = StringUtilis.getPrimeConsonanti(nome, 3);
-            }
-            else{
-                codiceNome = StringUtilis.getPrimeConsonanti(nome, numeroConsonanti);
-                codiceNome += StringUtilis.getPrimeVocali(nome, 3 - numeroConsonanti);
-            }
-        }
-        else{
-            int numeroCaratteri = nome.length();
-            codiceNome = nome + StringUtilis.nXChar(3 - numeroCaratteri);
-        }
-
-
-        return codiceNome;
+    public String calculateCF(){
+        String surnameCode = getSurnameCF();
+        String nameCode = getNameCF();
+        return surnameCode+nameCode;
     }
+
+    private String getNameCF(){
+
+        nome = nome.replaceAll(" ", "").toUpperCase();
+        String nameCons = "";
+        String nameVows = "";
+
+        nameCons = nome.replaceAll("[AEIOU]", "");
+        nameVows = nome.replaceAll("[BCDFGHJKLMNPQRSTVWXYZ]", "");
+
+        String result = "";
+
+        if(!nome.isEmpty()){
+            if(nameCons.length() >= 4){
+                result = nameCons.substring(0, 1) + nameCons.substring(2, 4);
+            }else if(nameCons.length() == 3){
+                result = nameCons;
+            }else if(nameCons.length() == 2){
+                if(nameVows.isEmpty()){
+                    result = nameCons + "X";
+                }else{
+                    result = nameCons + nameVows.substring(0, 1);
+                }
+            }else if(nameCons.length() == 1){
+                if(nameVows.isEmpty()){
+                    result = nameCons + "XX";
+                }else{
+                    if(nameVows.length() >= 2){
+                        result = nameCons + nameVows.substring(0, 2);
+                    }else if(nameVows.length() == 1){
+                        result = nameCons + nameVows + "X";
+                    }
+                }
+            }else{
+                if(nameVows.length() >= 3){
+                    result = nameVows.substring(0, 3);
+                }else if(nameVows.length() == 2){
+                    result = nameVows + "X";
+                }else if(nameVows.length() == 1){
+                    result = nameVows + "XX";
+                }
+            }
+        }else{
+            result = "XXX";
+        }
+
+        return result;
+    }
+
+    private String getSurnameCF(){
+        cognome = cognome.replaceAll(" ", "").toUpperCase();
+
+        String surnameCons = "";
+        String surnameVows = "";
+
+        surnameCons = cognome.replaceAll("[AEIOU]", "");
+        surnameVows = cognome.replaceAll("[BCDFGHJKLMNPQRSTVWXYZ]", "");
+
+        String result = "";
+
+        if(cognome.isEmpty()){
+            result = "XXX";
+        }else{
+            if(surnameCons.length() >= 3){
+                result = surnameCons.substring(0, 3);
+            }else if(surnameCons.length() == 2){
+                if(!surnameVows.isEmpty()){
+                    result = surnameCons + surnameVows.substring(0, 1);
+                }else{
+                    result = surnameCons + "X";
+                }
+            }else if(surnameCons.length() == 1){
+                if(!surnameVows.isEmpty()){
+                    if(surnameVows.length() >= 2){
+                        result = surnameCons + surnameVows.substring(0, 2);
+                    }else if(surnameVows.length() == 1){
+                        result = surnameCons + surnameVows + "X";
+                    }
+                }else{
+                    result = surnameCons + "XX";
+                }
+            }else{// no consonants
+                if(surnameVows.length() >= 3){
+                    result = surnameVows.substring(0, 3);
+                }else if(surnameVows.length() == 2){
+                    result = surnameVows + "X";
+                }else if(surnameVows.length() == 1){
+                    result = surnameVows + "XX";
+                }else{
+                    result = "XXX";
+                }
+            }
+        }
+
+        return result;
+
+    }
+
+//    public static String getBirthDateYearCF(Calendar birthDate){
+//        int year = birthDate.get(Calendar.YEAR);
+//
+//        String result = Integer.toString(year);
+//
+//        return result.substring(result.length() - 2, result.length());
+//    }
 }
