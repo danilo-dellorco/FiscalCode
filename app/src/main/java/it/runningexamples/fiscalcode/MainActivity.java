@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar;
         Switch swEstero;
         TextView tvRisultato;
-        Button btnBirthday;
+        Button btnBirthday, button;
         EditText etName;
         EditText etSurname;
         RadioGroup rgGender;
@@ -107,10 +108,13 @@ public class MainActivity extends AppCompatActivity {
             tvRisultato = findViewById(R.id.tvRisultato);
             rgGender = findViewById(R.id.rgGender);
             btnBirthday = findViewById(R.id.btnData);
+            btnBirthday.setOnClickListener(this);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
+            button = findViewById(R.id.button);
+            button.setOnClickListener(this);
 
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
@@ -129,19 +133,7 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-            setUpDateDialog();
             setUpAutoCompleteTextView();
-        }
-
-        private void setUpDateDialog() {
-
-            View.OnClickListener birthdayListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDatePickerDialog(v);
-                }
-            };
-            btnBirthday.setOnClickListener(birthdayListener);
         }
 
         private void setUpAutoCompleteTextView() {
@@ -196,6 +188,13 @@ public class MainActivity extends AppCompatActivity {
                 String genere = codiceFiscale.getGenere();
                 CodiceFiscaleEntity newCode = new CodiceFiscaleEntity(codice,nome,cognome,comune,data,genere);
                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(newCode);
+            }
+            if (v.getId() == R.id.button){
+                Intent intent = new Intent(MainActivity.this, SavedActivity.class);
+                startActivity(intent);
+            }
+            if (v.getId() == R.id.btnData){
+                showDatePickerDialog(v);
             }
         }
 

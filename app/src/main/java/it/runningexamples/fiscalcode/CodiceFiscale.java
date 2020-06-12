@@ -2,20 +2,46 @@ package it.runningexamples.fiscalcode;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
 public class CodiceFiscale {
-    private String nome,cognome,  finalFiscalCode;
+    @PrimaryKey
+    @NonNull
+    private String finalFiscalCode;
+
+    @ColumnInfo(name = "nome")
+    public String nome;
+
+    @ColumnInfo(name = "cognome")
+    public String cognome;
+
+    @ColumnInfo(name = "comune")
+    public String comune;
+
+    @ColumnInfo(name = "data")
+    public String data;
+
+    @ColumnInfo(name = "genere")
+    public String genere;
+
+    @ColumnInfo(name = "preferito")
+    public int preferito;
+
+
     private Comune comuneNascita;
     private Stato statoNascita;
     private int year, day, month;
     private Date birthday;
-    private String gender;
 
 
     private static Map monthCode = new HashMap<Integer, Character>() {{
@@ -146,7 +172,7 @@ public class CodiceFiscale {
         this.nome = nome;
         this.cognome = cognome;
         this.birthday = birthDay;
-        this.gender = gender;
+        this.genere = gender;
         if (comuneNascita != null){
             this.comuneNascita = comuneNascita;
         }
@@ -168,7 +194,7 @@ public class CodiceFiscale {
     }
 
     public String getGenere() {
-        return gender;
+        return genere;
     }
 
     public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
@@ -316,7 +342,7 @@ public class CodiceFiscale {
         year = Integer.parseInt(yearFormat.format(this.birthday));
 
         // Return the string coded with female having +40 to day code
-        if (gender.equals("F")){
+        if (genere.equals("F")){
             return String.valueOf(year)+monthCode.get(month) + String.format("%02d", day + 40);
         }
         return String.format("%02d", year) + monthCode.get(month) +String.format("%02d", day);
