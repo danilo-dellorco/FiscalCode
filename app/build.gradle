@@ -20,14 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 repositories {
     jcenter()
 }
 
-
 dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
     implementation 'com.android.support:design:28.0.0-alpha3'

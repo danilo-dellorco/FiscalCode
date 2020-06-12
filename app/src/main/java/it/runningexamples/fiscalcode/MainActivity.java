@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
-            ivBarCode = findViewById(R.id.ivBarcode);
 
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
@@ -169,15 +168,6 @@ public class MainActivity extends AppCompatActivity {
                 computeCF();
 
             }
-            if (v.getId() == R.id.btn_changeTheme){
-                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(THEME,1);
-                editor.apply();
-                int theme = sharedPreferences.getInt(THEME,0);
-                Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
-            }
-
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
