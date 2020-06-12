@@ -154,9 +154,7 @@ public class CodiceFiscale {
             this.statoNascita = stato;
         }
     }
-    public String getFinalFiscalCode(){
-        return finalFiscalCode;
-    }
+
     public String getNome() {
         return nome;
     }
