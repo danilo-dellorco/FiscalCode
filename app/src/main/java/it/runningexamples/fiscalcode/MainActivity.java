@@ -1,11 +1,14 @@
 package it.runningexamples.fiscalcode;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,12 +20,21 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.Code39Writer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,17 +83,15 @@ public class MainActivity extends AppCompatActivity {
         Button btnChangeTheme;
         FloatingActionButton btnCalcola;
         Comune comuneSelected;
-        String comuneCode;
-        String prov;
         Toolbar toolbar;
         Switch swEstero;
 
-        Character gender;
         TextView tvRisultato;
         Button btnBirthday;
         EditText etName;
         EditText etSurname;
         RadioGroup rgGender;
+        ImageView ivBarCode;
 
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
@@ -95,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
+            ivBarCode = findViewById(R.id.ivBarcode);
+
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
             swEstero = findViewById(R.id.swEstero);
@@ -105,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
             //btnChangeTheme = findViewById(R.id.btn_changeTheme);
             //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
             setUpDateDialog();
             setUpAutoCompleteTextView();
         }
@@ -153,41 +166,48 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
-                String surname = etSurname.getText().toString();
-                String name = etName.getText().toString();
-                //gender = rgGender.getCheckedRadioButtonId().get
+                computeCF();
 
-                // Get birthday
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date birthDay = new Date();
-                try {
-                    birthDay = simpleDateFormat.parse(btnBirthday.getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
-                    CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, 'M', comuneSelected);
-                    String fiscalCode = codiceFiscale.calculateCF();
-
-                    tvRisultato.setText(fiscalCode);
-                }else{
-                    Toast.makeText(getApplicationContext(), "Dati mancanti", Toast.LENGTH_LONG).show(); //todo toast specifico per non aver selezionato il comune
-                }
             }
-            /*if (v.getId() == R.id.btn_changeTheme){
+            if (v.getId() == R.id.btn_changeTheme){
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                int theme = sharedPreferences.getInt(THEME,0);
-                if (theme == 1){
-                    editor.putInt(THEME,0);
-                }
-                else{
-                    editor.putInt(THEME,1);
-                }
+                editor.putInt(THEME,1);
                 editor.apply();
-            }*/
+                int theme = sharedPreferences.getInt(THEME,0);
+                Toast.makeText(getApplicationContext(),Integer.toString(theme),Toast.LENGTH_SHORT).show();
+            }
+
+            if (v.getId() == R.id.btnData){
+                showDatePickerDialog(v);
+            }
         }
 
+        private void computeCF() {
+            String surname = etSurname.getText().toString();
+            String name = etName.getText().toString();
+            int radioID = rgGender.getCheckedRadioButtonId();
+
+            String gender = (String) ((RadioButton) findViewById(radioID)).getText();
+            // Get birthday
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date birthDay = new Date();
+            try {
+                birthDay = simpleDateFormat.parse(btnBirthday.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
+                CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
+                String fiscalCode = codiceFiscale.calculateCF();
+
+                tvRisultato.setText(fiscalCode);
+            } else if(comuneSelected == null) {
+                Toast.makeText(getApplicationContext(), "Selezionare un comune di nascita", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
+            }
+        }
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             atComuni.getText().clear();

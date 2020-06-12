@@ -12,7 +12,7 @@ public class CodiceFiscale {
     private Comune comuneNascita;
     private int year, day, month;
     private Date birthday;
-    private char gender;
+    private String gender;
 
 
     private static Map monthCode = new HashMap<Integer, Character>() {{
@@ -139,7 +139,7 @@ public class CodiceFiscale {
 
 
 
-    public CodiceFiscale(String nome, String cognome, Date birthDay, char gender, Comune comuneNascita) {
+    public CodiceFiscale(String nome, String cognome, Date birthDay, String gender, Comune comuneNascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.birthday = birthDay;
@@ -159,7 +159,7 @@ public class CodiceFiscale {
         return String.format("%d/%d/%d", day, month, year);
     }
 
-    public String calculateCF() {
+    String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
         String birthdayCode = getBirthdayCF();
@@ -292,9 +292,9 @@ public class CodiceFiscale {
 
         SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // Get last two digit of year
         year = Integer.parseInt(yearFormat.format(this.birthday));
-        Log.d("FiscalCode", String.valueOf(birthday)+" |"+year);
+
         // Return the string coded with female having +40 to day code
-        if (gender == 'F'){
+        if (gender.equals("F")){
             return String.valueOf(year)+monthCode.get(month) + String.format("%02d", day + 40);
         }
         return String.format("%02d", year) + monthCode.get(month) +String.format("%02d", day);
