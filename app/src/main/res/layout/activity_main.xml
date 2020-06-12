@@ -28,7 +28,8 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_margin="20dp">
 
 
         <Switch
@@ -44,7 +45,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp">
 
@@ -62,7 +63,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp">
 
@@ -82,7 +83,7 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/autocompleteLayout"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp">
 
@@ -96,12 +97,12 @@
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="13dp" />
 
         <Button
             android:id="@+id/btnData"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="@drawable/outlined_button"
             android:drawableLeft="?attr/calendarIcon"
             android:paddingLeft="10dp"
@@ -140,10 +141,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:autoSizeTextType="uniform"
+            android:lines="1"
             android:text="RISULTATO"
             android:textSize="50dp"
             app:autoSizeTextType="uniform"
             android:lines="1"/>
+
+        <androidx.legacy.widget.Space
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="13dp" />
+
+        <Button
+            android:id="@+id/btnSaveDB"
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Salva nel database"
+            android:textColor="@android:color/white"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -154,8 +170,9 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnCalcola"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:fabCustomSize="70dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:clickable="true"

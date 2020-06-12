@@ -169,6 +169,16 @@ public class CodiceFiscale {
         return String.format("%d/%d/%d", day, month, year);
     }
 
+    public String getGenere() {
+        return gender;
+    }
+
+    public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
+
+    public String getFinalFiscalCode(){
+        return finalFiscalCode;
+    }
+
     String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();

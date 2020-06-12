@@ -1,11 +1,14 @@
 package it.runningexamples.fiscalcode;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,8 +30,15 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.Code39Writer;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String THEME = "1";
+    public static CodiceFiscale codiceFiscale;
     Holder holder;
 
     @Override
@@ -85,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup rgGender;
         ImageView ivBarCode;
 
+        Button btnSaveDB;
+
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
         AdapterView.OnItemClickListener onItemClickListener;
@@ -107,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
             statiList = parser.parserStati();
 
             toolbar = findViewById(R.id.toolbar);
+            btnSaveDB = findViewById(R.id.btnSaveDB);
+            btnSaveDB.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             //btnChangeTheme = findViewById(R.id.btn_changeTheme);
             //btnChangeTheme.setOnClickListener(this);
@@ -170,6 +186,16 @@ public class MainActivity extends AppCompatActivity {
             }
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
+            }
+            if (v.getId() == R.id.btnSaveDB){
+                String codice = codiceFiscale.getFinalFiscalCode();
+                String nome = codiceFiscale.getNome();
+                String cognome = codiceFiscale.getCognome();
+                String comune = codiceFiscale.getComune();
+                String data = codiceFiscale.getDataNascita();
+                String genere = codiceFiscale.getGenere();
+                CodiceFiscaleEntity newCode = new CodiceFiscaleEntity(codice,nome,cognome,comune,data,genere);
+                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(newCode);
             }
         }
 
