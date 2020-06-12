@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String THEME = "1";
+    public static CodiceFiscale codiceFiscale;
     Holder holder;
 
     @Override
@@ -93,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup rgGender;
         ImageView ivBarCode;
 
+        Button btnSaveDB;
+
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
         AdapterView.OnItemClickListener onItemClickListener;
@@ -112,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             swEstero.setOnCheckedChangeListener(this);
             comuniList = parser.parse();
             toolbar = findViewById(R.id.toolbar);
+            btnSaveDB = findViewById(R.id.btnSaveDB);
+            btnSaveDB.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             //btnChangeTheme = findViewById(R.id.btn_changeTheme);
             //btnChangeTheme.setOnClickListener(this);
@@ -171,6 +176,16 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
+            if (v.getId() == R.id.btnSaveDB){
+                String codice = codiceFiscale.getFinalFiscalCode();
+                String nome = codiceFiscale.getNome();
+                String cognome = codiceFiscale.getCognome();
+                String comune = codiceFiscale.getComune();
+                String data = codiceFiscale.getDataNascita();
+                String genere = codiceFiscale.getGenere();
+                CodiceFiscaleEntity newCode = new CodiceFiscaleEntity(codice,nome,cognome,comune,data,genere);
+                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(newCode);
+            }
         }
 
         private void computeCF() {
@@ -188,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
-                CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
+                codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
                 String fiscalCode = codiceFiscale.calculateCF();
 
                 tvRisultato.setText(fiscalCode);
