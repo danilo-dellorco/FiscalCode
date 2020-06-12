@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -39,13 +40,14 @@ import com.google.zxing.oned.Code39Writer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 //TODO menu in alto è nero anche nel tema light
 //TODO riordinare main activity ed inserire edittext material
-//TODO lingua inglese -> nome stati in inglese? ma che si pazz
-//TODO eliminare CodiceFiscaleEntity
+//TODO terminare datepicker
+//TODO lingua inglese -> nome stati in inglese?
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener {
+    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener, Toolbar.OnMenuItemClickListener {
         Parser parser;
         List<Comune> comuniList;
         List<Stato> statiList;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar;
         Switch swEstero;
         TextView tvRisultato;
-        Button btnBirthday, button;
+        Button btnBirthday;
         EditText etName;
         EditText etSurname;
         RadioGroup rgGender;
@@ -111,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
-            button = findViewById(R.id.button);
-            button.setOnClickListener(this);
 
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
@@ -124,18 +124,28 @@ public class MainActivity extends AppCompatActivity {
 
             toolbar = findViewById(R.id.toolbar);
             btnSaveDB = findViewById(R.id.btnSaveDB);
-            btnSaveDB.setEnabled(false);
             btnSaveDB.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             //btnChangeTheme = findViewById(R.id.btn_changeTheme);
             //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toolbar.setOnMenuItemClickListener(this);
 
-            setUpDialogDate();
+            setUpDateDialog();
             setUpAutoCompleteTextView();
         }
 
+        private void setUpDateDialog() {
+
+            View.OnClickListener birthdayListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDatePickerDialog(v);
+                }
+            };
+            btnBirthday.setOnClickListener(birthdayListener);
+        }
 
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
@@ -163,15 +173,6 @@ public class MainActivity extends AppCompatActivity {
             };
             atComuni.setOnItemClickListener(onItemClickListener);
         }
-        private void setUpDialogDate() {
-            View.OnClickListener dateClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDatePickerDialog(v);
-                }
-            };
-            btnBirthday.setOnClickListener(dateClickListener);
-        }
 
         private void showDatePickerDialog(View v) {
             DialogFragment newFragment = new DatePickerFragment();
@@ -182,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.btnCalcola) {
-                btnSaveDB.setEnabled(true);         // schiarire colore pulsante quando non è abilitato
                 hideKeyboard();
                 computeCF();
 
@@ -190,15 +190,18 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
-            if (v.getId() == R.id.btnSaveDB & codiceFiscale != null){       // bisogna prima aver calcolato il codice fiscale
-
-                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscale);
-            }
-            if (v.getId() == R.id.button){
-                Intent intent = new Intent(MainActivity.this, SavedActivity.class);
-                startActivity(intent);
+            if (v.getId() == R.id.btnSaveDB){
+                String codice = codiceFiscale.getFinalFiscalCode();
+                String nome = codiceFiscale.getNome();
+                String cognome = codiceFiscale.getCognome();
+                String comune = (codiceFiscale.getComune() == null) ? codiceFiscale.getStatoNascita() : codiceFiscale.getComune();
+                String data = codiceFiscale.getDataNascita();
+                String genere = codiceFiscale.getGenere();
+                CodiceFiscaleEntity newCode = new CodiceFiscaleEntity(codice,nome,cognome,comune,data,genere);
+                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(newCode);
             }
         }
+
         private void computeCF() {
             String surname = etSurname.getText().toString();
             String name = etName.getText().toString();
@@ -239,7 +242,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
     }
+
 
 
     private void hideKeyboard() {

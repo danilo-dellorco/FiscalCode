@@ -2,6 +2,8 @@
     <attr name="calendarIcon" format="reference"/>
     <attr name="outlineButtonColor" format="reference"/>
     <attr name="outlineLight" format="reference"/>
+    <attr name="settingsProfileIcon" format="reference"/>
+    <attr name="settingsThemeIcon" format="reference"/>
 
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorActionBarLight</item>
@@ -9,8 +11,10 @@
         <item name="android:windowBackground">@color/colorBackgroundLight</item>
         <item name="colorButtonNormal">@color/colorAccentLight</item>
         <item name="colorAccent">@color/colorAccentLight</item>
-        <item name="calendarIcon">@drawable/calendar_light</item>
         <item name="outlineButtonColor">@color/colorAccentLight</item>
+        <item name="calendarIcon">@drawable/calendar_light</item>
+        <item name="settingsThemeIcon">@drawable/theme_light</item>
+        <item name="settingsProfileIcon">@drawable/profile_light</item>
     </style>
 
     <style name="DarkTheme" parent = "Theme.AppCompat.DayNight.NoActionBar">
@@ -19,8 +23,10 @@
         <item name="android:windowBackground">@color/colorBackgroundDark</item>
         <item name="colorButtonNormal">@color/colorAccentDark</item>
         <item name="colorAccent">@color/colorAccentDark</item>
-        <item name="calendarIcon">@drawable/calendar_dark</item>
         <item name="outlineButtonColor">@color/colorAccentDark</item>
+        <item name="calendarIcon">@drawable/calendar_dark</item>
+        <item name="settingsThemeIcon">@drawable/theme_dark</item>
+        <item name="settingsProfileIcon">@drawable/profile_dark</item>
     </style>
 
 </resources>
