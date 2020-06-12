@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 String codice = codiceFiscale.getFinalFiscalCode();
                 String nome = codiceFiscale.getNome();
                 String cognome = codiceFiscale.getCognome();
-                String comune = codiceFiscale.getComune();
+                String comune = (codiceFiscale.getComune() == null) ? codiceFiscale.getStatoNascita() : codiceFiscale.getComune();
                 String data = codiceFiscale.getDataNascita();
                 String genere = codiceFiscale.getGenere();
                 CodiceFiscaleEntity newCode = new CodiceFiscaleEntity(codice,nome,cognome,comune,data,genere);

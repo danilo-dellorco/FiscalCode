@@ -176,12 +176,16 @@ public class CodiceFiscale {
     public String getFinalFiscalCode(){
         return finalFiscalCode;
     }
+    public String getStatoNascita(){
+        return statoNascita.getName();
+    }
 
     String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
         String birthdayCode = getBirthdayCF();
-        String result = surnameCode + nameCode + birthdayCode + comuneNascita.getCode();
+        String code = (statoNascita == null) ? comuneNascita.getCode() : statoNascita.getCode();
+        String result = surnameCode + nameCode + birthdayCode + code;
         finalFiscalCode = result + checkCharacter(result);
         return finalFiscalCode;
     }
