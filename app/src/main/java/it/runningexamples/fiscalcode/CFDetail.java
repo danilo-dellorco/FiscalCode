@@ -14,8 +14,8 @@ public class CFDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cfdetail);
         tv = findViewById(R.id.tvDio);
-        CodiceFiscaleEntity cf = (CodiceFiscaleEntity)getIntent().getExtras().getParcelable("CF");
-        tv.setText(cf.getNome());
+        CodiceFiscale cf = getIntent().getExtras().getParcelable("CF");
+        tv.setText(cf.getFinalFiscalCode());
 
     }
 }

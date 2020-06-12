@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
-    List<CodiceFiscaleEntity> savedCF;
+    List<CodiceFiscale> savedCF;
     private Context mContext;
 
-    Adapter(List<CodiceFiscaleEntity> list, Context ctx){
+    Adapter(List<CodiceFiscale> list, Context ctx){
         this.savedCF = list;
         this.mContext = ctx;
     }
@@ -32,7 +32,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
     @Override
     public void onBindViewHolder (@NonNull Holder holder, final int position)  {
-        final CodiceFiscaleEntity currentItem = savedCF.get(position);
+        final CodiceFiscale currentItem = savedCF.get(position);
         holder.tvNome.setText(currentItem.getNome());
         holder.tvCognome.setText(currentItem.getCognome());
 

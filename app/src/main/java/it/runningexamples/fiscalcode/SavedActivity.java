@@ -14,7 +14,7 @@ public class SavedActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<CodiceFiscaleEntity> cfList;
+    private List<CodiceFiscale> cfList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
