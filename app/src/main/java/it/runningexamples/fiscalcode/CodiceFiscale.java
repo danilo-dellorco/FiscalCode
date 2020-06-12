@@ -1,21 +1,48 @@
 package it.runningexamples.fiscalcode;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CodiceFiscale {
-    private String nome,cognome,  finalFiscalCode;
-    private Comune comuneNascita;
-    private Stato statoNascita;
-    private int year, day, month;
-    private Date birthday;
-    private String gender;
+@Entity
+public class CodiceFiscale implements Parcelable {
+    @PrimaryKey
+    @NonNull
+    public String finalFiscalCode;
+
+    @ColumnInfo(name = "nome")
+    public String nome;
+
+    @ColumnInfo(name = "cognome")
+    public String cognome;
+
+    @ColumnInfo(name = "comune")
+    public String comune;
+
+    @ColumnInfo(name = "data")
+    public String data;
+
+    @ColumnInfo(name = "genere")
+    public String genere;
+
+    @ColumnInfo(name = "preferito")
+    public int preferito;
+
+    public CodiceFiscale(){}
+    private static Comune comuneNascita;
+    private static Stato statoNascita;
+    private static Date birthday;
 
 
     private static Map monthCode = new HashMap<Integer, Character>() {{
@@ -142,11 +169,11 @@ public class CodiceFiscale {
 
 
 
-    public CodiceFiscale(String nome, String cognome, Date birthDay, String gender, @Nullable Comune comuneNascita, @Nullable Stato stato) {
+    CodiceFiscale(String nome, String cognome, Date birthDay, String gender, @Nullable Comune comuneNascita, @Nullable Stato stato) {
         this.nome = nome;
         this.cognome = cognome;
         this.birthday = birthDay;
-        this.gender = gender;
+        this.genere = gender;
         if (comuneNascita != null){
             this.comuneNascita = comuneNascita;
         }
@@ -155,6 +182,28 @@ public class CodiceFiscale {
         }
     }
 
+    protected CodiceFiscale(Parcel in) {
+        finalFiscalCode = in.readString();
+        nome = in.readString();
+        cognome = in.readString();
+        comune = in.readString();
+        data = in.readString();
+        genere = in.readString();
+        preferito = in.readInt();
+    }
+
+    public static final Creator<CodiceFiscale> CREATOR = new Creator<CodiceFiscale>() {
+        @Override
+        public CodiceFiscale createFromParcel(Parcel in) {
+            return new CodiceFiscale(in);
+        }
+
+        @Override
+        public CodiceFiscale[] newArray(int size) {
+            return new CodiceFiscale[size];
+        }
+    };
+
     public String getNome() {
         return nome;
     }
@@ -162,13 +211,13 @@ public class CodiceFiscale {
     public String getCognome() {
         return cognome;
     }
-
-    public String getDataNascita() {
-        return String.format("%d/%d/%d", day, month, year);
-    }
+//
+//    public String getDataNascita() {
+//        return String.format("%d/%d/%d", day, month, year);
+//    }
 
     public String getGenere() {
-        return gender;
+        return genere;
     }
 
     public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
@@ -180,7 +229,7 @@ public class CodiceFiscale {
         return statoNascita.getName();
     }
 
-    String calculateCF() {
+    public String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
         String birthdayCode = getBirthdayCF();
@@ -307,19 +356,35 @@ public class CodiceFiscale {
 
     private String getBirthdayCF() {
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // Get day into two digit
-        day = Integer.parseInt(dayFormat.format(this.birthday));
+        int day = Integer.parseInt(dayFormat.format(this.birthday));
 
         SimpleDateFormat monthFormat = new SimpleDateFormat("M");  // Get month into one digit
-        month = Integer.parseInt(monthFormat.format(this.birthday));
+        int month = Integer.parseInt(monthFormat.format(this.birthday));
 
         SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // Get last two digit of year
-        year = Integer.parseInt(yearFormat.format(this.birthday));
+        int year = Integer.parseInt(yearFormat.format(this.birthday));
 
         // Return the string coded with female having +40 to day code
-        if (gender.equals("F")){
+        if (genere.equals("F")){
             return String.valueOf(year)+monthCode.get(month) + String.format("%02d", day + 40);
         }
         return String.format("%02d", year) + monthCode.get(month) +String.format("%02d", day);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(finalFiscalCode);
+        dest.writeString(nome);
+        dest.writeString(cognome);
+        dest.writeString(comune);
+        dest.writeString(data);
+        dest.writeString(genere);
+        dest.writeInt(preferito);
     }
 }
 
