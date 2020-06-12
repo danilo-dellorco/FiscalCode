@@ -113,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
             btnCalcola.setOnClickListener(this);
-            button = findViewById(R.id.button);
-            button.setOnClickListener(this);
 
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
@@ -192,13 +190,9 @@ public class MainActivity extends AppCompatActivity {
                 showDatePickerDialog(v);
             }
             if (v.getId() == R.id.btnSaveDB & codiceFiscale != null){       // bisogna prima aver calcolato il codice fiscale
-
                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscale);
             }
-            if (v.getId() == R.id.button){
-                Intent intent = new Intent(MainActivity.this, SavedActivity.class);
-                startActivity(intent);
-            }
+
         }
         private void computeCF() {
             String surname = etSurname.getText().toString();
@@ -242,8 +236,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
-            startActivity(intent);
+            if (item.getItemId() == R.id.menu_settings) {
+                Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intentSettings);
+            }
+            if (item.getItemId() == R.id.menu_list){
+                Intent intentList = new Intent(MainActivity.this, SavedActivity.class);
+                startActivity(intentList);
+            }
             return true;
         }
     }
