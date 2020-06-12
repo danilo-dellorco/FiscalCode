@@ -146,7 +146,9 @@ public class CodiceFiscale {
         this.comuneNascita = comuneNascita;
         this.gender = gender;
     }
-
+    public String getFinalFiscalCode(){
+        return finalFiscalCode;
+    }
     public String getNome() {
         return nome;
     }
