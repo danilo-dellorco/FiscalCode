@@ -109,7 +109,9 @@
             android:text="Data di Nascita"
             android:textAlignment="textStart"
             android:drawablePadding="10dp"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            android:fontFamily="sans-serif"
+            android:textAllCaps="false"/>
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"

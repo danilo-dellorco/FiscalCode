@@ -6,12 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener {
+    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener, Toolbar.OnMenuItemClickListener {
         Parser parser;
         List<Comune> comuniList;
         List<Stato> statiList;
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toolbar.setOnMenuItemClickListener(this);
 
             setUpDateDialog();
             setUpAutoCompleteTextView();
@@ -237,6 +240,13 @@ public class MainActivity extends AppCompatActivity {
                 autocompleteLayout.setHint("Comune di Nascita");
                 setUpAutoCompleteTextView();
             }
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+            startActivity(intent);
+            return true;
         }
     }
 

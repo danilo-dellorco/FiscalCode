@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/swDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outlined_button"
+            android:drawableLeft="?attr/settingsThemeIcon"
+            android:paddingLeft="10dp"
+            android:drawablePadding="30dp"
+            android:text="Utilizza il tema scuro" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/btnProfile"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/outlined_button"
+            android:drawableLeft="?attr/settingsProfileIcon"
+            android:paddingLeft="10dp"
+            android:text="Modifica Profilo Personale"
+            android:textAlignment="textStart"
+            android:drawablePadding="30dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
