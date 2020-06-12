@@ -6,6 +6,8 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,10 +19,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.Code39Writer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         EditText etName;
         EditText etSurname;
         RadioGroup rgGender;
+        ImageView ivBarCode;
 
         AdapterView.OnItemClickListener onItemClickListener;
 
@@ -88,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
             btnCalendar = findViewById(R.id.btn_calendar);
             btnCalendar.setOnClickListener(this);
+            ivBarCode = findViewById(R.id.ivBarcode);
 
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(MainActivity.this);
@@ -139,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
                 computeCF();
+
             }
             if (v.getId() == R.id.btn_changeTheme){
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
