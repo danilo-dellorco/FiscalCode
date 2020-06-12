@@ -123,12 +123,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void setUpDateDialog() {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            // set current Date
-            btnBirthday.setText(String.format("%02d/%02d/%d", day, month + 1, year));
 
             View.OnClickListener birthdayListener = new View.OnClickListener() {
                 @Override
