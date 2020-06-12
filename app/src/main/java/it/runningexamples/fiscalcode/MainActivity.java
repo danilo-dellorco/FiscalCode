@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
             btnSaveDB.setEnabled(false);
             btnSaveDB.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
+            //btnChangeTheme = findViewById(R.id.btn_changeTheme);
+            //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             toolbar.setOnMenuItemClickListener(this);

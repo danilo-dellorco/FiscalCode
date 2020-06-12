@@ -4,6 +4,7 @@
     <attr name="outlineLight" format="reference"/>
     <attr name="settingsProfileIcon" format="reference"/>
     <attr name="settingsThemeIcon" format="reference"/>
+    <attr name="settingsDeleteIcon" format="reference"/>
 
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorActionBarLight</item>
@@ -15,6 +16,7 @@
         <item name="calendarIcon">@drawable/calendar_light</item>
         <item name="settingsThemeIcon">@drawable/theme_light</item>
         <item name="settingsProfileIcon">@drawable/profile_light</item>
+        <item name="settingsDeleteIcon">@drawable/delete_light</item>
     </style>
 
     <style name="DarkTheme" parent = "Theme.AppCompat.DayNight.NoActionBar">
@@ -27,6 +29,8 @@
         <item name="calendarIcon">@drawable/calendar_dark</item>
         <item name="settingsThemeIcon">@drawable/theme_dark</item>
         <item name="settingsProfileIcon">@drawable/profile_dark</item>
+        <item name="settingsDeleteIcon">@drawable/delete_dark</item>
+
     </style>
 
 </resources>

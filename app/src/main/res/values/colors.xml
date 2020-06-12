@@ -15,5 +15,7 @@
     <color name="colorBackgroundDark">#12141E</color>
     <color name="mtrl_textinput_default_box_stroke_color">#6D6F75</color>
 
+
+    <color name="colorOutlineRed">#B80000</color>
     <color name="colorOutline">#6D6F75</color>
 </resources>
