@@ -31,6 +31,17 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
 
+        <Switch
+            android:id="@+id/swEstero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nato all'estero"
+            android:layout_gravity="center"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="409dp"
@@ -43,8 +54,11 @@
                 android:layout_height="wrap_content"
                 android:hint="Nome"
                 android:inputType="textCapCharacters" />
-
         </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -61,6 +75,10 @@
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/autocompleteLayout"
@@ -76,11 +94,32 @@
             android:inputType="textCapCharacters" />
     </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/btnData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outlined_button"
+            android:drawableLeft="?attr/calendarIcon"
+            android:paddingLeft="10dp"
+            android:text="Data di Nascita"
+            android:textAlignment="textStart"
+            android:drawablePadding="10dp"
+            android:textStyle="normal" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <RadioGroup
             android:id="@+id/rgGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checkedButton="@id/rbFemale">
+
 
             <RadioButton
                 android:id="@+id/rbFemale"
@@ -96,12 +135,6 @@
         </RadioGroup>
 
 
-        <Button
-            android:id="@+id/btnCalcola"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Calcola" />
-
         <TextView
             android:id="@+id/tvRisultato"
             android:layout_width="wrap_content"
@@ -110,27 +143,22 @@
             android:text="RISULTATO"
             android:textSize="50dp" />
 
-        <Button
-            android:id="@+id/btnData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/outlined_button"
-            android:drawableLeft="?attr/calendarIcon"
-            android:text="Button"
-            android:textStyle="normal"
-            android:paddingLeft="10dp"/>
-
-        <Switch
-            android:id="@+id/swEstero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nato all'estero" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"/>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnCalcola"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/tick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         Parser parser;
         List<Comune> comuniList;
         AutoCompleteTextView atComuni;
-        Button btnCalcola,btnChangeTheme;
+        Button btnChangeTheme;
+        FloatingActionButton btnCalcola;
         Comune comuneSelected;
         String comuneCode;
         String prov;
