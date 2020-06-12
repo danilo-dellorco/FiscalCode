@@ -2,6 +2,8 @@ package it.runningexamples.fiscalcode;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +12,7 @@ import java.util.Map;
 public class CodiceFiscale {
     private String nome,cognome,  finalFiscalCode;
     private Comune comuneNascita;
+    private Stato statoNascita;
     private int year, day, month;
     private Date birthday;
     private String gender;
@@ -139,12 +142,17 @@ public class CodiceFiscale {
 
 
 
-    public CodiceFiscale(String nome, String cognome, Date birthDay, String gender, Comune comuneNascita) {
+    public CodiceFiscale(String nome, String cognome, Date birthDay, String gender, @Nullable Comune comuneNascita, @Nullable Stato stato) {
         this.nome = nome;
         this.cognome = cognome;
         this.birthday = birthDay;
-        this.comuneNascita = comuneNascita;
         this.gender = gender;
+        if (comuneNascita != null){
+            this.comuneNascita = comuneNascita;
+        }
+        if (stato != null){
+            this.statoNascita = stato;
+        }
     }
     public String getFinalFiscalCode(){
         return finalFiscalCode;

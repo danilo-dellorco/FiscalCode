@@ -1,14 +1,11 @@
 package it.runningexamples.fiscalcode;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +17,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,21 +26,16 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.oned.Code39Writer;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 //TODO menu in alto è nero anche nel tema light
 //TODO riordinare main activity ed inserire edittext material
 //TODO terminare datepicker
+//TODO lingua inglese -> nome stati in inglese?
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -79,13 +70,14 @@ public class MainActivity extends AppCompatActivity {
     private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener {
         Parser parser;
         List<Comune> comuniList;
+        List<Stato> statiList;
         AutoCompleteTextView atComuni;
         Button btnChangeTheme;
         FloatingActionButton btnCalcola;
         Comune comuneSelected;
+        Stato statoSelected;
         Toolbar toolbar;
         Switch swEstero;
-
         TextView tvRisultato;
         Button btnBirthday;
         EditText etName;
@@ -110,7 +102,10 @@ public class MainActivity extends AppCompatActivity {
             parser = new Parser(MainActivity.this);
             swEstero = findViewById(R.id.swEstero);
             swEstero.setOnCheckedChangeListener(this);
-            comuniList = parser.parse();
+
+            comuniList = parser.parserComuni();
+            statiList = parser.parserStati();
+
             toolbar = findViewById(R.id.toolbar);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             //btnChangeTheme = findViewById(R.id.btn_changeTheme);
@@ -134,18 +129,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void setUpAutoCompleteTextView() {
-            ArrayAdapter<Comune> dataAdapter = new ArrayAdapter<>(MainActivity.this,
-                    android.R.layout.simple_dropdown_item_1line, comuniList);
+            if (!swEstero.isChecked()) {
+                ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                        android.R.layout.simple_dropdown_item_1line, comuniList);
+                    atComuni.setAdapter(comuneArrayAdapter);
+            }else{
+                ArrayAdapter<Stato> statoArrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                        android.R.layout.simple_dropdown_item_1line, statiList);
+                    atComuni.setAdapter(statoArrayAdapter);
+            }
 
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    comuneSelected = (Comune) parent.getItemAtPosition(position);
-                    hideKeyboard();
-                    Log.d(TAG, comuneSelected.getCode() + " " + comuneSelected.getName());
+                    if (swEstero.isChecked()) {
+                        statoSelected = (Stato) parent.getItemAtPosition(position);
+                        hideKeyboard();
+                    } else {
+                        comuneSelected = (Comune) parent.getItemAtPosition(position);
+                        hideKeyboard();
+                        Log.d(TAG, comuneSelected.getCode() + " " + comuneSelected.getName());
+                    }
                 }
             };
-            atComuni.setAdapter(dataAdapter);
             atComuni.setOnItemClickListener(onItemClickListener);
         }
 
@@ -181,13 +187,15 @@ public class MainActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (!name.equals("") & !surname.equals("") & comuneSelected != null) {
-                CodiceFiscale codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected);
+            if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null)) {
+                if (swEstero.isChecked()) {
+                    codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, null, statoSelected);
+                } else if (!swEstero.isChecked()){
+                    codiceFiscale = new CodiceFiscale(name, surname, birthDay, gender, comuneSelected, null);
+                }
                 String fiscalCode = codiceFiscale.calculateCF();
 
                 tvRisultato.setText(fiscalCode);
-            } else if(comuneSelected == null) {
-                Toast.makeText(getApplicationContext(), "Selezionare un comune di nascita", Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
             }
@@ -197,9 +205,11 @@ public class MainActivity extends AppCompatActivity {
             atComuni.getText().clear();
             if (swEstero.isChecked()){
                 autocompleteLayout.setHint("Stato Estero di Nascita");
+                setUpAutoCompleteTextView();
             }
             else{
                 autocompleteLayout.setHint("Comune di Nascita");
+                setUpAutoCompleteTextView();
             }
         }
     }

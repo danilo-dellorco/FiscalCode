@@ -21,7 +21,7 @@ public class Parser {
         this.context = context;
     }
 
-    public  List<Comune> parse() {
+    public  List<Comune> parserComuni() {
         List<Comune> comuni = new ArrayList<>();
         String line;
 
@@ -52,6 +52,38 @@ public class Parser {
             }
         }
         return comuni;
+    }
+
+    public List<Stato> parserStati(){
+        List<Stato> stati = new ArrayList<>();
+        String line;
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(context.getAssets().open("stati_esteri.csv")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            line = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return stati;
+        }
+        while (line != null) {
+            try {
+                StringTokenizer tokenizer = new StringTokenizer(line, ";");
+                String codice = tokenizer.nextToken();
+                String nome = tokenizer.nextToken();
+                Stato stato = new Stato(nome, codice);
+                stati.add(stato);
+                line = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return stati;
+            }
+        }
+        return stati;
     }
 
 
