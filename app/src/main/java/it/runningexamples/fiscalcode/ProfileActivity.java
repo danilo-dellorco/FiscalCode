@@ -115,8 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
                 atComuni.setText(codiceFiscaleEntity.getComune());
                 btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
                 tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
-                if (codiceFiscaleEntity.getGenere() == "M"){
-                    Log.v("GEN",codiceFiscaleEntity.getGenere());
+                if (codiceFiscaleEntity.getGenere().equals("M")){
                     rgGender.check(R.id.rbMale);
                 }
             }
