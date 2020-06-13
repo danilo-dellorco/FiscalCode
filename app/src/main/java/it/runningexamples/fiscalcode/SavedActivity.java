@@ -12,7 +12,7 @@ import java.util.List;
 public class SavedActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<CodiceFiscale> cfList;
     ItemTouchHelper itemTouchHelper;
@@ -32,7 +32,7 @@ public class SavedActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        itemTouchHelper = new ItemTouchHelper(new SwipeCallback((RecyclerAdapter) mAdapter));
+        itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mAdapter, mRecyclerView));
 
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
