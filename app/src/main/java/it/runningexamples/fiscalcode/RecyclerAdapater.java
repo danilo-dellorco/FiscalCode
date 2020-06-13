@@ -37,7 +37,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
 
     @Override
     public void onBindViewHolder (@NonNull Holder holder, final int position)  {
-        final CodiceFiscale currentItem = savedCF.get(position);
+        final CodiceFiscaleEntity currentItem = savedCF.get(position);
         holder.tvNome.setText(currentItem.getNome());
         holder.tvCognome.setText(currentItem.getCognome());
 
@@ -58,6 +58,9 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
         return savedCF.size();
     }
 
+    private CodiceFiscaleEntity getCodeAt(int position){
+        return savedCF.get(position);
+    }
 
     public void deleteItem(int position, RecyclerView rcv) {
         lastDeleted = savedCF.get(position);

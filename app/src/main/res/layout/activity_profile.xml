@@ -86,15 +86,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp">
 
-        <AutoCompleteTextView
-            android:id="@+id/atComuni"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="Comune di nascita"
-            android:layout_marginLeft="0dp"
-            android:paddingLeft="8dp"
-            android:inputType="textCapCharacters" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:id="@+id/atComuni"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Comune di nascita"
+                android:layout_marginLeft="0dp"
+                android:paddingLeft="8dp"
+                android:inputType="textCapCharacters" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"

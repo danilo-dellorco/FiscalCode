@@ -14,7 +14,7 @@ public class SavedActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<CodiceFiscale> cfList;
+    private List<CodiceFiscaleEntity> cfList;
     ItemTouchHelper itemTouchHelper;
 
     @Override

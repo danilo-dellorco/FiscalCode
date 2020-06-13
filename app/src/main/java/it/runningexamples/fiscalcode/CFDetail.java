@@ -19,7 +19,7 @@ public class CFDetail extends AppCompatActivity {
         tv = findViewById(R.id.tvBarcode);
         ivBarcode = findViewById(R.id.ivBarcode);
 
-        CodiceFiscale cf = getIntent().getExtras().getParcelable("CF");
+        CodiceFiscaleEntity cf = getIntent().getExtras().getParcelable("CF");
         tv.setText(cf.getFinalFiscalCode());
 
         Bitmap fiscalBarcode = new FiscalBarcode(cf.getFinalFiscalCode()).generateBarcode();
