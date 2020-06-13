@@ -34,6 +34,7 @@ public class Comune {
         this.code = code;
     }
 
+
     @Override
     public String toString() {
         return String.format("%s (%s)", this.name, this.prov);

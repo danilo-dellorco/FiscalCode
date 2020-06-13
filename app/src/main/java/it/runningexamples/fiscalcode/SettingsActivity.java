@@ -89,5 +89,9 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
             startActivity(new Intent(SettingsActivity.this, WelcomeActivity.class));
             finish();
         }
+        if (v.getId() == R.id.btnProfile){
+            startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
+            finish();
+        }
     }
 }

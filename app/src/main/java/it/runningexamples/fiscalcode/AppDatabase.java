@@ -6,9 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {CodiceFiscale.class}, version = 2)
+@Database(entities = {CodiceFiscaleEntity.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String DB_NAME = "CF";
+    private static final String DB_NAME = "CF3";
     private static volatile AppDatabase instance;
 
     static synchronized AppDatabase getInstance(Context context) {

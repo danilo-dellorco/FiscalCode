@@ -3,10 +3,10 @@ package it.runningexamples.fiscalcode;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,20 +23,14 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-//TODO menu in alto è nero anche nel tema light
-//TODO riordinare main activity ed inserire edittext material
-//TODO lingua inglese -> nome stati in inglese? ma che si pazz
-//TODO eliminare CodiceFiscaleEntity
 
-public class MainActivity extends AppCompatActivity {
+
+public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     private static final int THEME_DARK = 1;
     private static final int THEME_LIGHT = 0;
@@ -54,19 +48,18 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.DarkTheme);
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
         holder = new Holder();
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_bar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
-
-    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener, Toolbar.OnMenuItemClickListener {
+    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener {
         Parser parser;
         List<Comune> comuniList;
         List<Stato> statiList;
@@ -98,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             btnCalcola.setOnClickListener(this);
 
             atComuni = findViewById(R.id.atComuni);
-            parser = new Parser(MainActivity.this);
+            parser = new Parser(ProfileActivity.this);
             swEstero = findViewById(R.id.swEstero);
             swEstero.setOnCheckedChangeListener(this);
 
@@ -110,26 +103,36 @@ public class MainActivity extends AppCompatActivity {
             btnSaveDB.setEnabled(false);
             btnSaveDB.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
-            //btnChangeTheme = findViewById(R.id.btn_changeTheme);
-            //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            toolbar.setOnMenuItemClickListener(this);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             setUpDialogDate();
             setUpAutoCompleteTextView();
+            codiceFiscaleEntity = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode();
+            if (codiceFiscaleEntity != null){
+                etName.setText(codiceFiscaleEntity.getNome());
+                etSurname.setText(codiceFiscaleEntity.getCognome());
+                atComuni.setText(codiceFiscaleEntity.getComune());
+                btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
+                tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
+                if (codiceFiscaleEntity.getGenere() == "M"){
+                    Log.v("GEN",codiceFiscaleEntity.getGenere());
+                    rgGender.check(R.id.rbMale);
+                }
+            }
+
         }
 
 
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
-                ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(ProfileActivity.this,
                         android.R.layout.simple_dropdown_item_1line, comuniList);
-                    atComuni.setAdapter(comuneArrayAdapter);
+                atComuni.setAdapter(comuneArrayAdapter);
             }else{
-                ArrayAdapter<Stato> statoArrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                ArrayAdapter<Stato> statoArrayAdapter = new ArrayAdapter<>(ProfileActivity.this,
                         android.R.layout.simple_dropdown_item_1line, statiList);
-                    atComuni.setAdapter(statoArrayAdapter);
+                atComuni.setAdapter(statoArrayAdapter);
             }
 
             onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -174,10 +177,15 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
-            if (v.getId() == R.id.btnSaveDB & codiceFiscaleEntity != null){       // bisogna prima aver calcolato il codice fiscale
-                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
-            }
 
+            if (v.getId() == R.id.btnSaveDB & codiceFiscaleEntity != null){       // bisogna prima aver calcolato il codice fiscale
+                if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                }
+                else{
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+                }
+            }
         }
         private void computeCF() {
             String surname = etSurname.getText().toString();
@@ -195,9 +203,9 @@ public class MainActivity extends AppCompatActivity {
             }
             if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null)) {
                 if (swEstero.isChecked()) {
-                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, null, statoSelected,0);
+                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, null, statoSelected,1);
                 } else if (!swEstero.isChecked()){
-                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, comuneSelected, null,0);
+                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, comuneSelected, null,1);
                 }
                 String fiscalCode = codiceFiscaleEntity.calculateCF();
 
@@ -217,19 +225,6 @@ public class MainActivity extends AppCompatActivity {
                 autocompleteLayout.setHint("Comune di Nascita");
                 setUpAutoCompleteTextView();
             }
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            if (item.getItemId() == R.id.menu_settings) {
-                Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intentSettings);
-            }
-            if (item.getItemId() == R.id.menu_list){
-                Intent intentList = new Intent(MainActivity.this, SavedActivity.class);
-                startActivity(intentList);
-            }
-            return true;
         }
     }
 

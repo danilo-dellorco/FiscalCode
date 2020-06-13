@@ -9,18 +9,24 @@ import java.util.List;
 
 @Dao
 public interface CodiceFiscaleDAO {
-    @Query("SELECT * FROM CodiceFiscale")
-    List<CodiceFiscale> getAll();
+    @Query("SELECT * FROM CodiceFiscaleEntity")
+    List<CodiceFiscaleEntity> getAll();
 
-    @Query("SELECT * FROM CodiceFiscale WHERE preferito == 1")
-    List<CodiceFiscale>  getFavourites();
+    @Query("SELECT count(*) FROM CodiceFiscaleEntity WHERE finalFiscalCode IN (:code)")
+    int getCode(String code);
+
+    @Query("SELECT * FROM CodiceFiscaleEntity WHERE personale == 1")
+    CodiceFiscaleEntity  getPersonalCode();
 
     @Insert
-    void saveNewCode(CodiceFiscale codice);
+    void saveNewCode(CodiceFiscaleEntity codice);
 
     @Delete
-    void deleteCode(CodiceFiscale codice);
+    void deleteCode(CodiceFiscaleEntity codice);
 
-    @Query("SELECT count(*) FROM CodiceFiscale")
+    @Query("SELECT count(*) FROM CodiceFiscaleEntity")
     int getDbSize();
+
+    @Query("UPDATE CodiceFiscaleEntity SET personale = 1  WHERE finalFiscalCode IN (:code)")
+    int setPersonal(String code);
 }
