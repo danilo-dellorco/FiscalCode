@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context=".SettingsActivity">
 
     <LinearLayout
@@ -41,6 +42,24 @@
             android:fontFamily="sans-serif"
             android:paddingLeft="10dp"
             android:text="Modifica Profilo Personale"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textStyle="normal" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/btnIntro"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/outlined_button"
+            android:drawableLeft="?attr/settingsIntroIcon"
+            android:drawablePadding="30dp"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="10dp"
+            android:text="Mostra nuovamente l'introduzione"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textStyle="normal" />

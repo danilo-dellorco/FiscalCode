@@ -43,7 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 //TODO menu in alto è nero anche nel tema light
 //TODO riordinare main activity ed inserire edittext material
 //TODO lingua inglese -> nome stati in inglese? ma che si pazz
@@ -51,25 +50,23 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String THEME = "1";
+    private static final int THEME_DARK = 1;
+    private static final int THEME_LIGHT = 0;
     public static CodiceFiscale codiceFiscale;
     Holder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
-        int theme = sharedPreferences.getInt(THEME,0);
-        if (theme == 0){
+        PreferenceManager prefs = new PreferenceManager(this);
+        int theme = prefs.getTheme();
+        if (theme == THEME_LIGHT){
             setTheme(R.style.LightTheme);
         }
-        else{
+        if (theme == THEME_DARK){
             setTheme(R.style.DarkTheme);
         }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         holder = new Holder();
 
     }
@@ -86,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         List<Comune> comuniList;
         List<Stato> statiList;
         AutoCompleteTextView atComuni;
-        Button btnChangeTheme;
         FloatingActionButton btnCalcola;
         Comune comuneSelected;
         Stato statoSelected;

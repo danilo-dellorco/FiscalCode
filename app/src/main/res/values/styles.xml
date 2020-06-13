@@ -5,11 +5,14 @@
     <attr name="settingsProfileIcon" format="reference"/>
     <attr name="settingsThemeIcon" format="reference"/>
     <attr name="settingsDeleteIcon" format="reference"/>
+    <attr name="settingsIntroIcon" format="reference"/>
+    <attr name="backgroundColor" format="reference"/>
+
 
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorActionBarLight</item>
         <item name="colorPrimaryDark">@color/colorStatusBarLight</item>
-        <item name="android:windowBackground">@color/colorBackgroundLight</item>
+        <item name="backgroundColor">@color/colorBackgroundLight</item>
         <item name="colorButtonNormal">@color/colorAccentLight</item>
         <item name="colorAccent">@color/colorAccentLight</item>
         <item name="outlineButtonColor">@color/colorAccentLight</item>
@@ -17,12 +20,13 @@
         <item name="settingsThemeIcon">@drawable/theme_light</item>
         <item name="settingsProfileIcon">@drawable/profile_light</item>
         <item name="settingsDeleteIcon">@drawable/delete_light</item>
+        <item name="settingsIntroIcon">@drawable/intro_light</item>
     </style>
 
     <style name="DarkTheme" parent = "Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorActionBarDark</item>
         <item name="colorPrimaryDark">@color/colorStatusBarDark</item>
-        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="backgroundColor">@color/colorBackgroundDark</item>
         <item name="colorButtonNormal">@color/colorAccentDark</item>
         <item name="colorAccent">@color/colorAccentDark</item>
         <item name="outlineButtonColor">@color/colorAccentDark</item>
@@ -30,6 +34,8 @@
         <item name="settingsThemeIcon">@drawable/theme_dark</item>
         <item name="settingsProfileIcon">@drawable/profile_dark</item>
         <item name="settingsDeleteIcon">@drawable/delete_dark</item>
+        <item name="settingsIntroIcon">@drawable/intro_dark</item>
+
 
     </style>
 
