@@ -203,8 +203,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
             if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null)) {
                 if (swEstero.isChecked()) {
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
                     codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, null, statoSelected,1);
                 } else if (!swEstero.isChecked()){
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
                     codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, comuneSelected, null,1);
                 }
                 String fiscalCode = codiceFiscaleEntity.calculateCF();

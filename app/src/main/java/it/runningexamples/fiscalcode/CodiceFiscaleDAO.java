@@ -29,4 +29,7 @@ public interface CodiceFiscaleDAO {
 
     @Query("UPDATE CodiceFiscaleEntity SET personale = 1  WHERE finalFiscalCode IN (:code)")
     int setPersonal(String code);
+
+    @Query("UPDATE CodiceFiscaleEntity SET personale = 0  WHERE finalFiscalCode IN (:code)")
+    int removePersonal(String code);
 }
