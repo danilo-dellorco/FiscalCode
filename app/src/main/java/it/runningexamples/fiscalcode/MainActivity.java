@@ -45,14 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        PreferenceManager prefs = new PreferenceManager(this);
-        int theme = prefs.getTheme();
-        if (theme == THEME_LIGHT){
-            setTheme(R.style.LightTheme);
-        }
-        if (theme == THEME_DARK){
-            setTheme(R.style.DarkTheme);
-        }
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         holder = new Holder();
@@ -110,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
             btnSaveDB.setEnabled(false);
             btnSaveDB.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
-            //btnChangeTheme = findViewById(R.id.btn_changeTheme);
-            //btnChangeTheme.setOnClickListener(this);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             toolbar.setOnMenuItemClickListener(this);

@@ -9,7 +9,6 @@ public class PreferenceManager {
     public static final String FIRST_START = "start";
     public static final String TEMP_INTRO = "intro";
 
-
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context context;
@@ -47,4 +46,6 @@ public class PreferenceManager {
     public boolean isTempIntro(){
         return pref.getBoolean(TEMP_INTRO,false);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package it.runningexamples.fiscalcode;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,22 +20,27 @@ public class SavedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved);
-
-//        cfList = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getAll();
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-//        mAdapter = new RecyclerAdapter(cfList, getApplicationContext());
         mAdapter = new RecyclerAdapter(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
         itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mAdapter, mRecyclerView));
-
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        Toolbar toolbarList = findViewById(R.id.toolbarList);
+        setSupportActionBar(toolbarList);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

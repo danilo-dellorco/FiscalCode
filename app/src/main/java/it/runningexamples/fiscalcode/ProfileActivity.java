@@ -39,14 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        PreferenceManager prefs = new PreferenceManager(this);
-        int theme = prefs.getTheme();
-        if (theme == THEME_LIGHT){
-            setTheme(R.style.LightTheme);
-        }
-        if (theme == THEME_DARK){
-            setTheme(R.style.DarkTheme);
-        }
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         holder = new Holder();
@@ -75,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         EditText etSurname;
         RadioGroup rgGender;
 
-        Button btnSaveDB;
+        Button btnSaveProfile;
 
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
@@ -87,8 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
             btnBirthday = findViewById(R.id.btnData);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
-            btnCalcola = findViewById(R.id.btnCalcola);
-            btnCalcola.setOnClickListener(this);
 
             atComuni = findViewById(R.id.atComuni);
             parser = new Parser(ProfileActivity.this);
@@ -99,9 +90,8 @@ public class ProfileActivity extends AppCompatActivity {
             statiList = parser.parserStati();
 
             toolbar = findViewById(R.id.toolbar);
-            btnSaveDB = findViewById(R.id.btnSaveDB);
-            btnSaveDB.setEnabled(false);
-            btnSaveDB.setOnClickListener(this);
+            btnSaveProfile = findViewById(R.id.btnSaveDB);
+            btnSaveProfile.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -168,17 +158,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.btnCalcola) {
-                btnSaveDB.setEnabled(true);         // schiarire colore pulsante quando non è abilitato
-                hideKeyboard();
-                computeCF();
-
-            }
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
 
             if (v.getId() == R.id.btnSaveDB & codiceFiscaleEntity != null){       // bisogna prima aver calcolato il codice fiscale
+                hideKeyboard();
+                computeCF();
                 if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){
                     AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
                 }

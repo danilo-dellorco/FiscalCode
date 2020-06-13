@@ -172,8 +172,9 @@
             android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Salva nel database"
-            android:textColor="@android:color/white"/>
+            android:text="Salva Profilo"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -181,17 +182,5 @@
             android:orientation="horizontal"/>
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnCalcola"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:fabCustomSize="70dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/tick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,7 @@ public class CFDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_cfdetail);
         tv = findViewById(R.id.tvBarcode);
@@ -24,6 +26,14 @@ public class CFDetail extends AppCompatActivity {
 
         Bitmap fiscalBarcode = new FiscalBarcode(cf.getFinalFiscalCode()).generateBarcode();
         ivBarcode.setImageBitmap(fiscalBarcode);
+        Toolbar toolbarDetail = findViewById(R.id.toolbarDetail);
+        setSupportActionBar(toolbarDetail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
