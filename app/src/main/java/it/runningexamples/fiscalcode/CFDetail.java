@@ -2,6 +2,7 @@ package it.runningexamples.fiscalcode;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +19,11 @@ public class CFDetail extends AppCompatActivity {
         ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_cfdetail);
+        // Luminosità
+        WindowManager.LayoutParams layout = getWindow().getAttributes();
+        layout.screenBrightness = 1F;
+        getWindow().setAttributes(layout);
+
         tv = findViewById(R.id.tvBarcode);
         ivBarcode = findViewById(R.id.ivBarcode);
 
