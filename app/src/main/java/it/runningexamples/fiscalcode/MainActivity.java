@@ -35,6 +35,7 @@ import java.util.List;
 //TODO riordinare main activity ed inserire edittext material
 //TODO lingua inglese -> nome stati in inglese? ma che si pazz
 //TODO eliminare CodiceFiscaleEntity
+// TODO onBackPressed -> Sei sicuro di uscire?
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
