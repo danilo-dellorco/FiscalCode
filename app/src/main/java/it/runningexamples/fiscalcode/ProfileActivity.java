@@ -57,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
         List<Comune> comuniList;
         List<Stato> statiList;
         AutoCompleteTextView atComuni;
-        FloatingActionButton btnCalcola;
         Comune comuneSelected;
         Stato statoSelected;
         Toolbar toolbar;
