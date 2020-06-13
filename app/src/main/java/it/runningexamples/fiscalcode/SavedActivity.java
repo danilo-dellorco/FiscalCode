@@ -22,12 +22,10 @@ public class SavedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved);
 
-//        cfList = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getAll();
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-//        mAdapter = new RecyclerAdapter(cfList, getApplicationContext());
         mAdapter = new RecyclerAdapter(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
