@@ -2,6 +2,7 @@ package it.runningexamples.fiscalcode;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -17,7 +18,6 @@ import android.widget.Switch;
 public class SettingsActivity extends AppCompatActivity implements Switch.OnCheckedChangeListener{
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String THEME = "1";
-    int theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,15 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
             swDarkMode.setChecked(true);
         }
         swDarkMode.setOnCheckedChangeListener(this);
+        Toolbar toolbarSettings = findViewById(R.id.toolbarSettings);
+        setSupportActionBar(toolbarSettings);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
