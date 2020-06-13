@@ -13,22 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
+class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
     List<CodiceFiscale> savedCF;
     private Context mContext;
 
-    Adapter(List<CodiceFiscale> list, Context ctx){
-        this.savedCF = list;
+    RecyclerAdapter(Context ctx){
         this.mContext = ctx;
+        this.savedCF = AppDatabase.getInstance(mContext).codiceFiscaleDAO().getAll();
     }
 
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cf_card, parent, false);
-        Holder holder = new Holder(v);
-        return holder;
+        return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false));
+
     }
+
 
     @Override
     public void onBindViewHolder (@NonNull Holder holder, final int position)  {
@@ -51,6 +51,20 @@ class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     @Override
     public int getItemCount() {
         return savedCF.size();
+    }
+
+    private CodiceFiscale getCodeAt(int position){
+        return savedCF.get(position);
+    }
+
+    public void deleteItem(int position) {
+        AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(getCodeAt(position));
+        savedCF.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     public class Holder extends RecyclerView.ViewHolder {
