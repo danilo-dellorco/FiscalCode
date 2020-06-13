@@ -17,8 +17,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
-    List<CodiceFiscale> savedCF;
-    CodiceFiscale lastDeleted;
+    List<CodiceFiscaleEntity> savedCF;
+    CodiceFiscaleEntity lastDeleted;
     private Context mContext;
     private int lastDeletedPosition;
 

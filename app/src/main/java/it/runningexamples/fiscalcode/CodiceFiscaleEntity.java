@@ -2,6 +2,7 @@ package it.runningexamples.fiscalcode;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -180,6 +181,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         this.personale = personale;
         if (comuneNascita != null){
             this.comuneNascita = comuneNascita;
+            this.comune = comuneNascita.getName();
         }
         if (stato != null){
             this.statoNascita = stato;
@@ -194,6 +196,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         data = in.readString();
         genere = in.readString();
         personale = in.readInt();
+        //todo stato estero
     }
 
     public static final Creator<CodiceFiscaleEntity> CREATOR = new Creator<CodiceFiscaleEntity>() {
@@ -224,7 +227,11 @@ public class CodiceFiscaleEntity implements Parcelable {
         return genere;
     }
 
-    public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
+//    public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
+public String getComuneName() {
+    return comune;
+    }
+
 
     public String getFinalFiscalCode(){
         return finalFiscalCode;
