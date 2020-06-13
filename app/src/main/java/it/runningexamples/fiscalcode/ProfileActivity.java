@@ -109,10 +109,11 @@ public class ProfileActivity extends AppCompatActivity {
             setUpDialogDate();
             setUpAutoCompleteTextView();
             codiceFiscaleEntity = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode();
+
             if (codiceFiscaleEntity != null){
                 etName.setText(codiceFiscaleEntity.getNome());
                 etSurname.setText(codiceFiscaleEntity.getCognome());
-                atComuni.setText(codiceFiscaleEntity.getComune());
+                atComuni.setText(codiceFiscaleEntity.getComuneName(), false);
                 btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
                 tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
                 if (codiceFiscaleEntity.getGenere().equals("M")){

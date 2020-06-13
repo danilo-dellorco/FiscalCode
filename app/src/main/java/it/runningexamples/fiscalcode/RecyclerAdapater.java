@@ -1,5 +1,6 @@
 package it.runningexamples.fiscalcode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,11 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
     List<CodiceFiscaleEntity> savedCF;
+    CodiceFiscaleEntity lastDeleted;
     private Context mContext;
+    private int lastDeletedPosition;
 
     RecyclerAdapter(Context ctx){
         this.mContext = ctx;
@@ -57,10 +62,31 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
         return savedCF.get(position);
     }
 
-    public void deleteItem(int position) {
-        AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(getCodeAt(position));
+    public void deleteItem(int position, RecyclerView rcv) {
+        lastDeleted = savedCF.get(position);
+        lastDeletedPosition = position;
+        AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(lastDeleted);
         savedCF.remove(position);
         notifyItemRemoved(position);
+        showUndoSnackBar(rcv);
+    }
+
+    private void showUndoSnackBar(RecyclerView recyclerView){
+
+        Snackbar snackbar = Snackbar.make(recyclerView, "1 elemento rimosso", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undoDelete();
+            }
+        });
+        snackbar.show();
+    }
+
+    private void undoDelete() {
+        savedCF.add(lastDeleted);
+        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
+        notifyItemRemoved(lastDeletedPosition);
     }
 
     public Context getContext() {

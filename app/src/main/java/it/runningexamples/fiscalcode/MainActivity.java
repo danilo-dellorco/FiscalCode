@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
                         android.R.layout.simple_dropdown_item_1line, statiList);
                     atComuni.setAdapter(statoArrayAdapter);
             }
-
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -20,10 +20,12 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     private ColorDrawable redBackground;
     private Drawable deleteIcon;
     private RecyclerAdapter recyclerAdapter;
+    private RecyclerView rcv;
 
-    public SwipeCallback(RecyclerAdapter adapter) {
+    public SwipeCallback(RecyclerAdapter adapter, RecyclerView rcv) {
         super(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.LEFT);
         recyclerAdapter = adapter;
+        this.rcv = rcv;
         redBackground = new ColorDrawable(Color.RED);
         deleteIcon = ContextCompat.getDrawable(recyclerAdapter.getContext(), R.drawable.bin);
     }
@@ -36,7 +38,7 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        recyclerAdapter.deleteItem(position);
+        recyclerAdapter.deleteItem(position, rcv);
     }
 
     @Override
@@ -63,7 +65,4 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         deleteIcon.draw(c);
     }
 
-    private void showSnackBar(){
-//        Snackbar snackbar = Snackbar.make()
-    }
 }
