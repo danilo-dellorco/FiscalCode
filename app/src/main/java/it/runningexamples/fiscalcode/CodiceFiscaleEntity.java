@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Entity
 public class CodiceFiscaleEntity implements Parcelable {
     @PrimaryKey
@@ -185,6 +186,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         }
         if (stato != null){
             this.statoNascita = stato;
+            //todo sistemare per lo stato
         }
     }
 
@@ -220,14 +222,15 @@ public class CodiceFiscaleEntity implements Parcelable {
     }
 //
     public String getDataNascita() {
-        return String.format("%d/%d/%d", day, month, year);
+        return data;
     }
 
     public String getGenere() {
         return genere;
     }
 
-//    public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
+    public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
+
 public String getComuneName() {
     return comune;
     }
@@ -375,6 +378,7 @@ public String getComuneName() {
         SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // Get last two digit of year
         year = Integer.parseInt(yearFormat.format(this.birthday));
 
+        data = String.format("%d/%d/%d", day, month, year);         // setto la data per il database
         // Return the string coded with female having +40 to day code
         if (genere.equals("F")){
             return String.valueOf(year)+monthCode.get(month) + String.format("%02d", day + 40);
