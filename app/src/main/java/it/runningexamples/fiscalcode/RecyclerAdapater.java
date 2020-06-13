@@ -58,9 +58,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
         return savedCF.size();
     }
 
-    private CodiceFiscale getCodeAt(int position){
-        return savedCF.get(position);
-    }
 
     public void deleteItem(int position, RecyclerView rcv) {
         lastDeleted = savedCF.get(position);
@@ -73,7 +70,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
 
     private void showUndoSnackBar(RecyclerView recyclerView){
 
-        Snackbar snackbar = Snackbar.make(recyclerView, "Annulla eliminazione", Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(recyclerView, "1 elemento rimosso", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
