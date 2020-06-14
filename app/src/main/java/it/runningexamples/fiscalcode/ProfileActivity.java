@@ -57,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
         List<Comune> comuniList;
         List<Stato> statiList;
         AutoCompleteTextView atComuni;
-        FloatingActionButton btnCalcola;
         Comune comuneSelected;
         Stato statoSelected;
         Toolbar toolbar;
@@ -90,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
             statiList = parser.parserStati();
 
             toolbar = findViewById(R.id.toolbar);
-            btnSaveProfile = findViewById(R.id.btnSaveDB);
+            btnSaveProfile = findViewById(R.id.btnSaveProfile);
             btnSaveProfile.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             setSupportActionBar(toolbar);
@@ -162,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity {
                 showDatePickerDialog(v);
             }
 
-            if (v.getId() == R.id.btnSaveDB){       // bisogna prima aver calcolato il codice fiscale
+            if (v.getId() == R.id.btnSaveProfile){       // bisogna prima aver calcolato il codice fiscale
                 hideKeyboard();
                 computeCF();
                 if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){

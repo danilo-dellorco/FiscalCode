@@ -4,17 +4,17 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/application_icon"
         android:label="Calcolo Codice Fiscale"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/application_icon_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
         <activity android:name=".ProfileActivity" android:label="Modifica Profilo"></activity>
-        <activity android:name=".MainActivity" android:label="Calcolo Codice Fiscale" />
+        <activity android:name=".WelcomeActivity" />
         <activity android:name=".SettingsActivity" android:label="Impostazioni" />
         <activity android:name=".SavedActivity" android:label="Lista Codici Salvati"/>
         <activity android:name=".CFDetail" android:label="Dettagli"/>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
