@@ -27,8 +27,6 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
-    private static final int THEME_DARK = 1;
-    private static final int THEME_LIGHT = 0;
     public static CodiceFiscaleEntity codiceFiscaleEntity;
     Holder holder;
 
