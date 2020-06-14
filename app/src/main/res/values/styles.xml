@@ -8,6 +8,9 @@
     <attr name="settingsIntroIcon" format="reference"/>
     <attr name="backgroundColor" format="reference"/>
     <attr name="iconCityAutoComplete" format="reference"/>
+    <attr name="filledButtonColor" format="reference"/>
+    <attr name="cardViewColor" format="reference"/>
+    <attr name="cardViewTextColor" format="reference"/>
 
 
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,6 +20,9 @@
         <item name="colorButtonNormal">@color/colorAccentLight</item>
         <item name="colorAccent">@color/colorAccentLight</item>
         <item name="outlineButtonColor">@color/colorAccentLight</item>
+        <item name="filledButtonColor">@color/colorFilledLight</item>
+        <item name="cardViewColor">@color/colorCardLight</item>
+        <item name="cardViewTextColor">@color/colorCvTextLight</item>
         <item name="calendarIcon">@drawable/calendar_light</item>
         <item name="settingsThemeIcon">@drawable/theme_light</item>
         <item name="settingsProfileIcon">@drawable/profile_light</item>
@@ -32,12 +38,27 @@
         <item name="colorButtonNormal">@color/colorAccentDark</item>
         <item name="colorAccent">@color/colorAccentDark</item>
         <item name="outlineButtonColor">@color/colorAccentDark</item>
+        <item name="filledButtonColor">@color/colorFilledDark</item>
+        <item name="cardViewColor">@color/colorCardDark</item>
+        <item name="cardViewTextColor">@color/colorCvTextDark</item>
         <item name="calendarIcon">@drawable/calendar_dark</item>
         <item name="settingsThemeIcon">@drawable/theme_dark</item>
         <item name="settingsProfileIcon">@drawable/profile_dark</item>
         <item name="settingsDeleteIcon">@drawable/delete_dark</item>
         <item name="settingsIntroIcon">@drawable/intro_dark</item>
         <item name="iconCityAutoComplete">@drawable/iconcitywhite</item>
+    </style>
+
+    <style name="cvText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?attr/cardViewTextColor</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="cvDetailText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?attr/cardViewTextColor</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
 </resources>

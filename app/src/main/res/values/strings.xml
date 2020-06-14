@@ -1,22 +1,22 @@
 <resources>
     <string name="app_name">FiscalCode</string>
-    <string name="slide_1_title">Slide1</string>
-    <string name="slide_2_title">Slide2</string>
-    <string name="slide_3_title">Slide3</string>
-    <string name="slide_4_title">Slide4</string>
-    <string name="slide_5_title">Slide 5</string>
+    <string name="slide_1_title">Codice Fiscale</string>
+    <string name="slide_2_title">Barcode</string>
+    <string name="slide_3_title">Salva</string>
+    <string name="slide_4_title">Profilo</string>
+    <string name="slide_5_title">Calcolo Inverso</string>
 
-    <string name="slide_1_desc">Questa è la slide 1</string>
-    <string name="slide_2_desc">Questa è la slide 2</string>
-    <string name="slide_3_desc">Questa è la slide 3</string>
-    <string name="slide_4_desc">Questa è la slide 4</string>
-    <string name="slide_5_desc">Questa è la slide 5</string>
+    <string name="slide_1_desc">Calcola un codice fiscale inserendo i tuoi dati.</string>
+    <string name="slide_2_desc">Ottieni il codice a barre del tuo codice fiscale ed utilizzalo al posto della tua tessera sanitaria.</string>
+    <string name="slide_3_desc">Salva i codici fiscali che hai calcolato, e tienili sempre a portata di mano.</string>
+    <string name="slide_4_desc">Imposta il tuo profilo personale, ed accedi al tuo Codice Fiscale personale con un solo tocco.</string>
+    <string name="slide_5_desc">Ottieni i dati personali inserendo un codice fiscale e verificane la correttezza.</string>
 
     <string name="start">START</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
-
-
+    <string name="genereMaschio">Maschio</string>
+    <string name="genereFemmina">Femmina</string>
 
 
 </resources>

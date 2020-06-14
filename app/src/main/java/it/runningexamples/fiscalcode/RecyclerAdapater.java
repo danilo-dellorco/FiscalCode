@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,16 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
         final CodiceFiscaleEntity currentItem = savedCF.get(position);
         holder.tvNome.setText(currentItem.getNome());
         holder.tvCognome.setText(currentItem.getCognome());
+        holder.tvData.setText(currentItem.getDataNascita());
+        holder.tvLuogo.setText(currentItem.getLuogoNascita());
+        if (currentItem.getGenere().equals("M")){
+            holder.tvSesso.setText(R.string.genereMaschio);
+        }
+        else{
+            holder.tvSesso.setText(R.string.genereFemmina);
+        }
+        holder.btnCode.setText(currentItem.getFinalFiscalCode());
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,11 +105,16 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        TextView tvNome, tvCognome;
+        TextView tvNome, tvCognome, tvData, tvLuogo, tvSesso;
+        Button btnCode;
         public Holder(@NonNull View itemView) {
             super(itemView);
             tvNome = itemView.findViewById(R.id.tvDetailNome);
             tvCognome = itemView.findViewById(R.id.tvDetailCognome);
+            tvData = itemView.findViewById(R.id.tvDetailData);
+            tvLuogo = itemView.findViewById(R.id.tvDetailLuogo);
+            tvSesso = itemView.findViewById(R.id.tvDetailSesso);
+            btnCode = itemView.findViewById(R.id.btnDetailCode);
         }
     }
 }

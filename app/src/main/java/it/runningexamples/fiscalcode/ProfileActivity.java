@@ -100,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
                 atComuni.setText(codiceFiscaleEntity.getLuogoNascita(), false);
                 btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
                 tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
+                tvRisultato.setVisibility(View.VISIBLE);
                 if (codiceFiscaleEntity.getGenere().equals("M")){
                     rgGender.check(R.id.rbMale);
                 }
@@ -196,6 +197,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String fiscalCode = codiceFiscaleEntity.calculateCF();
 
                 tvRisultato.setText(fiscalCode);
+                tvRisultato.setVisibility(View.VISIBLE);
             }else{
                 Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
             }

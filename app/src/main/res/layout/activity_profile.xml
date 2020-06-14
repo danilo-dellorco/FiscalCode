@@ -33,17 +33,18 @@
 
         <Switch
             android:id="@+id/swEstero"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="Nato all'estero"
-            android:layout_gravity="center"/>
+            android:background="@drawable/filled_button"/>
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp">
@@ -53,15 +54,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nome"
+                android:backgroundTint="?attr/filledButtonColor"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp">
@@ -72,15 +70,12 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Cognome"
+                android:backgroundTint="?attr/filledButtonColor"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:id="@+id/autocompleteLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,19 +87,16 @@
                 android:layout_height="55dp"
                 android:hint="Comune di nascita"
                 android:layout_marginLeft="0dp"
-                android:paddingLeft="8dp"
+                android:backgroundTint="?attr/filledButtonColor"
+                android:paddingLeft="10dp"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="13dp" />
 
         <Button
             android:id="@+id/btnData"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:background="@drawable/outlined_button"
+            android:background="@drawable/filled_button"
             android:drawableLeft="?attr/calendarIcon"
             android:paddingLeft="10dp"
             android:text="Data di Nascita"
@@ -123,16 +115,10 @@
             android:layout_height="54dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Genere: " />
-
             <RadioGroup
                 android:id="@+id/rgGender"
-                android:layout_width="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:checkedButton="@id/rbFemale">
 
@@ -152,29 +138,30 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tvRisultato"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnSaveProfile"
+            android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="RISULTATO"
-            android:textSize="50dp"
-            app:autoSizeTextType="uniform"
-            android:lines="1"/>
+            android:gravity="center"
+            android:text="Salva Profilo"
+            android:textColor="@android:color/white" />
 
         <androidx.legacy.widget.Space
             android:id="@+id/space"
             android:layout_width="match_parent"
             android:layout_height="13dp" />
 
-        <Button
-            android:id="@+id/btnSaveProfile"
-            android:layout_width="146dp"
+        <TextView
+            android:id="@+id/tvRisultato"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Salva Profilo"
             android:layout_gravity="center"
-            android:textColor="@android:color/white" />
+            android:lines="1"
+            android:text="RISULTATO"
+            android:textSize="50dp"
+            android:visibility="invisible"
+            app:autoSizeTextType="uniform" />
 
         <LinearLayout
             android:layout_width="wrap_content"
