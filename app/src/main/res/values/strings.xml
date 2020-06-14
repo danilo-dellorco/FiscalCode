@@ -1,15 +1,22 @@
 <resources>
     <string name="app_name">FiscalCode</string>
-    <string name="slide_4_title">Slide4</string>
     <string name="slide_1_title">Slide1</string>
-    <string name="slide_1_desc">Questa è la slide 1</string>
     <string name="slide_2_title">Slide2</string>
-    <string name="slide_2_desc">Questa è la slide 2</string>
     <string name="slide_3_title">Slide3</string>
+    <string name="slide_4_title">Slide4</string>
+    <string name="slide_5_title">Slide 5</string>
+
+    <string name="slide_1_desc">Questa è la slide 1</string>
+    <string name="slide_2_desc">Questa è la slide 2</string>
     <string name="slide_3_desc">Questa è la slide 3</string>
+    <string name="slide_4_desc">Questa è la slide 4</string>
+    <string name="slide_5_desc">Questa è la slide 5</string>
+
     <string name="start">START</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
-    <string name="slide_4_desc">Questa è la slide 4</string>
+
+
+
 
 </resources>

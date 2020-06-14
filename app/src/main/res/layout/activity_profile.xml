@@ -168,7 +168,7 @@
             android:layout_height="13dp" />
 
         <Button
-            android:id="@+id/btnSaveDB"
+            android:id="@+id/btnSaveProfile"
             android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:gravity="center"

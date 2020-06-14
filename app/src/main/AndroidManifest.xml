@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/application_icon"
         android:label="Calcolo Codice Fiscale"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/application_icon_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
         <activity android:name=".ProfileActivity" android:label="Modifica Profilo"></activity>

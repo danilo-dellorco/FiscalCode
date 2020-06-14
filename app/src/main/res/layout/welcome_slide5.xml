@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_screen3">
+    android:background="@color/bg_screen5">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,12 +19,12 @@
         <ImageView
             android:layout_width="400dp"
             android:layout_height="400dp"
-            android:src="@drawable/intro_img_3" />
+            android:src="@drawable/intro_img_5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/slide_3_title"
+            android:text="@string/slide_5_title"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
             android:layout_marginTop="20dp"
             android:paddingLeft="@dimen/desc_padding"
             android:paddingRight="@dimen/desc_padding"
-            android:text="@string/slide_3_desc"
+            android:text="@string/slide_5_desc"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_desc" />
