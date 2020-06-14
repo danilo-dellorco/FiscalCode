@@ -111,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                 }
             }
         }
-        restartApp();
+//        restartApp(WelcomeActivity.class);
     }
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
@@ -137,14 +137,14 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                         if (clearApp) {
                             clearApplicationData();
                         }else{
-                            restartApp();
+                            restartApp(SettingsActivity.this);  //todo sistemare, è sbagliato
                         }
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public void restartApp(){
-        Intent mStartActivity = new Intent(SettingsActivity.this, MainActivity.class);
+    public void restartApp(Activity activity){
+        Intent mStartActivity = new Intent(SettingsActivity.this, activity.getClass());
         int mPendingIntentId = 123456;
         PendingIntent.getActivity(getApplicationContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
         System.exit(0);
