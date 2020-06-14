@@ -162,7 +162,7 @@ public class ProfileActivity extends AppCompatActivity {
                 showDatePickerDialog(v);
             }
 
-            if (v.getId() == R.id.btnSaveDB & codiceFiscaleEntity != null){       // bisogna prima aver calcolato il codice fiscale
+            if (v.getId() == R.id.btnSaveDB){       // bisogna prima aver calcolato il codice fiscale
                 hideKeyboard();
                 computeCF();
                 if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){
