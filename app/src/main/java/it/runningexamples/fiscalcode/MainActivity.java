@@ -116,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
                 ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(MainActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, comuniList);
+                        R.layout.autocomplete_layout, R.id.tvAutoCompleteItem,comuniList);
                     atComuni.setAdapter(comuneArrayAdapter);
             }else{
                 ArrayAdapter<Stato> statoArrayAdapter = new ArrayAdapter<>(MainActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, statiList);
+                        R.layout.autocomplete_layout, R.id.tvAutoCompleteItem, statiList);
                     atComuni.setAdapter(statoArrayAdapter);
             }
             onItemClickListener = new AdapterView.OnItemClickListener() {

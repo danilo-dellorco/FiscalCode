@@ -93,6 +93,7 @@
             android:hint="Comune di nascita"
             android:layout_marginLeft="0dp"
             android:paddingLeft="8dp"
+            android:completionThreshold="1"
             android:inputType="textCapCharacters" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,7 +158,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="RISULTATO"
             android:textSize="50dp"
             app:autoSizeTextType="uniform"
             android:lines="1"/>
