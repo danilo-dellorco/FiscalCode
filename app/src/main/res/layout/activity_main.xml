@@ -70,7 +70,6 @@
                 android:id="@+id/etCognome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:hint="Cognome"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -99,40 +98,48 @@
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="13dp" />
+            android:layout_height="12dp" />
 
         <Button
             android:id="@+id/btnData"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/outlined_button"
-            android:drawableLeft="?attr/calendarIcon"
+            android:drawableRight="?attr/calendarIcon"
             android:paddingLeft="10dp"
             android:text="Data di Nascita"
+            android:textSize="18sp"
+            android:textColor="?android:textColorHint"
             android:textAlignment="textStart"
-            android:drawablePadding="10dp"
+            android:paddingRight="15dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif"
             android:textAllCaps="false"/>
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="14dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@drawable/outlined_button">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="8dp"
+                android:textColor="?android:textColorHint"
                 android:text="Genere: "
-                android:textSize="20sp"/>
+                android:textSize="19sp"/>
 
             <RadioGroup
+                android:paddingLeft="20dp"
                 android:id="@+id/rgGender"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checkedButton="@id/rbFemale"

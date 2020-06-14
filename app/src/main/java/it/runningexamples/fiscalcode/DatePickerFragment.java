@@ -2,6 +2,7 @@ package it.runningexamples.fiscalcode;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -33,5 +34,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
             Button btnData = getActivity().findViewById(R.id.btnData);
             btnData.setText(String.format("%02d/%02d/%d", day, month + 1, year));
+            btnData.setTextColor(Color.parseColor("#3C3C3C"));
     }
 }
