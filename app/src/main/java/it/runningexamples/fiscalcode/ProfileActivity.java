@@ -97,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (codiceFiscaleEntity != null){
                 etName.setText(codiceFiscaleEntity.getNome());
                 etSurname.setText(codiceFiscaleEntity.getCognome());
-                atComuni.setText(codiceFiscaleEntity.getComuneName(), false);
+                atComuni.setText(codiceFiscaleEntity.getLuogoNascita(), false);
                 btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
                 tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
                 if (codiceFiscaleEntity.getGenere().equals("M")){

@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import java.text.ParseException;
@@ -167,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
             }
             if (v.getId() == R.id.btnSaveDB & codiceFiscaleEntity != null){       // bisogna prima aver calcolato il codice fiscale
                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+                Snackbar sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);
+                sn.getView().setBackgroundColor(getColor(R.color.greenSnacbar));
+                sn.show();
             }
 
         }

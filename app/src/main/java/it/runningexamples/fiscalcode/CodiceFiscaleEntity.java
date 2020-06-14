@@ -28,7 +28,7 @@ public class CodiceFiscaleEntity implements Parcelable {
     @ColumnInfo(name = "cognome")
     public String cognome;
 
-    @ColumnInfo(name = "comune")
+    @ColumnInfo(name = "luogoNascita")
     public String comune;
 
     @ColumnInfo(name = "data")
@@ -40,14 +40,12 @@ public class CodiceFiscaleEntity implements Parcelable {
     @ColumnInfo(name = "personale")
     public int personale;
 
-    public CodiceFiscaleEntity(){}
+    public CodiceFiscaleEntity() {
+    }
+
     private static Comune comuneNascita;
     private static Stato statoNascita;
     private static Date birthday;
-    private static int day;
-    private static int year;
-    private static int month;
-
 
 
     private static Map monthCode = new HashMap<Integer, Character>() {{
@@ -173,20 +171,19 @@ public class CodiceFiscaleEntity implements Parcelable {
     }};
 
 
-
     CodiceFiscaleEntity(String nome, String cognome, Date birthDay, String gender, @Nullable Comune comuneNascita, @Nullable Stato stato, int personale) {
         this.nome = nome;
         this.cognome = cognome;
         this.birthday = birthDay;
         this.genere = gender;
         this.personale = personale;
-        if (comuneNascita != null){
+        if (comuneNascita != null) {
             this.comuneNascita = comuneNascita;
             this.comune = comuneNascita.getName();
         }
-        if (stato != null){
+        if (stato != null) {
             this.statoNascita = stato;
-            //todo sistemare per lo stato
+            this.comune = statoNascita.getName();
         }
     }
 
@@ -220,7 +217,7 @@ public class CodiceFiscaleEntity implements Parcelable {
     public String getCognome() {
         return cognome;
     }
-//
+
     public String getDataNascita() {
         return data;
     }
@@ -229,17 +226,20 @@ public class CodiceFiscaleEntity implements Parcelable {
         return genere;
     }
 
-    public String getComune() {return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());}
+    public String getComune() {
+        return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());
+    }
 
-public String getComuneName() {
-    return comune;
+    public String getLuogoNascita() {
+        return comune;
     }
 
 
-    public String getFinalFiscalCode(){
+    public String getFinalFiscalCode() {
         return finalFiscalCode;
     }
-    public String getStatoNascita(){
+
+    public String getStatoNascita() {
         return statoNascita.getName();
     }
 
@@ -261,7 +261,7 @@ public String getComuneName() {
 
         for (int i = 0; i < fiscalCodeCharArray.length; i++) {  // Sum all character code
             Character character = fiscalCodeCharArray[i];
-            if ((i+1) % 2 == 0) {
+            if ((i + 1) % 2 == 0) {
                 sum = sum + (int) evenCode.get(character);
             } else {
                 sum = sum + (int) oddCode.get(character);
@@ -370,20 +370,20 @@ public String getComuneName() {
 
     private String getBirthdayCF() {
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // Get day into two digit
-        day = Integer.parseInt(dayFormat.format(this.birthday));
+        int day = Integer.parseInt(dayFormat.format(this.birthday));
 
         SimpleDateFormat monthFormat = new SimpleDateFormat("M");  // Get month into one digit
-        month = Integer.parseInt(monthFormat.format(this.birthday));
+        int month = Integer.parseInt(monthFormat.format(this.birthday));
 
         SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // Get last two digit of year
-        year = Integer.parseInt(yearFormat.format(this.birthday));
+        int year = Integer.parseInt(yearFormat.format(this.birthday));
 
         data = String.format("%d/%d/%d", day, month, year);         // setto la data per il database
         // Return the string coded with female having +40 to day code
-        if (genere.equals("F")){
-            return String.valueOf(year)+monthCode.get(month) + String.format("%02d", day + 40);
+        if (genere.equals("F")) {
+            return String.valueOf(year) + monthCode.get(month) + String.format("%02d", day + 40);
         }
-        return String.format("%02d", year) + monthCode.get(month) +String.format("%02d", day);
+        return String.format("%02d", year) + monthCode.get(month) + String.format("%02d", day);
     }
 
     @Override
