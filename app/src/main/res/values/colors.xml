@@ -26,7 +26,7 @@
     <color name="colorOutlineRed">#B80000</color>
     <color name="colorOutline">#6D6F75</color>
 
-
+    <color name="greenSnacbar">#4CAF50</color>
 
     <!-- Screens background color-->
     <color name="bg_screen1">#f64c73</color>

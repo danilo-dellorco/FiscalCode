@@ -43,6 +43,8 @@ public class SavedActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-
+//
+//    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//    ClipData clip = ClipData.newPlainText(label, text);
+//    clipboard.setPrimaryClip(clip);
 }

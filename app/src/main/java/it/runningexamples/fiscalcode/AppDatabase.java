@@ -6,9 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {CodiceFiscaleEntity.class}, version = 3)
+@Database(entities = {CodiceFiscaleEntity.class}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String DB_NAME = "CF3";
+    private static final String DB_NAME = "CF_DB";
     private static volatile AppDatabase instance;
 
     static synchronized AppDatabase getInstance(Context context) {
@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return Room.databaseBuilder(
                 context,
                 AppDatabase.class,
-                DB_NAME).allowMainThreadQueries().build();
+                DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
     public abstract CodiceFiscaleDAO codiceFiscaleDAO();

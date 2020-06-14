@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+
+<RelativeLayout android:id="@+id/headerLinearLay"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/ivCityIcon"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="8dp"
+        android:src="?attr/iconCityAutoComplete"
+        android:contentDescription="iconCity" />
+
+    <TextView
+        android:id="@+id/tvAutoCompleteItem"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/ivCityIcon"
+        android:layout_width="wrap_content"
+        android:paddingLeft="8dp"
+        android:text="city"
+        android:textSize="18sp"/>
+</RelativeLayout>

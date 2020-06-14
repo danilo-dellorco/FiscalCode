@@ -1,8 +1,5 @@
 package it.runningexamples.fiscalcode;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +16,17 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
+//TODO mettere autocompleteLayout
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static CodiceFiscaleEntity codiceFiscaleEntity;
@@ -95,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (codiceFiscaleEntity != null){
                 etName.setText(codiceFiscaleEntity.getNome());
                 etSurname.setText(codiceFiscaleEntity.getCognome());
-                atComuni.setText(codiceFiscaleEntity.getComuneName(), false);
+                atComuni.setText(codiceFiscaleEntity.getLuogoNascita(), false);
                 btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
                 tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
                 tvRisultato.setVisibility(View.VISIBLE);
