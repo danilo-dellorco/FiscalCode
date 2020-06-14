@@ -195,7 +195,6 @@ public class CodiceFiscaleEntity implements Parcelable {
         data = in.readString();
         genere = in.readString();
         personale = in.readInt();
-        //todo stato estero
     }
 
     public static final Creator<CodiceFiscaleEntity> CREATOR = new Creator<CodiceFiscaleEntity>() {

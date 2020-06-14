@@ -9,7 +9,8 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:focusable="true"
-    android:layout_margin="4dp">
+    android:layout_margin="4dp"
+    app:cardBackgroundColor="#C3EE56">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (v.getId() == R.id.btnSaveDB & codiceFiscaleEntity != null){       // bisogna prima aver calcolato il codice fiscale
                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
-                Snackbar sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);
+                Snackbar sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);   // si può mettere tutto in una funzione
                 sn.getView().setBackgroundColor(getColor(R.color.greenSnacbar));
                 sn.show();
             }

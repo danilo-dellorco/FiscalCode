@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -46,6 +48,8 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         }
         Button btnProfile = findViewById(R.id.btnProfile);
         Button btnIntro = findViewById(R.id.btnIntro);
+        Button btnDelete = findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(this);
         btnProfile.setOnClickListener(this);
         btnIntro.setOnClickListener(this);
         swDarkMode.setOnCheckedChangeListener(this);
@@ -93,5 +97,14 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
             startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
             finish();
         }
+        if (v.getId() == R.id.btnDelete){
+            clearAppData();
+        }
     }
+
+    private void clearAppData(){            // ActivityManager.clearApplicationUserData() va ad eliminare i dati ma killa anche le activity in run
+        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.clearApplicationUserData();
+    }
+
 }
