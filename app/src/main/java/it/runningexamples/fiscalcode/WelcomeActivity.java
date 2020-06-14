@@ -42,14 +42,6 @@ public class WelcomeActivity extends AppCompatActivity {
             finish();
         }
 
-        int theme = prefManager.getTheme();
-        if (theme == THEME_LIGHT){
-            setTheme(R.style.LightTheme);
-        }
-        if (theme == THEME_DARK){
-            setTheme(R.style.DarkTheme);
-        }
-
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);

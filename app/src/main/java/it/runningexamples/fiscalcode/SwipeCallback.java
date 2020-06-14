@@ -23,7 +23,7 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         super(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.LEFT);
         recyclerAdapter = adapter;
         this.rcv = rcv;
-        redBackground = new ColorDrawable(Color.RED);
+        redBackground = new ColorDrawable(Color.parseColor("#B80000"));
         deleteIcon = ContextCompat.getDrawable(recyclerAdapter.getContext(), R.drawable.bin72);
         intrinsicWidth = deleteIcon.getIntrinsicWidth();
         intrinsicHeight = deleteIcon.getIntrinsicHeight();

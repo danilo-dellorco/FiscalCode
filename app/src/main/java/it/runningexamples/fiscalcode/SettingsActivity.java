@@ -107,7 +107,6 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
             for (String s : children) {
                 if (!s.equals("lib")) {
                     deleteDir(new File(appDir, s));
-
                 }
             }
         }

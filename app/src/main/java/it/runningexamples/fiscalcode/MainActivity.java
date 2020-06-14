@@ -35,16 +35,38 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-//TODO menu in alto è nero anche nel tema light
-//TODO riordinare main activity ed inserire edittext material
-//TODO lingua inglese -> nome stati in inglese? ma che si pazz
-//TODO eliminare CodiceFiscaleEntity
-// TODO onBackPressed -> Sei sicuro di uscire?
+
+//TODO Schermata profilo
+//TODO Rivedere layout modifica profilo
+//TODO Rivedere layout codice home generato con btn salva
+//TODO Colore bottone cardview
+//TODO Copia bottone carview
+//TODO Selezione multipla cardview
+//TODO Risolvere crash doppio database
+//TODO Salva codice come personale appena generato
+//TODO Hint vari ogni prima cosa che fai
+//TODO Rifare icona
+//TODO Risolere welcome ritardata dopo elimina dati
+//TODO Set switch estero profilo personale
+//TODO Splash activity aperture successive alla prima
+//TODO Traduzioni
+//TODO Stringhe non hardcoded
+//TODO Ripulire codice
+//TODO Organizzare in cartelle classi e drawable
+//TODO Creare classi ausiliarie
+//TODO Icona hint città colore blu della barra tema light e verde active tema dark
+//TODO Icona più piccola hint città
+//TODO Swipe left per scegliere codice come personale
+//TODO Colore testo bottone data tema dark da impostare con variabile
+//TODO
+//TODO
+//TODO
+//TODO
+//TODO
+//TODO
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
-    private static final int THEME_DARK = 1;
-    private static final int THEME_LIGHT = 0;
     public static CodiceFiscaleEntity codiceFiscaleEntity;
     Holder holder;
 
