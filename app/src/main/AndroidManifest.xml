@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
         <activity android:name=".ProfileActivity" android:label="Modifica Profilo"></activity>
-        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".MainActivity" android:label="Calcolo Codice" />
         <activity android:name=".SettingsActivity" android:label="Impostazioni" />
         <activity android:name=".SavedActivity" android:label="Lista Codici Salvati"/>
         <activity android:name=".CFDetail" android:label="Dettagli"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
