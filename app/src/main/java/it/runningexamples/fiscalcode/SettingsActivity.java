@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         else {
             prefs.setThemePref(THEME_LIGHT);
         }
-        showDialogRestart("Per applicare il tema è necessario riavviare l'applicazione, vuoi farlo ora?");
+        showDialogRestart("Per applicare il tema è necessario riavviare l'applicazione, vuoi farlo ora?", false);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
             finish();
         }
         if (v.getId() == R.id.btnDelete){
-            showDialogRestart("Per eliminare i dati è necessario riavviare l'applicazione, vuoi farlo ora?");
+            showDialogRestart("Per eliminare i dati è necessario riavviare l'applicazione, vuoi farlo ora?", true);
         }
     }
 
@@ -127,14 +127,18 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         return dir.delete();
     }
 
-    public void showDialogRestart(String textToShow){
+    public void showDialogRestart(String textToShow, final Boolean clearApp){
         new AlertDialog.Builder(this)
                 .setMessage(textToShow)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        clearApplicationData();
+                        if (clearApp) {
+                            clearApplicationData();
+                        }else{
+                            restartApp();
+                        }
                     }})
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
