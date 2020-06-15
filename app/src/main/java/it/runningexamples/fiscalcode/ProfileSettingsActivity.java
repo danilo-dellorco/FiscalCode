@@ -27,12 +27,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//TODO mettere autocompleteLayout
 public class ProfileSettingsActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static CodiceFiscaleEntity codiceFiscaleEntity;
@@ -177,14 +178,19 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 showDatePickerDialog(v);
             }
 
-            if (v.getId() == R.id.btnSaveProfile){       // bisogna prima aver calcolato il codice fiscale
+            if (v.getId() == R.id.btnSaveProfile) {
                 hideKeyboard();
                 computeCF();
-                if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){
-                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
-                }
-                else{
-                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+                if (codiceFiscaleEntity != null) {
+                    Snackbar snackbar = Snackbar.make(v, "Profilo salvato", Snackbar.LENGTH_LONG);
+                    snackbar.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
+                    if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0) {
+                        AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                        snackbar.show();
+                    } else {
+                        AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+                        snackbar.show();
+                    }
                 }
             }
         }
@@ -220,6 +226,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 tvRisultato.setVisibility(View.VISIBLE);
             }else{
                 Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
+                codiceFiscaleEntity = null;             // Altrimenti quando si clicca su "salva profilo" anche se alcuni campi non sono completi, uscirà lo stesso la snackbar
             }
         }
         @Override
@@ -245,6 +252,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                                //todo sostituibile con recreate()
                                 startActivity(new Intent(ProfileSettingsActivity.this, ProfileSettingsActivity.class));
                                 finish();
                             }
