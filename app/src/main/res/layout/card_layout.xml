@@ -152,6 +152,7 @@
                 android:layout_height="35dp"
                 android:layout_margin="0dp"
                 android:background="@drawable/code_button"
+
                 android:text="Button"
                 android:textColor="@android:color/white" />
 

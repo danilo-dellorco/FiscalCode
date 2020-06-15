@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    tools:context=".MainActivity">
+    tools:context=".ProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:id="@+id/toolbar2"
+        android:layout_width="408dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -27,147 +26,14 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         android:layout_margin="20dp">
 
-
-        <Switch
-            android:id="@+id/swEstero"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/personalRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="Nato all'estero"
-            android:background="@drawable/filled_button"/>
-
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp">
-
-            <EditText
-                android:id="@+id/etNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nome"
-                android:backgroundTint="?attr/filledButtonColor"
-                android:inputType="textCapCharacters" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp">
-
-            <EditText
-                android:id="@+id/etCognome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Cognome"
-                android:backgroundTint="?attr/filledButtonColor"
-                android:inputType="textCapCharacters" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:id="@+id/autocompleteLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp">
-
-            <AutoCompleteTextView
-                android:id="@+id/atComuni"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:hint="Comune di nascita"
-                android:layout_marginLeft="0dp"
-                android:backgroundTint="?attr/filledButtonColor"
-                android:paddingLeft="10dp"
-                android:inputType="textCapCharacters" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnData"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/filled_button"
-            android:drawableLeft="?attr/calendarIcon"
-            android:paddingLeft="10dp"
-            android:text="Data di Nascita"
-            android:textAlignment="textStart"
-            android:drawablePadding="10dp"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
-            android:textAllCaps="false"/>
-
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:id="@+id/rgGender"
-                android:layout_marginLeft="5dp"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:checkedButton="@id/rbFemale">
-
-
-                <RadioButton
-                    android:id="@+id/rbFemale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="F" />
-
-                <RadioButton
-                    android:id="@+id/rbMale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="M" />
-            </RadioGroup>
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/btnSaveProfile"
-            android:layout_width="146dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Salva Profilo"
-            android:textColor="@android:color/white" />
-
-        <androidx.legacy.widget.Space
-            android:id="@+id/space"
-            android:layout_width="match_parent"
-            android:layout_height="13dp" />
-
-        <TextView
-            android:id="@+id/tvRisultato"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:lines="1"
-            android:text="RISULTATO"
-            android:textSize="50dp"
-            android:visibility="invisible"
-            app:autoSizeTextType="uniform" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"/>
-
+            android:layout_marginTop="15dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

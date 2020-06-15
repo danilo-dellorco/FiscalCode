@@ -11,6 +11,8 @@
     <attr name="filledButtonColor" format="reference"/>
     <attr name="cardViewColor" format="reference"/>
     <attr name="cardViewTextColor" format="reference"/>
+    <attr name="cardViewButtonPressed" format="reference"/>
+    <attr name="textColorNormal" format="reference"/>
 
 
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -23,12 +25,14 @@
         <item name="filledButtonColor">@color/colorFilledLight</item>
         <item name="cardViewColor">@color/colorCardLight</item>
         <item name="cardViewTextColor">@color/colorCvTextLight</item>
+        <item name="cardViewButtonPressed">@color/colorCodePressedLight</item>
+        <item name="textColorNormal">@color/colorTextNormalLight</item>
         <item name="calendarIcon">@drawable/calendar_light</item>
         <item name="settingsThemeIcon">@drawable/theme_light</item>
         <item name="settingsProfileIcon">@drawable/profile_light</item>
         <item name="settingsDeleteIcon">@drawable/delete_light</item>
         <item name="settingsIntroIcon">@drawable/intro_light</item>
-        <item name="iconCityAutoComplete">@drawable/iconcityblue</item>
+        <item name="iconCityAutoComplete">@drawable/city_light</item>
     </style>
 
     <style name="DarkTheme" parent = "Theme.AppCompat.DayNight.NoActionBar">
@@ -41,12 +45,14 @@
         <item name="filledButtonColor">@color/colorFilledDark</item>
         <item name="cardViewColor">@color/colorCardDark</item>
         <item name="cardViewTextColor">@color/colorCvTextDark</item>
+        <item name="cardViewButtonPressed">@color/colorCodePressedDark</item>
+        <item name="textColorNormal">@color/colorTextNormalDark</item>
         <item name="calendarIcon">@drawable/calendar_dark</item>
         <item name="settingsThemeIcon">@drawable/theme_dark</item>
         <item name="settingsProfileIcon">@drawable/profile_dark</item>
         <item name="settingsDeleteIcon">@drawable/delete_dark</item>
         <item name="settingsIntroIcon">@drawable/intro_dark</item>
-        <item name="iconCityAutoComplete">@drawable/iconcitywhite</item>
+        <item name="iconCityAutoComplete">@drawable/city_dark</item>
     </style>
 
     <style name="cvText" parent="TextAppearance.AppCompat">

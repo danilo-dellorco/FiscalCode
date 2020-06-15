@@ -1,17 +1,8 @@
 package it.runningexamples.fiscalcode;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,47 +15,25 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//TODO Schermata profilo
-//TODO Rivedere layout modifica profilo
-//TODO Colore bottone cardview
-//TODO Copia bottone carview
-//TODO Selezione multipla cardview
-//TODO Risolvere crash doppio database
-//TODO Hint vari ogni prima cosa che fai
-//TODO Rifare icona
-//TODO Risolere welcome ritardata dopo elimina dati
-//TODO Set switch estero profilo personale
-//TODO Splash activity aperture successive alla prima
-//TODO Traduzioni
-//TODO Stringhe non hardcoded
-//TODO Ripulire codice
-//TODO Organizzare in cartelle classi e drawable
-//TODO Creare classi ausiliarie
-//TODO Swipe left per scegliere codice come personale
-//TODO
-//TODO
-//TODO
-//TODO
-//TODO
-//TODO
-
-public class MainActivity extends AppCompatActivity {
+//TODO mettere autocompleteLayout
+public class ProfileSettingsActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static CodiceFiscaleEntity codiceFiscaleEntity;
     Holder holder;
@@ -73,48 +42,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile_settings);
         holder = new Holder();
     }
 
     @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setMessage("Sicuro di voler uscire?")
-                .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.finish();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_bar_menu, menu);
+        getMenuInflater().inflate(R.menu.top_bar_menu_settings, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
-    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener, Toolbar.OnMenuItemClickListener {
+    private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener,Toolbar.OnMenuItemClickListener {
         Parser parser;
         List<Comune> comuniList;
         List<Stato> statiList;
         AutoCompleteTextView atComuni;
-        FloatingActionButton btnCalcola;
         Comune comuneSelected;
         Stato statoSelected;
         Toolbar toolbar;
         Switch swEstero;
         TextView tvRisultato;
-        Button btnBirthday;
+        Button btnBirthday, button;
         EditText etName;
         EditText etSurname;
         RadioGroup rgGender;
 
-        ImageButton btnSaveDB,btnCopy,btnShare;
+        Button btnSaveProfile;
 
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
@@ -126,11 +85,9 @@ public class MainActivity extends AppCompatActivity {
             btnBirthday = findViewById(R.id.btnData);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
-            btnCalcola = findViewById(R.id.btnCalcola);
-            btnCalcola.setOnClickListener(this);
 
             atComuni = findViewById(R.id.atComuni);
-            parser = new Parser(MainActivity.this);
+            parser = new Parser(ProfileSettingsActivity.this);
             swEstero = findViewById(R.id.swEstero);
             swEstero.setOnCheckedChangeListener(this);
 
@@ -138,32 +95,51 @@ public class MainActivity extends AppCompatActivity {
             statiList = parser.parserStati();
 
             toolbar = findViewById(R.id.toolbar);
-            btnSaveDB = findViewById(R.id.btnSaveDB);
-            btnCopy = findViewById(R.id.btnCopy);
-            btnShare = findViewById(R.id.btnShare);
-            btnSaveDB.setOnClickListener(this);
-            btnCopy.setOnClickListener(this);
-            btnShare.setOnClickListener(this);
+            btnSaveProfile = findViewById(R.id.btnSaveProfile);
+            btnSaveProfile.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setOnMenuItemClickListener(this);
 
             setUpDialogDate();
             setUpAutoCompleteTextView();
+            codiceFiscaleEntity = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode();
+
+            if (codiceFiscaleEntity != null){
+                etName.setText(codiceFiscaleEntity.getNome());
+                etSurname.setText(codiceFiscaleEntity.getCognome());
+                atComuni.setText(codiceFiscaleEntity.getLuogoNascita(), false);
+                btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
+                tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
+                tvRisultato.setVisibility(View.VISIBLE);
+                Context context = getApplicationContext();
+                PreferenceManager prefs = new PreferenceManager(context);
+                if (prefs.getTheme() == 0) {
+                    btnBirthday.setTextColor(ContextCompat.getColor(context,R.color.colorTextNormalLight));
+                }
+                else{
+                    btnBirthday.setTextColor(ContextCompat.getColor(context,R.color.colorTextNormalDark));
+                }
+                if (codiceFiscaleEntity.getGenere().equals("M")){
+                    rgGender.check(R.id.rbMale);
+                }
+            }
+
         }
 
 
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
-                ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(ProfileSettingsActivity.this,
                         R.layout.autocomplete_layout, R.id.tvAutoCompleteItem,comuniList);
-                    atComuni.setAdapter(comuneArrayAdapter);
+                atComuni.setAdapter(comuneArrayAdapter);
             }else{
-                ArrayAdapter<Stato> statoArrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                ArrayAdapter<Stato> statoArrayAdapter = new ArrayAdapter<>(ProfileSettingsActivity.this,
                         R.layout.autocomplete_layout, R.id.tvAutoCompleteItem, statiList);
-                    atComuni.setAdapter(statoArrayAdapter);
+                atComuni.setAdapter(statoArrayAdapter);
             }
+
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -197,39 +173,22 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.btnCalcola) {
-                hideKeyboard();
-                if (computeCF()) {
-                    btnSaveDB.setVisibility(View.VISIBLE);
-                    btnCopy.setVisibility(View.VISIBLE);
-                    btnShare.setVisibility(View.VISIBLE);
-                }
-
-            }
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
-            if (v.getId() == R.id.btnSaveDB){       // bisogna prima aver calcolato il codice fiscale
-                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
-                Snackbar sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);   // si può mettere tutto in una funzione
-                sn.getView().setBackgroundColor(getColor(R.color.greenSnacbar));
-                sn.show();
-            }
-            if (v.getId() == R.id.btnCopy){
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Codice Fiscale", tvRisultato.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(getApplicationContext(),"Codice Fiscale copiato negli appunti",Toast.LENGTH_SHORT).show();
-            }
-            if (v.getId() == R.id.btnShare){
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, tvRisultato.getText());
-                sharingIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sharingIntent, "Condividi tramite"));
-            }
 
+            if (v.getId() == R.id.btnSaveProfile){       // bisogna prima aver calcolato il codice fiscale
+                hideKeyboard();
+                computeCF();
+                if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                }
+                else{
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+                }
+            }
         }
-        private boolean computeCF() {
+        private void computeCF() {
             String surname = etSurname.getText().toString();
             String name = etName.getText().toString();
             int radioID = rgGender.getCheckedRadioButtonId();
@@ -245,16 +204,22 @@ public class MainActivity extends AppCompatActivity {
             }
             if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null)) {
                 if (swEstero.isChecked()) {
-                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, null, statoSelected,0);
+                    if (codiceFiscaleEntity != null) {
+                        AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                    }
+                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, null, statoSelected,1);
                 } else if (!swEstero.isChecked()){
-                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, comuneSelected, null,0);
+                    if (codiceFiscaleEntity != null) {
+                        AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                    }
+                    codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, comuneSelected, null,1);
                 }
                 String fiscalCode = codiceFiscaleEntity.calculateCF();
+
                 tvRisultato.setText(fiscalCode);
-                return true;
+                tvRisultato.setVisibility(View.VISIBLE);
             }else{
                 Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
-                return false;
             }
         }
         @Override
@@ -272,19 +237,24 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            if (item.getItemId() == R.id.menu_settings) {
-                Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intentSettings);
+            if (codiceFiscaleEntity!=null) {
+                new AlertDialog.Builder(ProfileSettingsActivity.this)
+                        .setMessage("Vuoi cancellare il tuo profilo personale?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
+                                startActivity(new Intent(ProfileSettingsActivity.this, ProfileSettingsActivity.class));
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
             }
-            if (item.getItemId() == R.id.menu_list){
-                Intent intentList = new Intent(MainActivity.this, SavedActivity.class);
-                startActivity(intentList);
+            else{
+                Toast.makeText(getApplicationContext(),"Non hai ancora salvato un profilo personale",Toast.LENGTH_SHORT).show();
             }
-            if (item.getItemId() == R.id.menu_favorites){
-                Intent intentList = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intentList);
-            }
-            return true;
+            return false;
         }
     }
 

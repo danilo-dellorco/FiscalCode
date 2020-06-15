@@ -10,6 +10,8 @@
     <color name="colorFilledLight">#F5F5F5</color>
     <color name="colorCardLight">#B5D2FF</color>
     <color name="colorCvTextLight">#002171</color>
+    <color name="colorCodePressedLight">#193E97</color>
+    <color name="colorTextNormalLight">#3C3C3C</color>
 
     <color name="colorActionBarDark">#192023</color>
     <color name="colorStatusBarDark">#000a12</color>
@@ -19,6 +21,9 @@
     <color name="colorFilledDark">#11141D</color>
     <color name="colorCardDark">#5CC18D</color>
     <color name="colorCvTextDark">#161A2C</color>
+    <color name="colorCodePressedDark">#29304E</color>
+    <color name="colorTextNormalDark">#FFFFFF</color>
+
 
     <color name="mtrl_textinput_default_box_stroke_color">#6D6F75</color>
 

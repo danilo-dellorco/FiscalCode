@@ -4,20 +4,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -86,8 +80,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
             finish();
         }
         if (v.getId() == R.id.btnProfile){
-            startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
-            finish();
+            startActivity(new Intent(SettingsActivity.this, ProfileSettingsActivity.class));
         }
         if (v.getId() == R.id.btnDelete){
             showDialogRestart("Per eliminare i dati è necessario riavviare l'applicazione, vuoi farlo ora?", true);
