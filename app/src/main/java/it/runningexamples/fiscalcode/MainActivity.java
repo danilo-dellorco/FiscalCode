@@ -49,6 +49,7 @@ import java.util.List;
 //TODO Organizzare in cartelle classi e drawable
 //TODO Creare classi ausiliarie
 //TODO Swipe left per scegliere codice come personale
+//TODO uniform text cardview
 //TODO
 //TODO
 //TODO

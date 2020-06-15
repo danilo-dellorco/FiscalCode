@@ -55,7 +55,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        if (codiceFiscaleEntity == null){
+            Intent intentMain = new Intent(ProfileSettingsActivity.this, MainActivity.class);
+            startActivity(intentMain);
+        }
+        else{
+            onBackPressed();
+        }
         return true;
     }
 
@@ -180,8 +186,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
             if (v.getId() == R.id.btnSaveProfile) {
                 hideKeyboard();
-                computeCF();
-                if (codiceFiscaleEntity != null) {
+                if (computeCF() && codiceFiscaleEntity != null) {
                     Snackbar snackbar = Snackbar.make(v, "Profilo salvato", Snackbar.LENGTH_LONG);
                     snackbar.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
                     if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0) {
@@ -194,7 +199,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 }
             }
         }
-        private void computeCF() {
+        private boolean computeCF() {
             String surname = etSurname.getText().toString();
             String name = etName.getText().toString();
             int radioID = rgGender.getCheckedRadioButtonId();
@@ -224,9 +229,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 tvRisultato.setText(fiscalCode);
                 tvRisultato.setVisibility(View.VISIBLE);
+
+                return true;
             }else{
                 Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
-                codiceFiscaleEntity = null;             // Altrimenti quando si clicca su "salva profilo" anche se alcuni campi non sono completi, uscirà lo stesso la snackbar
+                return false;
             }
         }
         @Override
