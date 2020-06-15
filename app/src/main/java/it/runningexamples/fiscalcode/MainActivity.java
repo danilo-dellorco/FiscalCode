@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void hideKeyboard() {
-        // Check if no view has focus:
+        // Check if no view has focus
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);

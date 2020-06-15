@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch - before calling setContentView()
+        Log.d("CodiceFiscale", "welcome");
         prefManager = new PreferenceManager(this);
         if (!prefManager.isFirstStart() && !prefManager.isTempIntro()) {
             launchHomeScreen();

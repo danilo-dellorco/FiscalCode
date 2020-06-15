@@ -55,7 +55,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Click", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, CFDetail.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
                 intent.putExtra("CF", currentItem);      // PARCELABLE
