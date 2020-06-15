@@ -46,6 +46,7 @@ public class CodiceFiscaleEntity implements Parcelable {
     private static Comune comuneNascita;
     private static Stato statoNascita;
     private static Date birthday;
+    private boolean isSelected;
 
 
     private static Map monthCode = new HashMap<Integer, Character>() {{
@@ -209,19 +210,19 @@ public class CodiceFiscaleEntity implements Parcelable {
         }
     };
 
-    public String getNome() {
+    String getNome() {
         return nome;
     }
 
-    public String getCognome() {
+    String getCognome() {
         return cognome;
     }
 
-    public String getDataNascita() {
+    String getDataNascita() {
         return data;
     }
 
-    public String getGenere() {
+    String getGenere() {
         return genere;
     }
 
@@ -229,20 +230,26 @@ public class CodiceFiscaleEntity implements Parcelable {
         return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());
     }
 
-    public String getLuogoNascita() {
+    String getLuogoNascita() {
         return comune;
     }
 
-
-    public String getFinalFiscalCode() {
+    String getFinalFiscalCode() {
         return finalFiscalCode;
+    }
+
+    void setSelected(boolean selected){
+        isSelected = selected;
+    }
+    boolean isSelected(){
+        return isSelected;
     }
 
     public String getStatoNascita() {
         return statoNascita.getName();
     }
 
-    public String calculateCF() {
+    String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
         String birthdayCode = getBirthdayCF();

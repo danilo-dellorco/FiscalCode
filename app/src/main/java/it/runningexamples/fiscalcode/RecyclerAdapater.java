@@ -62,6 +62,14 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
                 mContext.startActivity(intent);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                currentItem.set
+                return true;
+            }
+        });
     }
 
     @Override
