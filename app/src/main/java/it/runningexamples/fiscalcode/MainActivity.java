@@ -43,7 +43,6 @@ import java.util.List;
 //TODO Colore bottone cardview
 //TODO Copia bottone carview
 //TODO Selezione multipla cardview
-//TODO Risolvere crash doppio database
 //TODO Hint vari ogni prima cosa che fai
 //TODO Rifare icona
 //TODO Risolere welcome ritardata dopo elimina dati
@@ -207,12 +206,20 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
-            if (v.getId() == R.id.btnSaveDB){       // bisogna prima aver calcolato il codice fiscale
-                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
-                Snackbar sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);   // si può mettere tutto in una funzione
-                sn.getView().setBackgroundColor(getColor(R.color.greenSnacbar));
-                sn.show();
+            if (v.getId() == R.id.btnSaveDB) {       // bisogna prima aver calcolato il codice fiscale
+                Snackbar sn;
+                if (!AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode())) {
+                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+                    sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);
+                    sn.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
+                    sn.show();
+                } else {
+                    sn = Snackbar.make(v, "Elemento già presente nella lista", Snackbar.LENGTH_LONG);
+                    sn.getView().setBackgroundColor(getColor(R.color.colorOutlineRed));
+                    sn.show();
+                }
             }
+
             if (v.getId() == R.id.btnCopy){
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("Codice Fiscale", tvRisultato.getText());
@@ -227,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+
         private boolean computeCF() {
             String surname = etSurname.getText().toString();
             String name = etName.getText().toString();

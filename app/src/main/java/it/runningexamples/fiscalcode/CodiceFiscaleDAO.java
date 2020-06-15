@@ -13,7 +13,7 @@ public interface CodiceFiscaleDAO {
     List<CodiceFiscaleEntity> getAll();
 
     @Query("SELECT count(*) FROM CodiceFiscaleEntity WHERE finalFiscalCode IN (:code)")
-    int getCode(String code);
+    boolean getCode(String code);
 
     @Query("SELECT * FROM CodiceFiscaleEntity WHERE personale == 1")
     CodiceFiscaleEntity  getPersonalCode();

@@ -180,7 +180,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnSaveProfile){       // bisogna prima aver calcolato il codice fiscale
                 hideKeyboard();
                 computeCF();
-                if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0){
+                if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode())){
                     AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
                 }
                 else{
