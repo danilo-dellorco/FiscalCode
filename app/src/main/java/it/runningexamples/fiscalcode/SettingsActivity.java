@@ -137,9 +137,8 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
 
     public void restartApp() {
         Intent mStartActivity = new Intent(SettingsActivity.this, MainActivity.class);
-        int mPendingIntentId = PENDING_ID;
         mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent.getActivity(getApplicationContext(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent.getActivity(getApplicationContext(), PENDING_ID, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
         System.exit(0);
     }
 }
