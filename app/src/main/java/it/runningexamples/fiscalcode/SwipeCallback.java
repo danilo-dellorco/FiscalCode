@@ -13,20 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
 
-    private ColorDrawable redBackground;
-    private Drawable deleteIcon;
+    private ColorDrawable redBackground, yellowBackground;
+    private Drawable deleteIcon, starIcon;
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView rcv;
-    int intrinsicWidth, intrinsicHeight;
+    int intrinsicWidthDelete, intrinsicHeightDelete, intrinsicWidthStar, intrinsicHeightStar;
 
     SwipeCallback(RecyclerAdapter adapter, RecyclerView rcv) {
-        super(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.LEFT);
+        super(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
         recyclerAdapter = adapter;
         this.rcv = rcv;
         redBackground = new ColorDrawable(Color.parseColor("#B80000"));
+        yellowBackground = new ColorDrawable(Color.YELLOW);
         deleteIcon = ContextCompat.getDrawable(recyclerAdapter.getContext(), R.drawable.bin72);
-        intrinsicWidth = deleteIcon.getIntrinsicWidth();
-        intrinsicHeight = deleteIcon.getIntrinsicHeight();
+        starIcon = ContextCompat.getDrawable(recyclerAdapter.getContext(), R.drawable.cityicon);
+        intrinsicWidthDelete = deleteIcon.getIntrinsicWidth();
+        intrinsicHeightDelete = deleteIcon.getIntrinsicHeight();
+        intrinsicWidthStar= starIcon.getIntrinsicWidth();
+        intrinsicHeightStar= starIcon.getIntrinsicHeight();
     }
 
     @Override
@@ -47,12 +51,23 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         int itemHeight = itemView.getHeight();
         int backgroundCornerOffset = 10;        //backgroundCornerOffset per mettere il background dietro la card
 
-        int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
-        int deleteIconMargin = (itemHeight - intrinsicHeight) / 8;
-        int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
+        int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeightDelete) / 2;
+        int deleteIconMargin = (itemHeight - intrinsicHeightDelete) / 8;
+        int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidthDelete;
         int deleteIconRight = itemView.getRight() - deleteIconMargin;
-        int deleteIconBottom = deleteIconTop + intrinsicHeight;
+        int deleteIconBottom = deleteIconTop + intrinsicHeightDelete;
 
+        int starIconTop = itemView.getTop() + (itemHeight - intrinsicHeightStar) / 2;
+        int starIconMargin = (itemHeight - intrinsicHeightStar) / 8;
+        int starIconLeft = itemView.getRight() - starIconMargin -intrinsicHeightStar;
+        int starIconRight = itemView.getRight() - starIconMargin;
+        int starIconBottom = deleteIconTop + intrinsicHeightStar;
+
+        if (dX > 0){ //swipe verso destra
+            starIcon.setBounds(starIconLeft, starIconTop, starIconRight, starIconBottom);
+            yellowBackground.setBounds(itemView.getRight() + ((int)dX) - backgroundCornerOffset,
+            itemView.getTop(), itemView.getRight(), itemView.getLeft());
+        }
         if (dX < 0) { // swipe verso sinistra
             deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
             redBackground.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
@@ -63,5 +78,4 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         redBackground.draw(c);
         deleteIcon.draw(c);
     }
-
 }
