@@ -17,6 +17,8 @@
     <string name="skip">SKIP</string>
     <string name="genereMaschio">Maschio</string>
     <string name="genereFemmina">Femmina</string>
+    <string name="changeThemeAlert">Per applicare il tema è necessario riavviare l\'applicazione, vuoi farlo ora?</string>
+    <string name="deleteAlert">Sei sicuro di voler eliminare i dati salvati?</string>
 
 
 </resources>
