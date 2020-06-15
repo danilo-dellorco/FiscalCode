@@ -52,7 +52,7 @@ import java.util.List;
 //TODO uniform text cardview
 //TODO schermate vuote
 //TODO
-//TODO
+//TODO undo anche per eliminazione multipla? :)
 //TODO
 //TODO
 //TODO

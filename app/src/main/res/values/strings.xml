@@ -23,6 +23,8 @@
     <string name="askExit">Sicuro di voler uscire?</string>
     <string name="positiveButton">Si</string>
     <string name="negativeButton">No</string>
+    <string name="itemRemoved">Elemento rimosso</string>
+    <string name="cfCopied">Codice Fiscale copiato negli appunti</string>
 
 
 </resources>
