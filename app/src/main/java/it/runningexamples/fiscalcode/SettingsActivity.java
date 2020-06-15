@@ -20,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 
 public class SettingsActivity extends AppCompatActivity implements Switch.OnCheckedChangeListener, View.OnClickListener {
@@ -27,9 +29,12 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
     public static final String THEME = "1";
     private static final int THEME_LIGHT = 0;
     private static final int THEME_DARK = 1;
+    private static final int PENDING_ID = 12345;
     public int lastTheme;
+    public boolean lastChecked;
     PreferenceManager prefs;
     public Switch swDarkMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = new PreferenceManager(this);
@@ -71,12 +76,11 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         lastTheme = prefs.getTheme();
-        Log.d("CodiceFiscale", String.valueOf(lastTheme));
-        if (isChecked){
+        lastChecked = buttonView.isChecked();
+        if (isChecked) {
             prefs.setThemePref(THEME_DARK);
             showDialogRestart(getString(R.string.changeThemeAlert), false);
-        }
-        else {
+        } else {
             prefs.setThemePref(THEME_LIGHT);
             showDialogRestart(getString(R.string.changeThemeAlert), false);
         }
@@ -100,6 +104,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
 
     public void deleteDB() {
         AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().deleteAll();
+        Snackbar.make(getWindow().getDecorView().getRootView(), R.string.dataEliminated, Snackbar.LENGTH_LONG).show();
     }
 
     public void showDialogRestart(String textToShow, final Boolean clearApp) {
@@ -119,9 +124,12 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(!clearApp){
+                        if (!clearApp) {
+                            /* Quando viene scelto "Annulla" riporta lo switch nello stato precedente */
                             prefs.setThemePref(lastTheme);
-//                            swDarkMode.setChecked(false);         sarebbe comodo ma richiama un'altra volta il listener e quindi addio
+                            swDarkMode.setOnCheckedChangeListener (null);
+                            swDarkMode.setChecked (!lastChecked);
+                            swDarkMode.setOnCheckedChangeListener (SettingsActivity.this);
                         }
                     }
                 }).show();
@@ -129,7 +137,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
 
     public void restartApp() {
         Intent mStartActivity = new Intent(SettingsActivity.this, MainActivity.class);
-        int mPendingIntentId = 12345;
+        int mPendingIntentId = PENDING_ID;
         mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent.getActivity(getApplicationContext(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
         System.exit(0);
