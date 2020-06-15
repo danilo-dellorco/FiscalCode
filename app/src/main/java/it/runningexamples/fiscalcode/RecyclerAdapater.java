@@ -1,6 +1,8 @@
 package it.runningexamples.fiscalcode;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -18,11 +20,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
+class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> implements View.OnClickListener{
     List<CodiceFiscaleEntity> savedCF;
     CodiceFiscaleEntity lastDeleted;
     private Context mContext;
     private int lastDeletedPosition;
+    String stringCode;
 
     RecyclerAdapter(Context ctx){
         this.mContext = ctx;
@@ -33,7 +36,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false));
-
     }
 
 
@@ -51,6 +53,8 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
             holder.tvSesso.setText(R.string.genereFemmina);
         }
         holder.btnCode.setText(currentItem.getFinalFiscalCode());
+        holder.btnCode.setOnClickListener(this);
+        stringCode = holder.btnCode.getText().toString();
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +108,14 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
 
     public Context getContext() {
         return mContext;
+    }
+
+    @Override
+    public void onClick(View v) {
+        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Codice Fiscale", stringCode);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(mContext,"Codice Fiscale copiato negli appunti",Toast.LENGTH_SHORT).show();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
