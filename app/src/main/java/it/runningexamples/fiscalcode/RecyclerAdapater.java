@@ -3,6 +3,7 @@ package it.runningexamples.fiscalcode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,9 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> {
     private void undoDelete() {
         savedCF.add(lastDeleted);
         AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
-        notifyItemRemoved(lastDeletedPosition);
+        notifyDataSetChanged();
+        lastDeleted = null;
+
     }
 
     public Context getContext() {
