@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_delete"
-        android:title="Profile"
+        android:title="Delete"
         app:showAsAction="always"
         android:icon="@drawable/delete_top"
         />

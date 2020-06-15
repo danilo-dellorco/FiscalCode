@@ -38,16 +38,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//TODO Schermata profilo
-//TODO Rivedere layout modifica profilo
-//TODO Colore bottone cardview
 //TODO Copia bottone carview
 //TODO Selezione multipla cardview
-//TODO Risolvere crash doppio database
 //TODO Hint vari ogni prima cosa che fai
 //TODO Rifare icona
-//TODO Risolere welcome ritardata dopo elimina dati
-//TODO Set switch estero profilo personale
 //TODO Splash activity aperture successive alla prima
 //TODO Traduzioni
 //TODO Stringhe non hardcoded
@@ -279,8 +273,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentList);
             }
             if (item.getItemId() == R.id.menu_favorites){
-                Intent intentList = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intentList);
+                CodiceFiscaleEntity codicePersonale = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode();
+                if (codicePersonale == null){
+                    Toast.makeText(getApplicationContext(),"Imposta un profilo personale",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
+                }
+                else{
+                    Intent intentList = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intentList);
+                }
             }
             return true;
         }
