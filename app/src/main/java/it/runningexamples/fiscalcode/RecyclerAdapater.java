@@ -131,4 +131,5 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             btnCode = itemView.findViewById(R.id.btnDetailCode);
         }
     }
+
 }

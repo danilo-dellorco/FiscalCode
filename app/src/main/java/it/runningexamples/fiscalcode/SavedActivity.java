@@ -22,20 +22,24 @@ public class SavedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved);
-
-
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new RecyclerAdapter(getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mAdapter, mRecyclerView));
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getDbSize() == 0){
+            setContentView(R.layout.layout_empty_list);
+        }
+        else{
+            setContentView(R.layout.activity_saved);
+            mRecyclerView = findViewById(R.id.recyclerView);
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this);
+            mAdapter = new RecyclerAdapter(getApplicationContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setAdapter(mAdapter);
+            itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mAdapter, mRecyclerView));
+            itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        }
         Toolbar toolbarList = findViewById(R.id.toolbarList);
         setSupportActionBar(toolbarList);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
