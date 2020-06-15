@@ -20,6 +20,9 @@
     <string name="changeThemeAlert">Per applicare il tema è necessario riavviare l\'applicazione, vuoi farlo ora?</string>
     <string name="deleteAlert">Sei sicuro di voler eliminare i dati salvati?</string>
     <string name="dataEliminated">Dati eliminati</string>
+    <string name="askExit">Sicuro di voler uscire?</string>
+    <string name="positiveButton">Si</string>
+    <string name="negativeButton">No</string>
 
 
 </resources>

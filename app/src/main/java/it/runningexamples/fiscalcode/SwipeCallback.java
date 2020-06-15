@@ -67,7 +67,6 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
         } else { // nessuno swipe
             redBackground.setBounds(0, 0, 0, 0);
-//            yellowBackground.setBounds(0,0,0,0);
         }
         redBackground.draw(c);
         deleteIcon.draw(c);
