@@ -1,13 +1,16 @@
 package it.runningexamples.fiscalcode;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -59,6 +62,7 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         getMenuInflater().inflate(R.menu.top_bar_menu_multipleselection, menu);
         this.menu = menu;
         menu.findItem(R.id.deleteAll).setVisible(false);
+        menu.findItem(R.id.selectedCounter).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -70,16 +74,33 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
             case R.id.deleteAll:
                 mAdapter.deleteSelected();
                 return true;
-            case R.id.selectAll:
-                mAdapter.selectAll();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
-    public void showHideItem(int itemId) {          // usa l'interfaccia implementata in RecyclerAdapter
-        MenuItem item = menu.findItem(itemId);
+    public void showHideItem() {          // usa l'interfaccia implementata in RecyclerAdapter
+        MenuItem item = menu.findItem(R.id.deleteAll);
+        MenuItem item2 = menu.findItem(R.id.selectedCounter);
+        item2.setVisible(!item2.isVisible());
         item.setVisible(!item.isVisible());
+    }
+
+    @Override
+    public void counter(boolean add, boolean set) {
+        MenuItem item = menu.findItem(R.id.selectedCounter);
+        if (set){
+            item.setTitle(String.valueOf(0));
+            return;
+        }
+        int current = Integer.parseInt(String.valueOf(item.getTitle()));
+        if (add){
+            current++;
+            item.setTitle(String.valueOf(current));
+        }else{
+            current--;
+            item.setTitle(String.valueOf(current));
+        }
     }
 }

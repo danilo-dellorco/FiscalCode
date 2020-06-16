@@ -1,38 +1,34 @@
 package it.runningexamples.fiscalcode;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
+import android.graphics.drawable.Drawable;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> implements View.OnClickListener{
     private List<CodiceFiscaleEntity> savedCF;
     private CodiceFiscaleEntity lastDeleted;
     private Context mContext;
-    private int lastDeletedPosition;
+    private int lastDeletedPosition, counterSelected;
     private String stringCode;
-    private List<CodiceFiscaleEntity> selectedItem = new ArrayList<>();
+    private SparseArray<CodiceFiscaleEntity> selectedItem = new SparseArray<>();
     private boolean selectionON = false;
     private PreferenceManager preferenceManager;
     private AdapterCallback adapterCallback;
@@ -77,7 +73,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
                     intent.putExtra("CF", currentItem);      // PARCELABLE
                     mContext.startActivity(intent);
                 }else{
-                    multipleSelection(currentItem, holder);
+                    multipleSelection(currentItem, holder, position);
                 }
             }
         });
@@ -85,39 +81,55 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                multipleSelection(currentItem, holder);
+                multipleSelection(currentItem, holder, position);
                 return true;
             }
         });
     }
 
     void deleteSelected() {
-        for (int i = 0; i < selectedItem.size(); i++) {
-            savedCF.remove(selectedItem.get(i));
-            AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(selectedItem.get(i));
-            notifyItemRemoved(i);
+        int itemCount = savedCF.size();
+        for (int i = 0; i < savedCF.size(); i++) {
+            if (savedCF.get(i).isSelected()){
+                AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(savedCF.get(i));
+                savedCF.remove(i);
+                notifyItemRemoved(i);
+                notifyItemRangeRemoved(i,itemCount);
+                i--;
+            }
         }
-        adapterCallback.showHideItem(R.id.deleteAll);
+        counterSelected = 0;
+        adapterCallback.counter(false, true);
+        adapterCallback.showHideItem();
     }
 
-    private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder){
-        adapterCallback.showHideItem(R.id.deleteAll);
+    private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos){
         if (!currentItem.isSelected()) {
+            if (counterSelected == 0) {
+                adapterCallback.showHideItem();
+            }
             currentItem.setSelected(true);
-            selectedItem.add(currentItem);
+            adapterCallback.counter(true, false);
+            counterSelected++;
         }else   {
             currentItem.setSelected(false);
-            selectedItem.remove(currentItem);
+            adapterCallback.counter(false, false);
+            --counterSelected;
+            if (counterSelected == 0){
+                adapterCallback.showHideItem();
+            }
         }
-        if (preferenceManager.getTheme() == 1){
-            holder.itemView.setBackgroundColor(currentItem.isSelected() ? Color.CYAN : ContextCompat.getColor(mContext, R.color.colorCardDark));
-        }else{
-            holder.itemView.setBackgroundColor(currentItem.isSelected() ? Color.CYAN : ContextCompat.getColor(mContext, R.color.colorCardLight));
-        }
-        selectionON = selectedItem.size() > 0;  /* parametro utilizzato per gestire
-                                             la selezione multipla anche con l'OnClick.
-                                             se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
+        /*  cambiando semplicemente il colore dell'itemview, viene cambiato il colore di tutta la "riga" della recyclerView e quindi vengono
+            tolti i bordi arrotondati */
+        Drawable roundRectShape = holder.itemView.getBackground();
+        roundRectShape.setTint(currentItem.isSelected() ? Color.CYAN : getCardColor());
+        holder.itemView.setBackground(roundRectShape);
+          /* parametro utilizzato per gestire
+         la selezione multipla anche con l'OnClick.
+         se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
+        selectionON = savedCF.size() > 0;
     }
+
     private int getCardColor(){
         int colorId;
         if (preferenceManager.getTheme() == 1){
@@ -126,21 +138,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             colorId = ContextCompat.getColor(mContext, R.color.colorCardLight);
         }
         return colorId;
-    }
-
-    public void selectAll() {
-        for (int i = 0; i < savedCF.size(); i++) {
-            savedCF.get(i).setSelected(true);
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return savedCF.size();
-    }
-
-    private CodiceFiscaleEntity getCodeAt(int position){
-        return savedCF.get(position);
     }
 
     void deleteItem(int position, RecyclerView rcv) {
@@ -152,24 +149,28 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         showUndoSnackBar(rcv);
     }
 
+    private void undoDelete() {
+        savedCF.add(lastDeleted);
+        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
+        notifyDataSetChanged();
+        lastDeleted = null;
+    }
+
+    @Override
+    public int getItemCount() {
+        return savedCF.size();
+    }
+
     private void showUndoSnackBar(RecyclerView recyclerView){
 
         Snackbar snackbar = Snackbar.make(recyclerView, R.string.itemRemoved, Snackbar.LENGTH_LONG);
-        snackbar.setAction("UNDO", new View.OnClickListener() {
+        snackbar.setAction(R.string.undoDelete, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 undoDelete();
             }
         });
         snackbar.show();
-    }
-
-    private void undoDelete() {
-        savedCF.add(lastDeleted);
-        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
-        notifyDataSetChanged();
-        lastDeleted = null;
-
     }
 
     public Context getContext() {
@@ -199,6 +200,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     }
 
     public interface AdapterCallback{
-        void showHideItem(int id);
+        void showHideItem();
+        void counter(boolean add, boolean setZero);
     }
 }

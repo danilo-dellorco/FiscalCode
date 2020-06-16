@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/deleteAll"
-        android:title="Delete All"
+        android:title="@string/delete_all"
         app:showAsAction="ifRoom"
         android:icon="@drawable/bin72"/>
 
-    <item android:id="@+id/selectAll"
-        app:showAsAction="never"
-        android:title="Select All" />
+    <item android:id="@+id/selectedCounter"
+        app:showAsAction="ifRoom"
+        android:title="@string/counter0" />
 </menu>
