@@ -109,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
         Switch swEstero;
         TextView tvRisultato;
         Button btnBirthday;
-        EditText etName;
-        EditText etSurname;
+        EditText etName, etSurname;
         RadioGroup rgGender;
 
         ImageButton btnSaveDB,btnCopy,btnShare;

@@ -79,8 +79,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         Switch swEstero;
         TextView tvRisultato;
         Button btnBirthday, button;
-        EditText etName;
-        EditText etSurname;
+        EditText etName, etSurname;
         RadioGroup rgGender;
 
         Button btnSaveProfile;
@@ -279,8 +278,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
 
     private void hideKeyboard() {
-        // Check if no view has focus:
-        View view = this.getCurrentFocus();
+        View view = this.getCurrentFocus(); // controlla se non ci sono focus attivi
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

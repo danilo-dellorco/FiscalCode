@@ -26,7 +26,7 @@ public class CFDetail extends AppCompatActivity {
         ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_cfdetail);
-        // Luminosità
+        // Gestione luminosità schermo
         WindowManager.LayoutParams layout = getWindow().getAttributes();
         layout.screenBrightness = 1F;
         getWindow().setAttributes(layout);

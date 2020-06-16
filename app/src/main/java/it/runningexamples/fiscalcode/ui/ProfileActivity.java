@@ -52,11 +52,7 @@ public class ProfileActivity extends AppCompatActivity{
         CodiceFiscaleEntity codice;
         ImageView ivBarcode;
         CardView personalCard;
-        TextView nome;
-        TextView cognome;
-        TextView luogo;
-        TextView data;
-        TextView sesso;
+        TextView nome, cognome, luogo, data, sesso;
         Button code;
 
         public Holder(){
