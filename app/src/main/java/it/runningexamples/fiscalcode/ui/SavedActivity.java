@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import com.elconfidencial.bubbleshowcase.BubbleShowCase;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
 import it.runningexamples.fiscalcode.R;
@@ -67,7 +69,6 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         return true;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_bar_menu_multipleselection, menu);
@@ -97,14 +98,17 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SavedActivity.this);
         builder1.title(getString(R.string.bubbleSavedCard));
+        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
         builder1.targetView(findViewById(R.id.help1));
 
         BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(SavedActivity.this);
         builder2.title(getString(R.string.bubbleSavedCode));
+        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
         builder2.targetView(findViewById(R.id.help2));
 
         BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(SavedActivity.this);
         builder3.title(getString(R.string.bubbleSavedSwipe));
+        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
         builder3.targetView(findViewById(R.id.help3));
         builder3.image(getDrawable(R.drawable.swipe_left)); //Bubble main image
 
