@@ -17,22 +17,22 @@
         </activity>
         <activity
             android:name=".ui.ProfileActivity"
-            android:label="Il tuo Profilo" />
+            android:label="@string/labelProfile" />
         <activity
             android:name=".ui.ProfileSettingsActivity"
-            android:label="Modifica Profilo" />
+            android:label="@string/labelSettingsProfile" />
         <activity
             android:name=".ui.MainActivity"
-            android:label="Calcolo Codice" />
+            android:label="@string/labelMain" />
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="Impostazioni" />
+            android:label="@string/labelSettings" />
         <activity
             android:name=".ui.SavedActivity"
-            android:label="Lista Codici Salvati" />
+            android:label="@string/labelSaved" />
         <activity
             android:name=".ui.CFDetail"
-            android:label="Barcode" />
+            android:label="@string/labelDetail" />
         <activity android:name=".ui.WelcomeActivity">
         </activity>
     </application>

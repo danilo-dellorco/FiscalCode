@@ -65,4 +65,10 @@
     <string name="settingsIntro">Afficher à nouveau l\'introduction</string>
     <string name="settingsWipe">Supprimer tous les codes enregistrés</string>
     <string name="emptySaved">Vous n\'avez pas encore enregistré de code fiscal</string>
+    <string name="labelMain">Calcul de Code</string>
+    <string name="labelDetail">Code à Barre</string>
+    <string name="labelProfile">Votre Profil</string>
+    <string name="labelSettings">Réglages</string>
+    <string name="labelSettingsProfile">Editer le Profil</string>
+    <string name="labelSaved">Liste de Codes</string>
 </resources>

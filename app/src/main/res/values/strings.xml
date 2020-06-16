@@ -74,6 +74,13 @@
     <string name="emptySaved">Non hai ancora salvato nessun codice fiscale</string>
     <string name="emptyProfile">Non hai ancora impostato un profilo personale. Aggiungine uno cliccando sul pulsante in basso</string>
 
+    <string name="labelMain">Calcolo Codice</string>
+    <string name="labelDetail">Codice a Barre</string>
+    <string name="labelProfile">Il tuo Profilo</string>
+    <string name="labelSettings">Impostazioni</string>
+    <string name="labelSettingsProfile">Modifica Profilo</string>
+    <string name="labelSaved">Lista Codici</string>
+
 
 
 </resources>

@@ -64,4 +64,11 @@
     <string name="settingsIntro">Show the introduction again</string>
     <string name="settingsWipe">Delete all saved codes</string>
     <string name="emptySaved">You haven\'t saved any tax codes yet</string>
+    <string name="emptyProfile">You haven\'t set up a personal profile yet. Add one by clicking on the button below</string>
+    <string name="labelMain">Code Calculation</string>
+    <string name="labelDetail">Barcode</string>
+    <string name="labelProfile">Your Profile</string>
+    <string name="labelSettings">Settings</string>
+    <string name="labelSettingsProfile">Edit Profile</string>
+    <string name="labelSaved">Code List</string>
 </resources>

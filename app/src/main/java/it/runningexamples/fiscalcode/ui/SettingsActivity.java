@@ -94,7 +94,6 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         }
         if (v.getId() == R.id.btnProfile) {
             startActivity(new Intent(SettingsActivity.this, ProfileSettingsActivity.class));
-            finish();
         }
         if (v.getId() == R.id.btnDelete) {
             showDialogRestart(getString(R.string.deleteAlert), true);
