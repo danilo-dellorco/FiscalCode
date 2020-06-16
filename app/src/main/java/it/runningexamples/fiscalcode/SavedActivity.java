@@ -63,6 +63,7 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         this.menu = menu;
         menu.findItem(R.id.deleteAll).setVisible(false);
         menu.findItem(R.id.selectedCounter).setVisible(false);
+        menu.findItem(R.id.shareSelected).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -74,33 +75,47 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
             case R.id.deleteAll:
                 mAdapter.deleteSelected();
                 return true;
+            case R.id.shareSelected:
+                mAdapter.shareSelected();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
-    public void showHideItem() {          // usa l'interfaccia implementata in RecyclerAdapter
-        MenuItem item = menu.findItem(R.id.deleteAll);
-        MenuItem item2 = menu.findItem(R.id.selectedCounter);
-        item2.setVisible(!item2.isVisible());
-        item.setVisible(!item.isVisible());
+    public void showHideItem(boolean delete, boolean share) {          // usa l'interfaccia implementata in RecyclerAdapter
+            MenuItem item3 = menu.findItem(R.id.shareSelected);
+            item3.setVisible(share);
+        if (delete) {
+            MenuItem item = menu.findItem(R.id.deleteAll);
+            MenuItem item2 = menu.findItem(R.id.selectedCounter);
+            item2.setVisible(!item2.isVisible());
+            item.setVisible(!item.isVisible());
+        }
     }
 
     @Override
     public void counter(boolean add, boolean set) {
         MenuItem item = menu.findItem(R.id.selectedCounter);
-        if (set){
+        if (set) {
             item.setTitle(String.valueOf(0));
             return;
         }
         int current = Integer.parseInt(String.valueOf(item.getTitle()));
-        if (add){
+        if (add) {
             current++;
             item.setTitle(String.valueOf(current));
-        }else{
+        } else {
             current--;
             item.setTitle(String.valueOf(current));
         }
+    }
+
+    @Override
+    public void getLastSelected(CodiceFiscaleEntity lastSelected) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, lastSelected.getFinalFiscalCode());
+        sharingIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sharingIntent, "Condividi Codice Tramite"));
     }
 }

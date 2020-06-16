@@ -28,6 +28,7 @@
     <string name="delete_all">Delete All</string>
     <string name="counter0">0</string>
     <string name="undoDelete">Annulla</string>
+    <string name="shareMenu">Condividi</string>
 
 
 </resources>

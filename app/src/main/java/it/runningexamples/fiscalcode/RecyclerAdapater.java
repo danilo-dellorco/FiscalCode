@@ -22,18 +22,17 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> implements View.OnClickListener{
+class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> implements View.OnClickListener {
     private List<CodiceFiscaleEntity> savedCF;
-    private CodiceFiscaleEntity lastDeleted;
+    private CodiceFiscaleEntity lastDeleted, lastSelected;
     private Context mContext;
     private int lastDeletedPosition, counterSelected;
     private String stringCode;
-    private SparseArray<CodiceFiscaleEntity> selectedItem = new SparseArray<>();
     private boolean selectionON = false;
     private PreferenceManager preferenceManager;
     private AdapterCallback adapterCallback;
 
-    RecyclerAdapter(Context ctx, AdapterCallback callback){
+    RecyclerAdapter(Context ctx, AdapterCallback callback) {
         this.mContext = ctx;
         this.adapterCallback = callback;
         this.savedCF = AppDatabase.getInstance(mContext).codiceFiscaleDAO().getAll();
@@ -48,16 +47,15 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
 
 
     @Override
-    public void onBindViewHolder (@NonNull final Holder holder, final int position)  {
+    public void onBindViewHolder(@NonNull final Holder holder, final int position) {
         final CodiceFiscaleEntity currentItem = savedCF.get(position);
         holder.tvNome.setText(currentItem.getNome());
         holder.tvCognome.setText(currentItem.getCognome());
         holder.tvData.setText(currentItem.getDataNascita());
         holder.tvLuogo.setText(currentItem.getLuogoNascita());
-        if (currentItem.getGenere().equals("M")){
+        if (currentItem.getGenere().equals("M")) {
             holder.tvSesso.setText(R.string.genereMaschio);
-        }
-        else{
+        } else {
             holder.tvSesso.setText(R.string.genereFemmina);
         }
         holder.btnCode.setText(currentItem.getFinalFiscalCode());
@@ -72,7 +70,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
                     intent.putExtra("CF", currentItem);      // PARCELABLE
                     mContext.startActivity(intent);
-                }else{
+                } else {
                     multipleSelection(currentItem, holder, position);
                 }
             }
@@ -90,34 +88,36 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     void deleteSelected() {
         int itemCount = savedCF.size();
         for (int i = 0; i < savedCF.size(); i++) {
-            if (savedCF.get(i).isSelected()){
+            if (savedCF.get(i).isSelected()) {
                 AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(savedCF.get(i));
                 savedCF.remove(i);
                 notifyItemRemoved(i);
-                notifyItemRangeRemoved(i,itemCount);
+                notifyItemRangeRemoved(i, itemCount);
                 i--;
             }
         }
         counterSelected = 0;
         adapterCallback.counter(false, true);
-        adapterCallback.showHideItem();
+        adapterCallback.showHideItem(true, false);
     }
 
-    private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos){
+    private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
         if (!currentItem.isSelected()) {
             if (counterSelected == 0) {
-                adapterCallback.showHideItem();
+                adapterCallback.showHideItem(true, true);
+            }else if (counterSelected>0){
+                adapterCallback.showHideItem(false, false);
             }
             currentItem.setSelected(true);
+            lastSelected = currentItem;
             adapterCallback.counter(true, false);
             counterSelected++;
-        }else   {
+        } else {
+            if (--counterSelected == 0) {
+                adapterCallback.showHideItem(true, false);
+            }
             currentItem.setSelected(false);
             adapterCallback.counter(false, false);
-            --counterSelected;
-            if (counterSelected == 0){
-                adapterCallback.showHideItem();
-            }
         }
         /*  cambiando semplicemente il colore dell'itemview, viene cambiato il colore di tutta la "riga" della recyclerView e quindi vengono
             tolti i bordi arrotondati */
@@ -130,11 +130,11 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         selectionON = savedCF.size() > 0;
     }
 
-    private int getCardColor(){
+    private int getCardColor() {
         int colorId;
-        if (preferenceManager.getTheme() == 1){
+        if (preferenceManager.getTheme() == 1) {
             colorId = ContextCompat.getColor(mContext, R.color.colorCardDark);
-        }else{
+        } else {
             colorId = ContextCompat.getColor(mContext, R.color.colorCardLight);
         }
         return colorId;
@@ -156,12 +156,16 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         lastDeleted = null;
     }
 
+    public void shareSelected() {
+        adapterCallback.getLastSelected(lastSelected);
+    }
+
     @Override
     public int getItemCount() {
         return savedCF.size();
     }
 
-    private void showUndoSnackBar(RecyclerView recyclerView){
+    private void showUndoSnackBar(RecyclerView recyclerView) {
 
         Snackbar snackbar = Snackbar.make(recyclerView, R.string.itemRemoved, Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.undoDelete, new View.OnClickListener() {
@@ -182,12 +186,13 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Codice Fiscale", stringCode);
         clipboard.setPrimaryClip(clip);
-        Toast.makeText(mContext, R.string.cfCopied,Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.cfCopied, Toast.LENGTH_SHORT).show();
     }
 
     static class Holder extends RecyclerView.ViewHolder {
         TextView tvNome, tvCognome, tvData, tvLuogo, tvSesso;
         Button btnCode;
+
         Holder(@NonNull View itemView) {
             super(itemView);
             tvNome = itemView.findViewById(R.id.tvDetailNome);
@@ -199,8 +204,11 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         }
     }
 
-    public interface AdapterCallback{
-        void showHideItem();
+    public interface AdapterCallback {
+        void showHideItem(boolean delete, boolean share);
+
         void counter(boolean add, boolean setZero);
+
+        void getLastSelected(CodiceFiscaleEntity lastSelected);
     }
 }
