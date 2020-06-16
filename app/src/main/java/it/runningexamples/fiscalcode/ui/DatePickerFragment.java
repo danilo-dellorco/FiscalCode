@@ -1,22 +1,18 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
 import java.util.Calendar;
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener  {
     Context context;
@@ -41,6 +37,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
         return datePickerDialog;
     }
+    @SuppressWarnings("HardCodedStringLiteral")
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
             Button btnData = getActivity().findViewById(R.id.btnData);

@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
+import it.runningexamples.fiscalcode.entity.FiscalBarcode;
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 public class ProfileActivity extends AppCompatActivity{
     CodiceFiscaleEntity codice;
@@ -40,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity{
             startActivity(intent);
         }
     }
-
 
     public class Holder implements View.OnClickListener, Toolbar.OnMenuItemClickListener{
         String codiceStringa;
@@ -71,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity{
             data.setText(codice.getDataNascita());
             codiceStringa = codice.getFinalFiscalCode();
             code.setText(codiceStringa);
-            if (codice.getGenere().equals("M")) {
+            if (codice.getGenere().equals("M")) { //NON-NLS
                 sesso.setText(R.string.genereMaschio);
             } else {
                 sesso.setText(R.string.genereFemmina);
@@ -92,14 +97,14 @@ public class ProfileActivity extends AppCompatActivity{
         public void onClick(View v) {
             if (v.getId() == R.id.btnDetailCode){
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Codice Fiscale", codiceStringa);
+                ClipData clip = ClipData.newPlainText(null, codiceStringa);
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(getApplicationContext(),"Codice Fiscale copiato negli appunti",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.clipboardCode),Toast.LENGTH_SHORT).show();
             }
             else {
                 Intent intent = new Intent(ProfileActivity.this, CFDetail.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
-                intent.putExtra("CF", codice);      // PARCELABLE
+                intent.putExtra("CF", codice);      //NON-NLS
                 startActivity(intent);
             }
         }
@@ -112,8 +117,8 @@ public class ProfileActivity extends AppCompatActivity{
             if (item.getItemId() == R.id.menu_share){
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, holder.codiceStringa);
-                sharingIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sharingIntent, "Condividi Codice Tramite"));
+                sharingIntent.setType("text/plain"); //NON-NLS
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.shareCode)));
             }
             return false;
         }

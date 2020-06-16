@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.db;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -7,6 +7,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Dao
 public interface CodiceFiscaleDAO {
     @Query("SELECT * FROM CodiceFiscaleEntity")

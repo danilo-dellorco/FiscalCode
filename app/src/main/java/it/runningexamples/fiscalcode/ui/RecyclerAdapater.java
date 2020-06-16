@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -18,6 +18,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
+
+@SuppressWarnings("HardCodedStringLiteral")
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> implements View.OnClickListener{
     List<CodiceFiscaleEntity> savedCF;
     CodiceFiscaleEntity lastDeleted;
@@ -86,8 +91,8 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
 
     private void showUndoSnackBar(RecyclerView recyclerView){
 
-        Snackbar snackbar = Snackbar.make(recyclerView, "1 elemento rimosso", Snackbar.LENGTH_LONG);
-        snackbar.setAction("UNDO", new View.OnClickListener() {
+        Snackbar snackbar = Snackbar.make(recyclerView, R.string.deleteElement, Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.undoElement, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 undoDelete();
@@ -111,9 +116,9 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     @Override
     public void onClick(View v) {
         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Codice Fiscale", stringCode);
+        ClipData clip = ClipData.newPlainText(null, stringCode);
         clipboard.setPrimaryClip(clip);
-        Toast.makeText(mContext,"Codice Fiscale copiato negli appunti",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext,R.string.clipboardCode,Toast.LENGTH_SHORT).show();
     }
 
     public class Holder extends RecyclerView.ViewHolder {

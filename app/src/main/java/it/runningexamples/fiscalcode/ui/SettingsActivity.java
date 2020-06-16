@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,24 +8,24 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
+
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity implements Switch.OnCheckedChangeListener, View.OnClickListener {
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String THEME = "1";
     private static final int THEME_LIGHT = 0;
     private static final int THEME_DARK = 1;
     private static final int PENDING_ID = 12345;
+    private static final String SETTINGS = "settings"; //NON-NLS
     public int lastTheme;
     public boolean lastChecked;
     PreferenceManager prefs;
@@ -61,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         Toolbar toolbarSettings = findViewById(R.id.toolbarSettings);
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (prefs.isFirstActivity("settings")){
+        if (prefs.isFirstActivity(SETTINGS)){
             firstTutorial();
         }
     }
@@ -143,9 +143,9 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
 
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SettingsActivity.this);
-        builder1.title("Prova il tema scuro e risparmia batteria");
+        builder1.title(getString(R.string.bubbleSettingsDark));
         builder1.targetView(findViewById(R.id.swDarkMode));
         builder1.show();
-        prefs.setFirstActivity("settings",false);
+        prefs.setFirstActivity(SETTINGS,false);
     }
 }

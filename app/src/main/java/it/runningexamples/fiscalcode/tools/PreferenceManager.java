@@ -1,8 +1,9 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class PreferenceManager {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String THEME = "theme";
@@ -47,8 +48,8 @@ public class PreferenceManager {
         return pref.getBoolean(TEMP_INTRO,false);
     }
 
-    public void setFirstActivity(String activity,Boolean isFirstMain){
-        editor.putBoolean(activity,isFirstMain);
+    public void setFirstActivity(String activity,Boolean isFirst){
+        editor.putBoolean(activity,isFirst);
         editor.apply();
     }
 

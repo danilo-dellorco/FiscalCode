@@ -1,8 +1,7 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,8 +33,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
+import it.runningexamples.fiscalcode.entity.Comune;
+import it.runningexamples.fiscalcode.entity.Parser;
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.entity.Stato;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+
 public class ProfileSettingsActivity extends AppCompatActivity {
-    private static final String TAG = "CodiceFiscale";
+    private static final String DATE_TAG = "datePicker"; //NON-NLS
     public static CodiceFiscaleEntity codiceFiscaleEntity;
     Holder holder;
 
@@ -59,6 +67,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressWarnings("HardCodedStringLiteral")
     private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener,Toolbar.OnMenuItemClickListener {
         Parser parser;
         List<Comune> comuniList;
@@ -150,7 +159,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     } else {
                         comuneSelected = (Comune) parent.getItemAtPosition(position);
                         hideKeyboard();
-                        Log.d(TAG, comuneSelected.getCode() + " " + comuneSelected.getName());
                     }
                 }
             };
@@ -168,7 +176,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         private void showDatePickerDialog(View v) {
             DialogFragment newFragment = new DatePickerFragment(getApplicationContext());
-            newFragment.show(getSupportFragmentManager(), "datePicker");
+            newFragment.show(getSupportFragmentManager(), DATE_TAG);
         }
 
 
@@ -181,7 +189,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnSaveProfile) {
                 hideKeyboard();
                 if (computeCF() && codiceFiscaleEntity != null) {
-                    Snackbar snackbar = Snackbar.make(v, "Profilo salvato", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(v, getString(R.string.profileSaved), Snackbar.LENGTH_LONG);
                     snackbar.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
                     if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) != 0) {
                         AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().setPersonal(codiceFiscaleEntity.getFinalFiscalCode());
@@ -226,7 +234,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 return true;
             }else{
-                Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.fillForm), Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -234,11 +242,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             atComuni.getText().clear();
             if (swEstero.isChecked()){
-                autocompleteLayout.setHint("Stato Estero di Nascita");
+                autocompleteLayout.setHint(getString(R.string.formStatoEstero));
                 setUpAutoCompleteTextView();
             }
             else{
-                autocompleteLayout.setHint("Comune di Nascita");
+                autocompleteLayout.setHint(getString(R.string.formComune));
                 setUpAutoCompleteTextView();
             }
         }
@@ -247,13 +255,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         public boolean onMenuItemClick(MenuItem item) {
             if (codiceFiscaleEntity!=null) {
                 new AlertDialog.Builder(ProfileSettingsActivity.this)
-                        .setMessage("Vuoi cancellare il tuo profilo personale?")
+                        .setMessage(getString(R.string.confirmDelete))
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
-                                //todo sostituibile con recreate()
                                 holder.etName.getText().clear();
                                 holder.etSurname.getText().clear();
                                 holder.atComuni.getText().clear();
@@ -263,7 +270,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         .setNegativeButton(android.R.string.no, null).show();
             }
             else{
-                Toast.makeText(getApplicationContext(),"Non hai ancora salvato un profilo personale",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.noProfile),Toast.LENGTH_SHORT).show();
             }
             return false;
         }

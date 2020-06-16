@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,12 +6,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import it.runningexamples.fiscalcode.R;
 
 public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
 
@@ -25,8 +26,8 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         super(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.LEFT);
         recyclerAdapter = adapter;
         this.rcv = rcv;
-        redBackground = new ColorDrawable(Color.parseColor("#B80000"));
-        deleteIcon = ContextCompat.getDrawable(recyclerAdapter.getContext(), R.drawable.bin72);
+        redBackground = new ColorDrawable(Color.parseColor("#B80000")); //NON-NLS
+        deleteIcon = ContextCompat.getDrawable(recyclerAdapter.getContext(), R.drawable.swipe_delete);
         intrinsicWidthDelete = deleteIcon.getIntrinsicWidth();
         intrinsicHeightDelete = deleteIcon.getIntrinsicHeight();
     }
@@ -40,11 +41,9 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         if (direction == ItemTouchHelper.LEFT){
-            Log.d("CodiceFiscale", String.valueOf(direction));
             recyclerAdapter.deleteItem(position, rcv);
         }else{
             recyclerAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-            Log.d("CodiceFiscale", String.valueOf(direction));
         }
     }
 

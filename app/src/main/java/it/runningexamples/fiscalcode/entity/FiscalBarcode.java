@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.entity;
 
 import android.graphics.Bitmap;
 
@@ -11,7 +11,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 public class FiscalBarcode {
     String codiceFiscale;
 
-    FiscalBarcode(String codiceFiscale) {
+    public FiscalBarcode(String codiceFiscale) {
         this.codiceFiscale = codiceFiscale;
     }
 

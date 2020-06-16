@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.entity;
 
 import android.content.Context;
 
@@ -13,9 +13,10 @@ import java.util.StringTokenizer;
 // TODO EXCEPTION
 
 public class Parser {
-
     private static Context context;
     private static BufferedReader reader;
+    private final static String FILE_COMUNI = "comuni.csv"; //NON-NLS
+    private final static String FILE_STATI = "stati_esteri.csv"; //NON-NLS
 
     public Parser(Context context){
         this.context = context;
@@ -26,7 +27,7 @@ public class Parser {
         String line;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(context.getAssets().open("comuni.csv")));
+            reader = new BufferedReader(new InputStreamReader(context.getAssets().open(FILE_COMUNI)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,7 +60,7 @@ public class Parser {
         String line;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(context.getAssets().open("stati_esteri.csv")));
+            reader = new BufferedReader(new InputStreamReader(context.getAssets().open(FILE_STATI)));
         } catch (IOException e) {
             e.printStackTrace();
         }

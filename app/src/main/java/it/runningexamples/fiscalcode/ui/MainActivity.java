@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,22 +39,34 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.entity.Comune;
+import it.runningexamples.fiscalcode.entity.Parser;
+import it.runningexamples.fiscalcode.entity.Stato;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+
 //TODO Selezione multipla cardview
 //TODO Traduzioni
-//TODO Stringhe non hardcoded
+//TODO Stringhe non hardcoded (iniziato da danilo)
 //TODO Ripulire codice
-//TODO Organizzare in cartelle classi e drawable
+//TODO Organizzare in cartelle drawable
 //TODO Creare classi ausiliarie
-//TODO
+//TODO Hint se comune errato di selezionare il suggerimento
 //TODO
 //TODO
 //TODO
 //TODO
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "CodiceFiscale";
+    private static final String DATE_TAG = "datePicker"; //NON-NLS
+    private static final String MAIN = "main"; //NON-NLS
+    private static final String CALC = "calc"; //NON-NLS
     public static CodiceFiscaleEntity codiceFiscaleEntity;
     public PreferenceManager prefs;
+
     Holder holder;
 
     @Override
@@ -69,14 +80,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setMessage("Sicuro di voler uscire?")
+                .setMessage(getString(R.string.confirmExit))
                 .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.choicePositive), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.this.finish();
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.choiceNegative), null)
                 .show();
     }
 
@@ -141,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             setUpDialogDate();
             setUpAutoCompleteTextView();
             prefs = new PreferenceManager(getApplicationContext());
-            if (prefs.isFirstActivity("main")){
+            if (prefs.isFirstActivity(MAIN)){
                 firstTutorial();
             }
         }
@@ -166,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         comuneSelected = (Comune) parent.getItemAtPosition(position);
                         hideKeyboard();
-                        Log.d(TAG, comuneSelected.getCode() + " " + comuneSelected.getName());
                     }
                 }
             };
@@ -184,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         private void showDatePickerDialog(View v) {
             DialogFragment newFragment = new DatePickerFragment(getApplicationContext());
-            newFragment.show(getSupportFragmentManager(), "datePicker");
+            newFragment.show(getSupportFragmentManager(), DATE_TAG);
         }
 
 
@@ -193,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
                 if (computeCF()) {
-                    if (prefs.isFirstActivity("calc")){
+                    if (prefs.isFirstActivity(CALC)){
                         calcTutorial();
                     }
                     btnSaveDB.setVisibility(View.VISIBLE);
@@ -209,11 +219,11 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar sn;
                 if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) == 0) {
                     AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
-                    sn = Snackbar.make(v, "Elemento salvato", Snackbar.LENGTH_LONG);
+                    sn = Snackbar.make(v, getString(R.string.savedElement), Snackbar.LENGTH_LONG);
                     sn.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
                     sn.show();
                 } else {
-                    sn = Snackbar.make(v, "Elemento già presente nella lista", Snackbar.LENGTH_LONG);
+                    sn = Snackbar.make(v, getString(R.string.presentElement), Snackbar.LENGTH_LONG);
                     sn.getView().setBackgroundColor(getColor(R.color.colorOutlineRed));
                     sn.show();
                 }
@@ -221,15 +231,15 @@ public class MainActivity extends AppCompatActivity {
 
             if (v.getId() == R.id.btnCopy){
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Codice Fiscale", tvRisultato.getText());
+                ClipData clip = ClipData.newPlainText(null, tvRisultato.getText());
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(getApplicationContext(),"Codice Fiscale copiato negli appunti",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.clipboardCode),Toast.LENGTH_SHORT).show();
             }
             if (v.getId() == R.id.btnShare){
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, tvRisultato.getText());
-                sharingIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sharingIntent, "Condividi tramite"));
+                sharingIntent.setType("text/plain"); //NON-NLS
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.shareCode)));
             }
 
         }
@@ -241,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
             String gender = (String) ((RadioButton) findViewById(radioID)).getText();
             // Get birthday
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //NON-NLS
             Date birthDay = new Date();
             try {
                 birthDay = simpleDateFormat.parse(btnBirthday.getText().toString());
@@ -258,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 tvRisultato.setText(fiscalCode);
                 return true;
             }else{
-                Toast.makeText(getApplicationContext(), "Completare tutti i campi", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.fillForm), Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -266,11 +276,11 @@ public class MainActivity extends AppCompatActivity {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             atComuni.getText().clear();
             if (swEstero.isChecked()){
-                autocompleteLayout.setHint("Stato Estero di Nascita");
+                autocompleteLayout.setHint(getString(R.string.formStatoEstero));
                 setUpAutoCompleteTextView();
             }
             else{
-                autocompleteLayout.setHint("Comune di Nascita");
+                autocompleteLayout.setHint(getString(R.string.formComune));
                 setUpAutoCompleteTextView();
             }
         }
@@ -306,43 +316,43 @@ public class MainActivity extends AppCompatActivity {
 
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder1.title("Inserisci i tuoi dati");
+        builder1.title(getString(R.string.bubbleMainNome));
         builder1.targetView(findViewById(R.id.etNome));
 
         BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder2.title("Premi il pulsante per calcolare il codice fiscale");
+        builder2.title(getString(R.string.bubbleMainFab));
         builder2.targetView(findViewById(R.id.btnCalcola));
 
         BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
         sequence.addShowCase(builder1);
         sequence.addShowCase(builder2);
         sequence.show();
-        prefs.setFirstActivity("main",false);
+        prefs.setFirstActivity(MAIN,false);
     }
 
     private void calcTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder1.title("Qui si trova il codice fiscale che hai calcolato");
+        builder1.title(getString(R.string.bubbleCalcRisultato));
         builder1.targetView(findViewById(R.id.tvRisultato));
 
         BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder2.title("Salva il codice all'interno dell'applicazione");
+        builder2.title(getString(R.string.bubbleCalcSave));
         builder2.targetView(findViewById(R.id.btnSaveDB));
 
         BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder3.title("Copia il codice negli appunti ed incollalo rapidamente");
+        builder3.title(getString(R.string.bubbleCalcCopy));
         builder3.targetView(findViewById(R.id.btnCopy));
 
         BubbleShowCaseBuilder builder4 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder4.title("Condividi il codice con un'applicazione esterna");
+        builder4.title(getString(R.string.bubbleCalcShare));
         builder4.targetView(findViewById(R.id.btnShare));
 
         BubbleShowCaseBuilder builder5 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder5.title("Imposta il tuo codice personale e visualizzalo rapidamente");
+        builder5.title(getString(R.string.bubbleCalcProfile));
         builder5.targetView(holder.toolbar.findViewById(R.id.menu_favorites));
 
         BubbleShowCaseBuilder builder6 = new BubbleShowCaseBuilder(MainActivity.this);
-        builder6.title("Visualizza tutti i codici salvati nell'applicazione");
+        builder6.title(getString(R.string.bubbleCalcList));
         builder6.targetView(holder.toolbar.findViewById(R.id.menu_list));
 
         BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
@@ -353,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
         sequence.addShowCase(builder5);
         sequence.addShowCase(builder6);
         sequence.show();
-        prefs.setFirstActivity("calc",false);
+        prefs.setFirstActivity(CALC,false);
     }
 
 

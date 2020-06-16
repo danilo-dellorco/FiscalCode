@@ -68,4 +68,7 @@
         <item>@color/dot_dark_screen4</item>
         <item>@color/dot_dark_screen5</item>
     </array>
+
+    <color name = "colorSplashScreen">#ec407a</color>
+    <color name = "colorSplashStatus">#b4004e</color>
 </resources>

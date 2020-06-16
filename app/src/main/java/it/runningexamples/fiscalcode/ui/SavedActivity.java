@@ -1,24 +1,24 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
-
-import java.util.List;
+import it.runningexamples.fiscalcode.R;
+import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 public class SavedActivity extends AppCompatActivity {
 
+    private static final String SAVED = "saved"; //NON-NLS
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<CodiceFiscaleEntity> cfList;
     ItemTouchHelper itemTouchHelper;
     PreferenceManager prefs;
 
@@ -40,7 +40,7 @@ public class SavedActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
             itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mAdapter, mRecyclerView));
             itemTouchHelper.attachToRecyclerView(mRecyclerView);
-            if (prefs.isFirstActivity("saved")){
+            if (prefs.isFirstActivity(SAVED)){
                 firstTutorial();
             }
         }
@@ -58,15 +58,15 @@ public class SavedActivity extends AppCompatActivity {
 
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SavedActivity.this);
-        builder1.title("Clicca sulla carta per visualizzare il barcode");
+        builder1.title(getString(R.string.bubbleSavedCard));
         builder1.targetView(findViewById(R.id.help1));
 
         BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(SavedActivity.this);
-        builder2.title("Tocca il codice per copiarlo rapidamente negli appunti");
+        builder2.title(getString(R.string.bubbleSavedCode));
         builder2.targetView(findViewById(R.id.help2));
 
         BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(SavedActivity.this);
-        builder3.title("Scorri vestro sinistra per eliminare un codice salvato");
+        builder3.title(getString(R.string.bubbleSavedSwipe));
         builder3.targetView(findViewById(R.id.help3));
         builder3.image(getDrawable(R.drawable.swipe_left)); //Bubble main image
 
@@ -76,6 +76,6 @@ public class SavedActivity extends AppCompatActivity {
         sequence.addShowCase(builder3);
         sequence.show();
 
-        prefs.setFirstActivity("saved",false);
+        prefs.setFirstActivity(SAVED,false);
     }
 }

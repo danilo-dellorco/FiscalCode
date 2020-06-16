@@ -1,4 +1,4 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.entity;
 
 public class Stato {
     private String nome;
@@ -19,6 +19,6 @@ public class Stato {
 
     @Override
     public String toString() {
-        return String.format("%s", this.nome);
+        return String.format("%s", this.nome); //NON-NLS
     }
 }

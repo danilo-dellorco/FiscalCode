@@ -1,5 +1,6 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.entity;
 
+@SuppressWarnings("ALL")
 public class Comune {
     private String name;
     private String prov;

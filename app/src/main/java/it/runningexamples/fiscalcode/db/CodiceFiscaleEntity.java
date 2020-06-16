@@ -1,8 +1,7 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.db;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +14,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.runningexamples.fiscalcode.entity.Comune;
+import it.runningexamples.fiscalcode.entity.Stato;
 
+
+@SuppressWarnings("ALL")
 @Entity
 public class CodiceFiscaleEntity implements Parcelable {
     @PrimaryKey
@@ -171,7 +174,7 @@ public class CodiceFiscaleEntity implements Parcelable {
     }};
 
 
-    CodiceFiscaleEntity(String nome, String cognome, Date birthDay, String gender, @Nullable Comune comuneNascita, @Nullable Stato stato, int personale) {
+    public CodiceFiscaleEntity(String nome, String cognome, Date birthDay, String gender, @Nullable Comune comuneNascita, @Nullable Stato stato, int personale) {
         this.nome = nome;
         this.cognome = cognome;
         this.birthday = birthDay;

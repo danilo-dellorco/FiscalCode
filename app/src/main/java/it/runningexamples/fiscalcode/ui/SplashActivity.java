@@ -1,10 +1,8 @@
-package it.runningexamples.fiscalcode;
-
+package it.runningexamples.fiscalcode.ui;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
 
 public class SplashActivity extends AppCompatActivity {
 

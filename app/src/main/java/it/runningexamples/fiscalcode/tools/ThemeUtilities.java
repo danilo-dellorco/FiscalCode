@@ -1,8 +1,6 @@
-package it.runningexamples.fiscalcode;
+package it.runningexamples.fiscalcode.tools;
 
 import android.content.Context;
-
-import it.runningexamples.fiscalcode.PreferenceManager;
 import it.runningexamples.fiscalcode.R;
 
 public class ThemeUtilities {
