@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Code Fiscal Italien</string>
+    <string name="slide_1_title">Code Fiscal Italien</string>
+    <string name="slide_2_title">Code à Barre</string>
+    <string name="slide_3_title">Sauver</string>
+    <string name="slide_4_title">Profil</string>
+    <string name="slide_5_title">Thème de la nuit</string>
+    <string name="emptyProfile">Entrez vos coordonnées et calculez rapidement votre code fiscal.</string>
+    <string name="slide_1_desc">Entrez vos coordonnées et calculez rapidement votre code fiscal.</string>
+    <string name="slide_2_desc">Obtenez le code-barres de votre code fiscal et utilisez-le facilement à la place de votre carte Santé.</string>
+    <string name="slide_3_desc">Enregistrez les codes fiscaux que vous avez calculés et gardez-les toujours à portée de main.</string>
+    <string name="slide_4_desc">Configurez votre profil personnel et accédez à votre code fiscal personnel avec une seule touche.</string>
+    <string name="slide_5_desc">Choisissez le thème que vous préférez. Essayez le mode nuit pour économiser la batterie et réduire la fatigue oculaire.</string>
+    <string name="start">COMMENCER</string>
+    <string name="next">PROCHAIN</string>
+    <string name="skip">SAUT</string>
+    <string name="genereMaschio">Mâle</string>
+    <string name="genereFemmina">Femelle</string>
+    <string name="changeThemeAlert">Pour appliquer le thème dont vous avez besoin pour redémarrer l\'application, voulez-vous le faire maintenant?</string>
+    <string name="deleteAlert">Voulez-vous vraiment supprimer les données enregistrées?</string>
+    <string name="dataEliminated">Données supprimées</string>
+    <string name="confirmExit">Voulez-vous vraiment quitter l\'application?</string>
+    <string name="choicePositive">Oui</string>
+    <string name="choiceNegative">Non</string>
+    <string name="savedElement">Élément enregistré</string>
+    <string name="presentElement">Article déjà présent dans la liste</string>
+    <string name="clipboardCode">Code fiscal copié dans le presse-papiers</string>
+    <string name="shareCode">Partagez le code via</string>
+</resources>

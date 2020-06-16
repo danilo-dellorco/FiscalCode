@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">FiscalCode</string>
+    <string name="app_name">Calcolo Codice Fiscale</string>
     <string name="slide_1_title">Codice Fiscale</string>
-    <string name="slide_2_title">Barcode</string>
+    <string name="slide_2_title">Codice a Barre</string>
     <string name="slide_3_title">Salva</string>
     <string name="slide_4_title">Profilo</string>
     <string name="slide_5_title">Tema Notturno</string>
 
-    <string name="slide_1_desc">Calcola un codice fiscale inserendo i tuoi dati.</string>
-    <string name="slide_2_desc">Ottieni il codice a barre del tuo codice fiscale ed utilizzalo al posto della tua tessera sanitaria.</string>
+    <string name="slide_1_desc">Inserisci i tuoi dati e calcola rapidamente il tuo codice fiscale.</string>
+    <string name="slide_2_desc">Ottieni il codice a barre del tuo codice fiscale ed utilizzalo facilmente al posto della tua tessera sanitaria.</string>
     <string name="slide_3_desc">Salva i codici fiscali che hai calcolato, e tienili sempre a portata di mano.</string>
     <string name="slide_4_desc">Imposta il tuo profilo personale, ed accedi al tuo Codice Fiscale personale con un solo tocco.</string>
     <string name="slide_5_desc">Scegli il tema che preferisci. Prova la modalità notturna per risparmiare batteria e ridurre l\'affaticamento della vista .</string>
@@ -21,7 +21,7 @@
     <string name="deleteAlert">Sei sicuro di voler eliminare i dati salvati?</string>
     <string name="dataEliminated">Dati eliminati</string>
 
-    <string name="confirmExit">Sicuro di voler uscire?</string>
+    <string name="confirmExit">Sicuro di voler uscire dall\'applicazione?</string>
     <string name="choicePositive">Si</string>
     <string name="choiceNegative">No</string>
     <string name="savedElement">Elemento Salvato</string>

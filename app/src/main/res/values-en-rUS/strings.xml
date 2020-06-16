@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Italian Fiscal Code</string>
+    <string name="slide_1_title">Italian Tax Code</string>
+    <string name="slide_2_title">Barcode</string>
+    <string name="slide_3_title">Save</string>
+    <string name="slide_4_title">Profile</string>
+    <string name="slide_5_title">Night Theme</string>
+    <string name="slide_1_desc">Enter your details and quickly calculate your tax code.</string>
+    <string name="slide_2_desc">Get the barcode of your tax code and use it easily instead of your health card.</string>
+    <string name="slide_3_desc">Save the tax codes you have calculated, and always keep them handy.</string>
+    <string name="slide_4_desc">Set up your personal profile, and access your personal tax code with a single touch.</string>
+    <string name="slide_5_desc">Choose the theme you prefer. Try night mode to save battery and reduce eye strain.</string>
+    <string name="start">START</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="genereMaschio">Male</string>
+    <string name="genereFemmina">Female</string>
+    <string name="changeThemeAlert">To apply the theme you need to restart the application, do you want to do it now?</string>
+    <string name="deleteAlert">Are you sure you want to delete the saved data?</string>
+    <string name="dataEliminated">Data deleted</string>
+    <string name="confirmExit">Are you sure you want to exit the application?</string>
+    <string name="choicePositive">Yes</string>
+    <string name="choiceNegative">No</string>
+    <string name="savedElement">Saved Item</string>
+    <string name="presentElement">Item already present in the list</string>
+    <string name="clipboardCode">Tax Code copied to the clipboard</string>
+    <string name="shareCode">Share the Code via</string>
+    <string name="fillForm">Enter all the data correctly</string>
+</resources>
