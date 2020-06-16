@@ -48,16 +48,9 @@ import it.runningexamples.fiscalcode.entity.Stato;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
-//TODO Selezione multipla cardview
-//TODO Traduzioni
 //TODO Ripulire codice
-//TODO Organizzare in cartelle drawable
 //TODO Creare classi ausiliarie
-//TODO Hint se comune errato di selezionare il suggerimento
-//TODO
-//TODO
-//TODO
-//TODO
+//TODO Commentare codice
 
 public class MainActivity extends AppCompatActivity {
     private static final String DATE_TAG = "datePicker"; //NON-NLS
@@ -251,13 +244,13 @@ public class MainActivity extends AppCompatActivity {
             String gender = (String) ((RadioButton) findViewById(radioID)).getText();
             // Get birthday
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //NON-NLS
-            Date birthDay = new Date();
+            Date birthDay = null;
             try {
                 birthDay = simpleDateFormat.parse(btnBirthday.getText().toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null)) {
+            if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null) & birthDay!=null) {
                 if (swEstero.isChecked()) {
                     codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, null, statoSelected,0);
                 } else if (!swEstero.isChecked()){

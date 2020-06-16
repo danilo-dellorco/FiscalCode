@@ -209,13 +209,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             String gender = (String) ((RadioButton) findViewById(radioID)).getText();
             // Get birthday
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date birthDay = new Date();
+            Date birthDay = null;
             try {
                 birthDay = simpleDateFormat.parse(btnBirthday.getText().toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null)) {
+            if (!name.equals("") & !surname.equals("") & (comuneSelected != null || statoSelected != null) & birthDay!=null) {
                 if (swEstero.isChecked()) {
                     if (codiceFiscaleEntity != null) {
                         AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
