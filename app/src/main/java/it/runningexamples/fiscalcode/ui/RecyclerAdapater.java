@@ -103,6 +103,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         counterSelected = 0;
         adapterCallback.counter(false, true);
         adapterCallback.showHideItem(true, false);
+        adapterCallback.changeColorActioBar(getActionColor());
     }
 
     private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
@@ -132,15 +133,35 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
          la selezione multipla anche con l'OnClick.
          se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
         if (counterSelected == 0){
-            adapterCallback.changeColorActioBar(R.color.colorAccentDark);
+            Log.d("CodiceFiscale", "colore1 "+ getActionColor());
+            adapterCallback.changeColorActioBar(getActionColor());
             selectionON = false;
         }
         if (counterSelected > 0){
-            adapterCallback.changeColorActioBar(R.color.colorAccentDark);
+            Log.d("CodiceFiscale", "colore");
+            adapterCallback.changeColorActioBar(getActionSelectedColor());
             selectionON = true;
         }
     }
+    private int getActionColor(){
+        int colorId;
+        if (preferenceManager.getTheme() == 1){
+            colorId = ContextCompat.getColor(mContext, R.color.colorActionBarDark);
+        }else{
+            colorId = ContextCompat.getColor(mContext, R.color.colorActionBarLight);
+        }
+        return colorId;
+    }
 
+    private int getActionSelectedColor(){
+        int colorId;
+        if (preferenceManager.getTheme() == 1){
+            colorId = ContextCompat.getColor(mContext, R.color.colorAccentDark);
+        }else{
+            colorId = ContextCompat.getColor(mContext, R.color.colorAccentLight);
+        }
+        return colorId;
+    }
     private int getSelectionColor() {
         int colorId;
         if (preferenceManager.getTheme() == 1) {
