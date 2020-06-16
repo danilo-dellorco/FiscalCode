@@ -5,15 +5,15 @@
     <item android:id="@+id/shareSelected"
         app:showAsAction="always"
         android:icon="@drawable/share"
-        android:title="@string/shareMenu"
+        android:title="@string/menuShare"
         />
 
     <item android:id="@+id/deleteAll"
-        android:title="@string/delete_all"
+        android:title="@string/menuDeleteAll"
         app:showAsAction="always"
         android:icon="@drawable/delete_top"/>
 
     <item android:id="@+id/selectedCounter"
         app:showAsAction="ifRoom"
-        android:title="@string/counter0" />
+        android:title="@string/menuCounter" />
 </menu>

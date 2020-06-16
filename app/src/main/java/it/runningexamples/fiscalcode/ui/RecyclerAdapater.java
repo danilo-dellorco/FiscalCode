@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,7 +115,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             currentItem.setSelected(true);
             lastSelected = currentItem;
             adapterCallback.counter(true, false);
-            counterSelected++;
+            ++counterSelected;
         } else {
             if (--counterSelected == 0) {
                 adapterCallback.showHideItem(true, false);
@@ -130,7 +131,14 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
           /* parametro utilizzato per gestire
          la selezione multipla anche con l'OnClick.
          se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
-        selectionON = savedCF.size() > 0;
+        if (counterSelected == 0){
+            adapterCallback.changeColorActioBar(R.color.colorAccentDark);
+            selectionON = false;
+        }
+        if (counterSelected > 0){
+            adapterCallback.changeColorActioBar(R.color.colorAccentDark);
+            selectionON = true;
+        }
     }
 
     private int getCardColor() {
@@ -213,5 +221,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         void counter(boolean add, boolean setZero);
 
         void getLastSelected(CodiceFiscaleEntity lastSelected);
+
+        void changeColorActioBar(int color);
     }
 }
