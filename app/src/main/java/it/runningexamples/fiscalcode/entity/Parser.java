@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
-// TODO EXCEPTION
-
 public class Parser {
     private static Context context;
     private static BufferedReader reader;
