@@ -4,14 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -22,7 +20,7 @@ import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
-import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+import it.runningexamples.fiscalcode.tools.AppUtilities;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -41,7 +39,7 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        AppUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getDbSize() == 0) {
             setContentView(R.layout.layout_empty_list);
@@ -79,7 +77,6 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         menu.findItem(R.id.deleteAll).setVisible(false);
         menu.findItem(R.id.selectedCounter).setVisible(false);
         menu.findItem(R.id.shareSelected).setVisible(false);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -105,32 +102,6 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void firstTutorial(){
-        BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SavedActivity.this);
-        builder1.title(getString(R.string.bubbleSavedCard));
-        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
-        builder1.targetView(findViewById(R.id.help1));
-
-        BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(SavedActivity.this);
-        builder2.title(getString(R.string.bubbleSavedCode));
-        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
-        builder2.targetView(findViewById(R.id.help2));
-
-        BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(SavedActivity.this);
-        builder3.title(getString(R.string.bubbleSavedSwipe));
-        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
-        builder3.targetView(findViewById(R.id.help3));
-        builder3.image(getDrawable(R.drawable.swipe_left)); //Bubble main image
-
-        BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
-        sequence.addShowCase(builder1);
-        sequence.addShowCase(builder2);
-        sequence.addShowCase(builder3);
-        sequence.show();
-
-        prefs.setFirstActivity(SAVED,false);
     }
 
     @Override
@@ -176,5 +147,31 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(color);
+    }
+
+    private void firstTutorial(){
+        BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SavedActivity.this);
+        builder1.title(getString(R.string.bubbleSavedCard));
+        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
+        builder1.targetView(findViewById(R.id.help1));
+
+        BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(SavedActivity.this);
+        builder2.title(getString(R.string.bubbleSavedCode));
+        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
+        builder2.targetView(findViewById(R.id.help2));
+
+        BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(SavedActivity.this);
+        builder3.title(getString(R.string.bubbleSavedSwipe));
+        builder1.arrowPosition(BubbleShowCase.ArrowPosition.TOP);
+        builder3.targetView(findViewById(R.id.help3));
+        builder3.image(getDrawable(R.drawable.swipe_left)); //Bubble main image
+
+        BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
+        sequence.addShowCase(builder1);
+        sequence.addShowCase(builder2);
+        sequence.addShowCase(builder3);
+        sequence.show();
+
+        prefs.setFirstActivity(SAVED,false);
     }
 }

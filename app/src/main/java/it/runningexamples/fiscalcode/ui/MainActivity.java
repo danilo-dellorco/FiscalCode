@@ -46,11 +46,12 @@ import it.runningexamples.fiscalcode.entity.Comune;
 import it.runningexamples.fiscalcode.entity.Parser;
 import it.runningexamples.fiscalcode.entity.Stato;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
-import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+import it.runningexamples.fiscalcode.tools.AppUtilities;
 
 //TODO Ripulire codice
 //TODO Creare classi ausiliarie
 //TODO Commentare codice
+//TODO bloccare landscape
 
 public class MainActivity extends AppCompatActivity {
     private static final String DATE_TAG = "datePicker"; //NON-NLS
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        AppUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         holder = new Holder();

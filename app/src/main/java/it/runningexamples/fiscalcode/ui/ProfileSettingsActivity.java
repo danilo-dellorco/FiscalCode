@@ -3,7 +3,6 @@ package it.runningexamples.fiscalcode.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +39,7 @@ import it.runningexamples.fiscalcode.entity.Parser;
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.entity.Stato;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
-import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+import it.runningexamples.fiscalcode.tools.AppUtilities;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
     private static final String DATE_TAG = "datePicker"; //NON-NLS
@@ -49,7 +48,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        AppUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         holder = new Holder();
@@ -259,11 +258,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
-                                holder.etName.getText().clear();
-                                holder.etSurname.getText().clear();
-                                holder.atComuni.getText().clear();
-                                recreate();
+                                resetProfile();
                             }
                         })
                         .setNegativeButton(android.R.string.no, null).show();
@@ -275,14 +270,20 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void hideKeyboard() {
         View view = this.getCurrentFocus(); // controlla se non ci sono focus attivi
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    public void resetProfile(){
+        AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
+        holder.etName.getText().clear();
+        holder.etSurname.getText().clear();
+        holder.atComuni.getText().clear();
+        recreate();
     }
 }
 

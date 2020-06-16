@@ -22,7 +22,7 @@ import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.entity.FiscalBarcode;
 import it.runningexamples.fiscalcode.R;
-import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+import it.runningexamples.fiscalcode.tools.AppUtilities;
 
 public class ProfileActivity extends AppCompatActivity{
     CodiceFiscaleEntity codice;
@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        AppUtilities.applyActivityTheme(this);
         codice = AppDatabase.getInstance(this).codiceFiscaleDAO().getPersonalCode();
         super.onCreate(savedInstanceState);
         if (codice == null){

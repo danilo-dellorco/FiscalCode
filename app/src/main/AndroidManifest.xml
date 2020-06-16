@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:testOnly="false"
         android:icon="@mipmap/application_icon"
         android:label="Calcolo Codice Fiscale"
         android:roundIcon="@mipmap/application_icon_round"

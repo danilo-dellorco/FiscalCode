@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.entity.FiscalBarcode;
 import it.runningexamples.fiscalcode.R;
-import it.runningexamples.fiscalcode.tools.ThemeUtilities;
+import it.runningexamples.fiscalcode.tools.AppUtilities;
 
 public class CFDetail extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class CFDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        AppUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_cfdetail);
         // Gestione luminosità schermo

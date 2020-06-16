@@ -4,7 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,13 +19,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
+import it.runningexamples.fiscalcode.tools.AppUtilities;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity implements Switch.OnCheckedChangeListener, View.OnClickListener {
     private static final int THEME_LIGHT = 0;
     private static final int THEME_DARK = 1;
-    private static final int PENDING_ID = 12345;
-    private static final String SETTINGS = "settings"; //NON-NLS
+    private static final String SETTINGS = "settings" ;
     public int lastTheme;
     public boolean lastChecked;
     PreferenceManager prefs;
@@ -115,7 +115,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                         if (clearApp) {
                             deleteDB();
                         } else {
-                            restartApp();
+                            AppUtilities.restartApp(SettingsActivity.this);
                         }
                     }
                 })
@@ -131,13 +131,6 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                         }
                     }
                 }).show();
-    }
-
-    public void restartApp() {
-        Intent mStartActivity = new Intent(SettingsActivity.this, MainActivity.class);
-        mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent.getActivity(getApplicationContext(), PENDING_ID, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-        System.exit(0);
     }
 
     private void firstTutorial(){

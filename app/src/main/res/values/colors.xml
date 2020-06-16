@@ -16,6 +16,7 @@
 
 
     <!-- Colori tema Dark -->
+    <color name="grey">#838383</color>
     <color name="colorActionBarDark">#192023</color>
     <color name="colorStatusBarDark">#192023</color>
     <color name="colorAccentDark">#2CBF73</color>
