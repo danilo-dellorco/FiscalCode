@@ -20,6 +20,15 @@
     <string name="changeThemeAlert">Per applicare il tema è necessario riavviare l\'applicazione, vuoi farlo ora?</string>
     <string name="deleteAlert">Sei sicuro di voler eliminare i dati salvati?</string>
     <string name="dataEliminated">Dati eliminati</string>
+    <string name="askExit">Sicuro di voler uscire?</string>
+    <string name="positiveButton">Si</string>
+    <string name="negativeButton">No</string>
+    <string name="itemRemoved">Elemento rimosso</string>
+    <string name="cfCopied">Codice Fiscale copiato negli appunti</string>
+    <string name="delete_all">Delete All</string>
+    <string name="counter0">0</string>
+    <string name="undoDelete">Annulla</string>
+    <string name="shareMenu">Condividi</string>
 
     <string name="confirmExit">Sicuro di voler uscire dall\'applicazione?</string>
     <string name="choicePositive">Si</string>

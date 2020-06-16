@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +14,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
-
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
+import it.runningexamples.fiscalcode.tools.PreferenceManager;
 
-@SuppressWarnings("HardCodedStringLiteral")
+import java.util.List;
+
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> implements View.OnClickListener{
     List<CodiceFiscaleEntity> savedCF;
-    CodiceFiscaleEntity lastDeleted;
+    CodiceFiscaleEntity lastDeleted,lastSelected;
     private Context mContext;
-    private int lastDeletedPosition;
-    String stringCode;
+    private int lastDeletedPosition, counterSelected;
+    private String stringCode;
+    private boolean selectionON = false;
+    private PreferenceManager preferenceManager;
+    private AdapterCallback adapterCallback;
 
-    RecyclerAdapter(Context ctx){
+    RecyclerAdapter(Context ctx, AdapterCallback callback) {
         this.mContext = ctx;
+        this.adapterCallback = callback;
         this.savedCF = AppDatabase.getInstance(mContext).codiceFiscaleDAO().getAll();
+        preferenceManager = new PreferenceManager(mContext);
     }
 
     @NonNull
@@ -43,44 +50,100 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
 
 
     @Override
-    public void onBindViewHolder (@NonNull Holder holder, final int position)  {
+    public void onBindViewHolder(@NonNull final Holder holder, final int position) {
         final CodiceFiscaleEntity currentItem = savedCF.get(position);
         holder.tvNome.setText(currentItem.getNome());
         holder.tvCognome.setText(currentItem.getCognome());
         holder.tvData.setText(currentItem.getDataNascita());
         holder.tvLuogo.setText(currentItem.getLuogoNascita());
-        if (currentItem.getGenere().equals("M")){
+        if (currentItem.getGenere().equals("M")) {
             holder.tvSesso.setText(R.string.genereMaschio);
-        }
-        else{
+        } else {
             holder.tvSesso.setText(R.string.genereFemmina);
         }
         holder.btnCode.setText(currentItem.getFinalFiscalCode());
         holder.btnCode.setOnClickListener(this);
         stringCode = holder.btnCode.getText().toString();
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, CFDetail.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
-                intent.putExtra("CF", currentItem);      // PARCELABLE
-                mContext.startActivity(intent);
+                if (!currentItem.isSelected() & !selectionON) {
+                    Intent intent = new Intent(mContext, CFDetail.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
+                    intent.putExtra("CF", currentItem);      // PARCELABLE
+                    mContext.startActivity(intent);
+                } else {
+                    multipleSelection(currentItem, holder, position);
+                }
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                multipleSelection(currentItem, holder, position);
+                return true;
             }
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return savedCF.size();
+    void deleteSelected() {
+        int itemCount = savedCF.size();
+        for (int i = 0; i < savedCF.size(); i++) {
+            if (savedCF.get(i).isSelected()) {
+                AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(savedCF.get(i));
+                savedCF.remove(i);
+                notifyItemRemoved(i);
+                notifyItemRangeRemoved(i, itemCount);
+                i--;
+            }
+        }
+        counterSelected = 0;
+        adapterCallback.counter(false, true);
+        adapterCallback.showHideItem(true, false);
     }
 
-    private CodiceFiscaleEntity getCodeAt(int position){
-        return savedCF.get(position);
+    private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
+        if (!currentItem.isSelected()) {
+            if (counterSelected == 0) {
+                adapterCallback.showHideItem(true, true);
+            }else if (counterSelected>0){
+                adapterCallback.showHideItem(false, false);
+            }
+            currentItem.setSelected(true);
+            lastSelected = currentItem;
+            adapterCallback.counter(true, false);
+            counterSelected++;
+        } else {
+            if (--counterSelected == 0) {
+                adapterCallback.showHideItem(true, false);
+            }
+            currentItem.setSelected(false);
+            adapterCallback.counter(false, false);
+        }
+        /*  cambiando semplicemente il colore dell'itemview, viene cambiato il colore di tutta la "riga" della recyclerView e quindi vengono
+            tolti i bordi arrotondati */
+        Drawable roundRectShape = holder.itemView.getBackground();
+        roundRectShape.setTint(currentItem.isSelected() ? Color.CYAN : getCardColor());
+        holder.itemView.setBackground(roundRectShape);
+          /* parametro utilizzato per gestire
+         la selezione multipla anche con l'OnClick.
+         se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
+        selectionON = savedCF.size() > 0;
     }
 
-    public void deleteItem(int position, RecyclerView rcv) {
+    private int getCardColor() {
+        int colorId;
+        if (preferenceManager.getTheme() == 1) {
+            colorId = ContextCompat.getColor(mContext, R.color.colorCardDark);
+        } else {
+            colorId = ContextCompat.getColor(mContext, R.color.colorCardLight);
+        }
+        return colorId;
+    }
+
+    void deleteItem(int position, RecyclerView rcv) {
         lastDeleted = savedCF.get(position);
         lastDeletedPosition = position;
         AppDatabase.getInstance(mContext).codiceFiscaleDAO().deleteCode(lastDeleted);
@@ -89,7 +152,23 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         showUndoSnackBar(rcv);
     }
 
-    private void showUndoSnackBar(RecyclerView recyclerView){
+    private void undoDelete() {
+        savedCF.add(lastDeleted);
+        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
+        notifyDataSetChanged();
+        lastDeleted = null;
+    }
+
+    public void shareSelected() {
+        adapterCallback.getLastSelected(lastSelected);
+    }
+
+    @Override
+    public int getItemCount() {
+        return savedCF.size();
+    }
+
+    private void showUndoSnackBar(RecyclerView recyclerView) {
 
         Snackbar snackbar = Snackbar.make(recyclerView, R.string.deleteElement, Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.undoElement, new View.OnClickListener() {
@@ -101,14 +180,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         snackbar.show();
     }
 
-    private void undoDelete() {
-        savedCF.add(lastDeleted);
-        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
-        notifyDataSetChanged();
-        lastDeleted = null;
-
-    }
-
     public Context getContext() {
         return mContext;
     }
@@ -118,13 +189,14 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(null, stringCode);
         clipboard.setPrimaryClip(clip);
-        Toast.makeText(mContext,R.string.clipboardCode,Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.clipboardCode, Toast.LENGTH_SHORT).show();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    static class Holder extends RecyclerView.ViewHolder {
         TextView tvNome, tvCognome, tvData, tvLuogo, tvSesso;
         Button btnCode;
-        public Holder(@NonNull View itemView) {
+
+        Holder(@NonNull View itemView) {
             super(itemView);
             tvNome = itemView.findViewById(R.id.tvDetailNome);
             tvCognome = itemView.findViewById(R.id.tvDetailCognome);
@@ -135,4 +207,11 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         }
     }
 
+    public interface AdapterCallback {
+        void showHideItem(boolean delete, boolean share);
+
+        void counter(boolean add, boolean setZero);
+
+        void getLastSelected(CodiceFiscaleEntity lastSelected);
+    }
 }

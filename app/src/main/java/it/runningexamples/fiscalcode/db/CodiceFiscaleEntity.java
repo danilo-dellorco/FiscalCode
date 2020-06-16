@@ -49,6 +49,7 @@ public class CodiceFiscaleEntity implements Parcelable {
     private static Comune comuneNascita;
     private static Stato statoNascita;
     private static Date birthday;
+    private boolean isSelected;
 
 
     private static Map monthCode = new HashMap<Integer, Character>() {{
@@ -236,9 +237,15 @@ public class CodiceFiscaleEntity implements Parcelable {
         return comune;
     }
 
-
     public String getFinalFiscalCode() {
         return finalFiscalCode;
+    }
+
+    public void setSelected(boolean selected){
+        isSelected = selected;
+    }
+    public boolean isSelected(){
+        return isSelected;
     }
 
     public String getStatoNascita() {

@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.confirmExit))
+                .setMessage(R.string.confirmExit)
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.choicePositive), new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.choicePositive, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.this.finish();
                     }
                 })
-                .setNegativeButton(getString(R.string.choiceNegative), null)
+                .setNegativeButton(R.string.choiceNegative, null)
                 .show();
     }
 
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 tvRisultato.setText(fiscalCode);
                 return true;
             }else{
-                Toast.makeText(getApplicationContext(), getString(R.string.fillForm), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.fillForm, Toast.LENGTH_LONG).show();
                 return false;
             }
         }
