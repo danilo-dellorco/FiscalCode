@@ -21,7 +21,6 @@
     <string name="deleteAlert">Sei sicuro di voler eliminare i dati salvati?</string>
     <string name="dataEliminated">Dati eliminati</string>
 
-
     <string name="confirmExit">Sicuro di voler uscire dall\'applicazione?</string>
     <string name="choicePositive">Si</string>
     <string name="choiceNegative">No</string>
@@ -81,7 +80,13 @@
     <string name="labelSettings">Impostazioni</string>
     <string name="labelSettingsProfile">Modifica Profilo</string>
     <string name="labelSaved">Lista Codici</string>
-    <string name="menuCounter" translatable="false">"0"</string>
-    <string name="menuDeleteAll" translatable="false" />
-    <string name="menuShare" translatable="false" />
+
+    <string name="menuShare">Condividi</string>
+    <string name="menuDeleteAll">Elimina Selezionati</string>
+    <string name="menuCounter" translatable="false">0</string>
+    <string name="menuProfile">Profilo</string>
+    <string name="menuList">Elementi Salvati</string>
+    <string name="menuSettings">Impostazioni</string>
+    <string name="menuEdit">Modifica Profilo</string>
+    <string name="menuDelete">Elimina Profilo</string>
 </resources>

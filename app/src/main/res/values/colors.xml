@@ -9,6 +9,7 @@
     <color name="colorBackgroundLight">#FFFFFF</color>
     <color name="colorFilledLight">#F5F5F5</color>
     <color name="colorCardLight">#B5D2FF</color>
+    <color name="colorCardSelectedLight">#f8bbd0</color>
     <color name="colorCvTextLight">#002171</color>
     <color name="colorCodePressedLight">#193E97</color>
     <color name="colorTextNormalLight">#3C3C3C</color>
@@ -20,6 +21,7 @@
     <color name="colorBackgroundDark">#12141E</color>
     <color name="colorFilledDark">#11141D</color>
     <color name="colorCardDark">#5CC18D</color>
+    <color name="colorCardSelectedDark">#c8e6c9</color>
     <color name="colorCvTextDark">#161A2C</color>
     <color name="colorCodePressedDark">#29304E</color>
     <color name="colorTextNormalDark">#FFFFFF</color>
