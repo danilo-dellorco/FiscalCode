@@ -1,12 +1,15 @@
 package it.runningexamples.fiscalcode.ui;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -86,7 +89,16 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         switch (item.getItemId()) {
 
             case R.id.deleteAll:
-                mAdapter.deleteSelected();
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.deleteAlert)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                mAdapter.deleteSelected();
+                            }
+                        })
+                        .setNegativeButton(R.string.undoElement, null).show();
                 return true;
             case R.id.shareSelected:
                 mAdapter.shareSelected();
