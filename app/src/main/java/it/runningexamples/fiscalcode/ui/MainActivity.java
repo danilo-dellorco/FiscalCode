@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 String fiscalCode = codiceFiscaleEntity.calculateCF();
                 tvRisultato.setText(fiscalCode);
+                tvRisultato.setVisibility(View.VISIBLE);
                 return true;
             }else{
                 Toast.makeText(getApplicationContext(), R.string.fillForm, Toast.LENGTH_LONG).show();
