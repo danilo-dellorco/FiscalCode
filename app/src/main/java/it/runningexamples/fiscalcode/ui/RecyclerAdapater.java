@@ -125,12 +125,22 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         /*  cambiando semplicemente il colore dell'itemview, viene cambiato il colore di tutta la "riga" della recyclerView e quindi vengono
             tolti i bordi arrotondati */
         Drawable roundRectShape = holder.itemView.getBackground();
-        roundRectShape.setTint(currentItem.isSelected() ? Color.CYAN : getCardColor());
+        roundRectShape.setTint(currentItem.isSelected() ? getSelectionColor() : getCardColor());
         holder.itemView.setBackground(roundRectShape);
           /* parametro utilizzato per gestire
          la selezione multipla anche con l'OnClick.
          se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
         selectionON = savedCF.size() > 0;
+    }
+
+    private int getSelectionColor() {
+        int colorId;
+        if (preferenceManager.getTheme() == 1) {
+            colorId = ContextCompat.getColor(mContext, R.color.colorCardSelectedDark);
+        } else {
+            colorId = ContextCompat.getColor(mContext, R.color.colorCardSelectedLight);
+        }
+        return colorId;
     }
 
     private int getCardColor() {

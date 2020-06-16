@@ -71,4 +71,11 @@
     <string name="labelSettings">Réglages</string>
     <string name="labelSettingsProfile">Editer le Profil</string>
     <string name="labelSaved">Liste de Codes</string>
+    <string name="menuShare">Partager</string>
+    <string name="menuDeleteAll">Supprimer Sélectionnée</string>
+    <string name="menuProfile">Profil</string>
+    <string name="menuList">Éléments Enregistrés</string>
+    <string name="menuSettings">Réglages</string>
+    <string name="menuEdit">Editer le Profil</string>
+    <string name="menuDelete">Supprimer le Profil</string>
 </resources>

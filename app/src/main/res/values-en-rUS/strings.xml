@@ -71,4 +71,11 @@
     <string name="labelSettings">Settings</string>
     <string name="labelSettingsProfile">Edit Profile</string>
     <string name="labelSaved">Code List</string>
+    <string name="menuShare">Share</string>
+    <string name="menuDeleteAll">Delete Selected</string>
+    <string name="menuProfile">Profile</string>
+    <string name="menuList">Saved Items</string>
+    <string name="menuSettings">Settings</string>
+    <string name="menuEdit">Edit Profile</string>
+    <string name="menuDelete">Delete Profile</string>
 </resources>
