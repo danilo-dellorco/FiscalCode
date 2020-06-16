@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +33,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     private Context mContext;
     private int lastDeletedPosition, counterSelected;
     private String stringCode;
-    private boolean selectionON = false;
+    public boolean selectionON = false;
     private PreferenceManager preferenceManager;
     private AdapterCallback adapterCallback;
 
@@ -234,6 +235,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     static class Holder extends RecyclerView.ViewHolder {
         TextView tvNome, tvCognome, tvData, tvLuogo, tvSesso;
         Button btnCode;
+        CardView cardView;
 
         Holder(@NonNull View itemView) {
             super(itemView);
@@ -243,7 +245,12 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             tvLuogo = itemView.findViewById(R.id.tvDetailLuogo);
             tvSesso = itemView.findViewById(R.id.tvDetailSesso);
             btnCode = itemView.findViewById(R.id.btnDetailCode);
+            cardView = itemView.findViewById(R.id.card_view);
         }
+    }
+
+    public boolean isSelectionON(){
+        return this.selectionON;
     }
 
     public interface AdapterCallback {
