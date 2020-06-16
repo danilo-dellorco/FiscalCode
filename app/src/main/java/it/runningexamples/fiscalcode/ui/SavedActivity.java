@@ -20,6 +20,8 @@ import it.runningexamples.fiscalcode.tools.PreferenceManager;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 
 public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.AdapterCallback {
@@ -153,7 +155,10 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
     }
 
     @Override
-    public void changeColorActioBar(int color) {
+    public void changeColorActionBar(int color) {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(color);
     }
 }

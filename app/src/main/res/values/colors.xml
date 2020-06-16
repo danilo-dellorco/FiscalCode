@@ -3,7 +3,7 @@
     <!-- Colori tema Light -->
     <color name="white">#FFFFFF</color>
     <color name="colorActionBarLight">#0d47a1</color>
-    <color name="colorStatusBarLight">#002171</color>
+    <color name="colorStatusBarLight">#0d47a1</color>
     <color name="colorAccentLight">#ec407a</color>
     <color name="colorPressedLight">#001F91</color>
     <color name="colorBackgroundLight">#FFFFFF</color>
@@ -17,7 +17,7 @@
 
     <!-- Colori tema Dark -->
     <color name="colorActionBarDark">#192023</color>
-    <color name="colorStatusBarDark">#000a12</color>
+    <color name="colorStatusBarDark">#192023</color>
     <color name="colorAccentDark">#2CBF73</color>
     <color name="colorPressedDark">#000000</color>
     <color name="colorBackgroundDark">#12141E</color>
