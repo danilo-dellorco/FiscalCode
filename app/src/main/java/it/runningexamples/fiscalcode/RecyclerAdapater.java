@@ -1,11 +1,9 @@
 package it.runningexamples.fiscalcode;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +33,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false));
+        return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_card, parent, false));
     }
 
 

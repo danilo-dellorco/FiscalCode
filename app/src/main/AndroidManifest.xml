@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/application_icon_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
+        <activity android:name=".SplashActivity" android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ProfileActivity"
             android:label="Il tuo Profilo" />
@@ -28,10 +34,6 @@
             android:name=".CFDetail"
             android:label="Barcode" />
         <activity android:name=".WelcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

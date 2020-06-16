@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
+
 import java.util.List;
 
 public class SavedActivity extends AppCompatActivity {
@@ -17,6 +20,7 @@ public class SavedActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<CodiceFiscaleEntity> cfList;
     ItemTouchHelper itemTouchHelper;
+    PreferenceManager prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class SavedActivity extends AppCompatActivity {
             setContentView(R.layout.layout_empty_list);
         }
         else{
+            prefs = new PreferenceManager(this);
             setContentView(R.layout.activity_saved);
             mRecyclerView = findViewById(R.id.recyclerView);
             mRecyclerView.setHasFixedSize(true);
@@ -35,6 +40,9 @@ public class SavedActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
             itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mAdapter, mRecyclerView));
             itemTouchHelper.attachToRecyclerView(mRecyclerView);
+            if (prefs.isFirstActivity("saved")){
+                firstTutorial();
+            }
         }
         Toolbar toolbarList = findViewById(R.id.toolbarList);
         setSupportActionBar(toolbarList);
@@ -47,8 +55,27 @@ public class SavedActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-//
-//    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//    ClipData clip = ClipData.newPlainText(label, text);
-//    clipboard.setPrimaryClip(clip);
+
+    private void firstTutorial(){
+        BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SavedActivity.this);
+        builder1.title("Clicca sulla carta per visualizzare il barcode");
+        builder1.targetView(findViewById(R.id.help1));
+
+        BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(SavedActivity.this);
+        builder2.title("Tocca il codice per copiarlo rapidamente negli appunti");
+        builder2.targetView(findViewById(R.id.help2));
+
+        BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(SavedActivity.this);
+        builder3.title("Scorri vestro sinistra per eliminare un codice salvato");
+        builder3.targetView(findViewById(R.id.help3));
+        builder3.image(getDrawable(R.drawable.swipe_left)); //Bubble main image
+
+        BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
+        sequence.addShowCase(builder1);
+        sequence.addShowCase(builder2);
+        sequence.addShowCase(builder3);
+        sequence.show();
+
+        prefs.setFirstActivity("saved",false);
+    }
 }

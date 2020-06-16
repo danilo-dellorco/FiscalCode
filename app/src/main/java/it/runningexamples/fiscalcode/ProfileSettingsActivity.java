@@ -55,13 +55,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        if (codiceFiscaleEntity == null){
-            Intent intentMain = new Intent(ProfileSettingsActivity.this, MainActivity.class);
-            startActivity(intentMain);
-        }
-        else{
-            onBackPressed();
-        }
+        onBackPressed();
         return true;
     }
 
@@ -260,8 +254,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
                                 //todo sostituibile con recreate()
-                                startActivity(new Intent(ProfileSettingsActivity.this, ProfileSettingsActivity.class));
-                                finish();
+                                holder.etName.getText().clear();
+                                holder.etSurname.getText().clear();
+                                holder.atComuni.getText().clear();
+                                recreate();
                             }
                         })
                         .setNegativeButton(android.R.string.no, null).show();

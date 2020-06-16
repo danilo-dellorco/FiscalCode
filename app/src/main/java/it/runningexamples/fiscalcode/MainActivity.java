@@ -29,6 +29,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -38,19 +40,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//TODO Copia bottone carview
 //TODO Selezione multipla cardview
-//TODO Hint vari ogni prima cosa che fai
-//TODO Rifare icona
-//TODO Splash activity aperture successive alla prima
 //TODO Traduzioni
 //TODO Stringhe non hardcoded
 //TODO Ripulire codice
 //TODO Organizzare in cartelle classi e drawable
 //TODO Creare classi ausiliarie
-//TODO Swipe left per scegliere codice come personale
-//TODO uniform text cardview
-//TODO schermate vuote
 //TODO
 //TODO
 //TODO
@@ -60,6 +55,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CodiceFiscale";
     public static CodiceFiscaleEntity codiceFiscaleEntity;
+    public PreferenceManager prefs;
     Holder holder;
 
     @Override
@@ -144,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
             setUpDialogDate();
             setUpAutoCompleteTextView();
+            prefs = new PreferenceManager(getApplicationContext());
+            if (prefs.isFirstActivity("main")){
+                firstTutorial();
+            }
         }
 
 
@@ -193,6 +193,9 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
                 if (computeCF()) {
+                    if (prefs.isFirstActivity("calc")){
+                        calcTutorial();
+                    }
                     btnSaveDB.setVisibility(View.VISIBLE);
                     btnCopy.setVisibility(View.VISIBLE);
                     btnShare.setVisibility(View.VISIBLE);
@@ -283,15 +286,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentList);
             }
             if (item.getItemId() == R.id.menu_favorites){
-                CodiceFiscaleEntity codicePersonale = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode();
-                if (codicePersonale == null){
-                    Toast.makeText(getApplicationContext(),"Imposta un profilo personale",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
-                }
-                else{
-                    Intent intentList = new Intent(MainActivity.this, ProfileActivity.class);
-                    startActivity(intentList);
-                }
+                Intent intentList = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intentList);
             }
             return true;
         }
@@ -307,5 +303,59 @@ public class MainActivity extends AppCompatActivity {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+    private void firstTutorial(){
+        BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder1.title("Inserisci i tuoi dati");
+        builder1.targetView(findViewById(R.id.etNome));
+
+        BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder2.title("Premi il pulsante per calcolare il codice fiscale");
+        builder2.targetView(findViewById(R.id.btnCalcola));
+
+        BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
+        sequence.addShowCase(builder1);
+        sequence.addShowCase(builder2);
+        sequence.show();
+        prefs.setFirstActivity("main",false);
+    }
+
+    private void calcTutorial(){
+        BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder1.title("Qui si trova il codice fiscale che hai calcolato");
+        builder1.targetView(findViewById(R.id.tvRisultato));
+
+        BubbleShowCaseBuilder builder2 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder2.title("Salva il codice all'interno dell'applicazione");
+        builder2.targetView(findViewById(R.id.btnSaveDB));
+
+        BubbleShowCaseBuilder builder3 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder3.title("Copia il codice negli appunti ed incollalo rapidamente");
+        builder3.targetView(findViewById(R.id.btnCopy));
+
+        BubbleShowCaseBuilder builder4 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder4.title("Condividi il codice con un'applicazione esterna");
+        builder4.targetView(findViewById(R.id.btnShare));
+
+        BubbleShowCaseBuilder builder5 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder5.title("Imposta il tuo codice personale e visualizzalo rapidamente");
+        builder5.targetView(holder.toolbar.findViewById(R.id.menu_favorites));
+
+        BubbleShowCaseBuilder builder6 = new BubbleShowCaseBuilder(MainActivity.this);
+        builder6.title("Visualizza tutti i codici salvati nell'applicazione");
+        builder6.targetView(holder.toolbar.findViewById(R.id.menu_list));
+
+        BubbleShowCaseSequence sequence = new BubbleShowCaseSequence();
+        sequence.addShowCase(builder1);
+        sequence.addShowCase(builder2);
+        sequence.addShowCase(builder3);
+        sequence.addShowCase(builder4);
+        sequence.addShowCase(builder5);
+        sequence.addShowCase(builder6);
+        sequence.show();
+        prefs.setFirstActivity("calc",false);
+    }
+
+
 }
 

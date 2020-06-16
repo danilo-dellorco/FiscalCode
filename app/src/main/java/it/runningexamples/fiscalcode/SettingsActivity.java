@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -59,6 +61,9 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         Toolbar toolbarSettings = findViewById(R.id.toolbarSettings);
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (prefs.isFirstActivity("settings")){
+            firstTutorial();
+        }
     }
 
     @Override
@@ -134,5 +139,13 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent.getActivity(getApplicationContext(), PENDING_ID, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
         System.exit(0);
+    }
+
+    private void firstTutorial(){
+        BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SettingsActivity.this);
+        builder1.title("Prova il tema scuro e risparmia batteria");
+        builder1.targetView(findViewById(R.id.swDarkMode));
+        builder1.show();
+        prefs.setFirstActivity("settings",false);
     }
 }

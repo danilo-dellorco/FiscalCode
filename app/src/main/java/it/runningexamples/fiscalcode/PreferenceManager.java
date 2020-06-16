@@ -47,5 +47,14 @@ public class PreferenceManager {
         return pref.getBoolean(TEMP_INTRO,false);
     }
 
+    public void setFirstActivity(String activity,Boolean isFirstMain){
+        editor.putBoolean(activity,isFirstMain);
+        editor.apply();
+    }
+
+    public boolean isFirstActivity(String activity){
+        return pref.getBoolean(activity,true);
+    }
+
 
 }

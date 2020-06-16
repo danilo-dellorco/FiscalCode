@@ -46,8 +46,10 @@
                     android:id="@+id/tvDetailNome"
                     style="@style/cvDetailText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:lines="1"
                     android:text="TextView"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
@@ -68,8 +70,10 @@
                     android:id="@+id/tvDetailCognome"
                     style="@style/cvDetailText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:lines="1"
                     android:text="TextView"
                     android:textAlignment="viewEnd" />
 
@@ -92,8 +96,10 @@
                     android:id="@+id/tvDetailData"
                     style="@style/cvDetailText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:lines="1"
                     android:text="TextView"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
@@ -101,7 +107,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
                 <TextView
                     style="@style/cvText"
@@ -114,8 +121,10 @@
                     android:id="@+id/tvDetailLuogo"
                     style="@style/cvDetailText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:lines="1"
                     android:text="TextView"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
@@ -136,8 +145,10 @@
                     android:id="@+id/tvDetailSesso"
                     style="@style/cvDetailText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:lines="1"
                     android:text="TextView"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
