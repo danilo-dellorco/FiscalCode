@@ -9,29 +9,31 @@
         android:roundIcon="@mipmap/application_icon_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
-        <activity
-            android:name=".ProfileActivity"
-            android:label="Il tuo Profilo" />
-        <activity
-            android:name=".ProfileSettingsActivity"
-            android:label="Modifica Profilo" />
-        <activity
-            android:name=".MainActivity"
-            android:label="Calcolo Codice" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Impostazioni" />
-        <activity
-            android:name=".SavedActivity"
-            android:label="Lista Codici Salvati" />
-        <activity
-            android:name=".CFDetail"
-            android:label="Barcode" />
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".ui.SplashActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:label="@string/labelProfile" />
+        <activity
+            android:name=".ui.ProfileSettingsActivity"
+            android:label="@string/labelSettingsProfile" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/labelMain" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/labelSettings" />
+        <activity
+            android:name=".ui.SavedActivity"
+            android:label="@string/labelSaved" />
+        <activity
+            android:name=".ui.CFDetail"
+            android:label="@string/labelDetail" />
+        <activity android:name=".ui.WelcomeActivity">
         </activity>
     </application>
 

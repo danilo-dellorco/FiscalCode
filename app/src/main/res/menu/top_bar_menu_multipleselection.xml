@@ -2,17 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/deleteAll"
-        android:title="@string/delete_all"
-        app:showAsAction="always"
-        android:icon="@drawable/bin72"/>
-
-    <item android:id="@+id/selectedCounter"
-        app:showAsAction="ifRoom"
-        android:title="@string/counter0" />
     <item android:id="@+id/shareSelected"
         app:showAsAction="always"
         android:icon="@drawable/share"
         android:title="@string/shareMenu"
         />
+
+    <item android:id="@+id/deleteAll"
+        android:title="@string/delete_all"
+        app:showAsAction="always"
+        android:icon="@drawable/delete_top"/>
+
+    <item android:id="@+id/selectedCounter"
+        app:showAsAction="ifRoom"
+        android:title="@string/counter0" />
 </menu>

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    tools:context=".SettingsActivity">
+    android:background="?attr/activityBackgroundColor"
+    tools:context=".ui.SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,11 +22,11 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/outlined_button"
-            android:drawableLeft="?attr/settingsThemeIcon"
+            android:drawableStart="?attr/settingsThemeIcon"
             android:drawablePadding="30dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Utilizza il tema scuro" />
+            android:text="@string/settingsDark" />
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
@@ -37,11 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/outlined_button"
-            android:drawableLeft="?attr/settingsProfileIcon"
+            android:drawableStart="?attr/settingsProfileIcon"
             android:drawablePadding="30dp"
             android:fontFamily="sans-serif"
-            android:paddingLeft="10dp"
-            android:text="Modifica Profilo Personale"
+            android:paddingStart="10dp"
+            android:text="@string/settingsProfile"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textStyle="normal" />
@@ -55,11 +55,11 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/outlined_button"
-            android:drawableLeft="?attr/settingsIntroIcon"
+            android:drawableStart="?attr/settingsIntroIcon"
             android:drawablePadding="30dp"
             android:fontFamily="sans-serif"
-            android:paddingLeft="10dp"
-            android:text="Mostra nuovamente l'introduzione"
+            android:paddingStart="10dp"
+            android:text="@string/settingsIntro"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textStyle="normal" />
@@ -80,11 +80,11 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/outlined_button_red"
-            android:drawableLeft="@drawable/delete_red"
+            android:drawableStart="@drawable/delete_red"
             android:drawablePadding="30dp"
             android:fontFamily="sans-serif"
-            android:paddingLeft="10dp"
-            android:text="Elimina Dati"
+            android:paddingStart="10dp"
+            android:text="@string/settingsWipe"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textStyle="normal" />

@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">FiscalCode</string>
+    <string name="app_name">Calcolo Codice Fiscale</string>
     <string name="slide_1_title">Codice Fiscale</string>
-    <string name="slide_2_title">Barcode</string>
+    <string name="slide_2_title">Codice a Barre</string>
     <string name="slide_3_title">Salva</string>
     <string name="slide_4_title">Profilo</string>
     <string name="slide_5_title">Tema Notturno</string>
 
-    <string name="slide_1_desc">Calcola un codice fiscale inserendo i tuoi dati.</string>
-    <string name="slide_2_desc">Ottieni il codice a barre del tuo codice fiscale ed utilizzalo al posto della tua tessera sanitaria.</string>
+    <string name="slide_1_desc">Inserisci i tuoi dati e calcola rapidamente il tuo codice fiscale.</string>
+    <string name="slide_2_desc">Ottieni il codice a barre del tuo codice fiscale ed utilizzalo facilmente al posto della tua tessera sanitaria.</string>
     <string name="slide_3_desc">Salva i codici fiscali che hai calcolato, e tienili sempre a portata di mano.</string>
     <string name="slide_4_desc">Imposta il tuo profilo personale, ed accedi al tuo Codice Fiscale personale con un solo tocco.</string>
     <string name="slide_5_desc">Scegli il tema che preferisci. Prova la modalità notturna per risparmiare batteria e ridurre l\'affaticamento della vista .</string>
 
-    <string name="start">START</string>
-    <string name="next">NEXT</string>
-    <string name="skip">SKIP</string>
+    <string name="start">INIZIA</string>
+    <string name="next">PROSSIMO</string>
+    <string name="skip">SALTA</string>
     <string name="genereMaschio">Maschio</string>
     <string name="genereFemmina">Femmina</string>
     <string name="changeThemeAlert">Per applicare il tema è necessario riavviare l\'applicazione, vuoi farlo ora?</string>
@@ -30,5 +30,63 @@
     <string name="undoDelete">Annulla</string>
     <string name="shareMenu">Condividi</string>
 
+    <string name="confirmExit">Sicuro di voler uscire dall\'applicazione?</string>
+    <string name="choicePositive">Si</string>
+    <string name="choiceNegative">No</string>
+    <string name="savedElement">Elemento Salvato</string>
+    <string name="presentElement">Elemento già presente nella lista</string>
+    <string name="clipboardCode">Codice Fiscale copiato negli appunti</string>
+    <string name="shareCode">Condividi il Codice tramite</string>
+    <string name="fillForm">Inserisci tutti i dati correttamente</string>
 
+    <string name="formNatoEstero">Nato all\'estero: </string>
+    <string name="formNome">Nome</string>
+    <string name="formCognome">Cognome</string>
+    <string name="formComune">Comune di nascita</string>
+    <string name="formStatoEstero">Stato Estero di nascita</string>
+    <string name="formData">Data di nascita</string>
+    <string name="formGenere">Genere: </string>
+    <string name="formCodice">Codice Fiscale: </string>
+    <string name="formSalva">Salva Profilo</string>
+
+    <string name="cardNome">Nome: </string>
+    <string name="cardCognome">Cognome: </string>
+    <string name="cardComune">Luogo di Nascita: </string>
+    <string name="cardData">Data di Nascita: </string>
+    <string name="cardGenere">Sesso: </string>
+    <string name="cardDefault">text</string>
+
+    <string name="bubbleMainNome">Inserisci i tuoi dati</string>
+    <string name="bubbleMainFab">Premi il pulsante per calcolare il codice fiscale</string>
+    <string name="bubbleCalcRisultato">Qui si trova il codice fiscale che hai calcolato</string>
+    <string name="bubbleCalcSave">Salva il codice all\'interno dell\'applicazione</string>
+    <string name="bubbleCalcCopy">Copia il codice negli appunti ed incollalo rapidamente</string>
+    <string name="bubbleCalcShare">Condividi il codice con l\'applicazione che preferisci</string>
+    <string name="bubbleCalcProfile">Imposta il tuo codice personale e visualizzalo rapidamente</string>
+    <string name="bubbleCalcList">Visualizza tutti i codici salvati nell\'applicazione</string>
+    <string name="bubbleSavedCard">Clicca sulla carta per visualizzare il barcode</string>
+    <string name="bubbleSavedCode">Tocca il codice per copiarlo rapidamente negli appunti</string>
+    <string name="bubbleSavedSwipe">Scorri verso sinistra per eliminare un codice salvato</string>
+    <string name="bubbleSettingsDark">Prova il tema scuro e risparmia batteria</string>
+    <string name="profileSaved">Profilo impostato correttamente</string>
+    <string name="confirmDelete">Vuoi cancellare il tuo profilo personale?</string>
+    <string name="noProfile">Non hai ancora impostato un profilo personale</string>
+    <string name="deleteElement">Elemento rimosso</string>
+    <string name="undoElement">ANNULLA</string>
+
+
+    <string name="settingsDark">Utilizza il tema scuro</string>
+    <string name="settingsProfile">Modifica il tuo profilo personale</string>
+    <string name="settingsIntro">Mostra nuovamente l\'introduzione</string>
+    <string name="settingsWipe">Elimina tutti i codici salvati</string>
+
+    <string name="emptySaved">Non hai ancora salvato nessun codice fiscale</string>
+    <string name="emptyProfile">Non hai ancora impostato un profilo personale. Aggiungine uno cliccando sul pulsante in basso</string>
+
+    <string name="labelMain">Calcolo Codice</string>
+    <string name="labelDetail">Codice a Barre</string>
+    <string name="labelProfile">Il tuo Profilo</string>
+    <string name="labelSettings">Impostazioni</string>
+    <string name="labelSettingsProfile">Modifica Profilo</string>
+    <string name="labelSaved">Lista Codici</string>
 </resources>

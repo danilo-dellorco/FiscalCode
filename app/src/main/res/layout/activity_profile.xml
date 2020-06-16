@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:background="?attr/backgroundColor">
+    tools:context=".ui.ProfileActivity"
+    android:background="?attr/activityBackgroundColor">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarProfile"
@@ -31,14 +31,14 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarProfile" >
 
         <include
-            layout="@layout/card_layout"
+            layout="@layout/layout_card"
             android:id="@+id/personal_layout"
             tools:layout_editor_absoluteX="4dp" />
 
         <androidx.legacy.widget.Space
             android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="150dp" />
 
         <ImageView
             android:id="@+id/ivBarcode"
