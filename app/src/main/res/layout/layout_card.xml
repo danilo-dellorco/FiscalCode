@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -40,17 +39,17 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nome: " />
+                    android:text="@string/cardNome" />
 
                 <TextView
                     android:id="@+id/tvDetailNome"
                     style="@style/cvDetailText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:autoSizeTextType="uniform"
                     android:lines="1"
-                    android:text="TextView"
+                    android:text="@string/cardDefault"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
 
@@ -64,24 +63,24 @@
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cognome: " />
+                    android:text="@string/cardCognome" />
 
                 <TextView
                     android:id="@+id/tvDetailCognome"
                     style="@style/cvDetailText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:autoSizeTextType="uniform"
                     android:lines="1"
-                    android:text="TextView"
+                    android:text="@string/cardDefault"
                     android:textAlignment="viewEnd" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -90,17 +89,17 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data di Nascita: " />
+                    android:text="@string/cardData" />
 
                 <TextView
                     android:id="@+id/tvDetailData"
                     style="@style/cvDetailText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:autoSizeTextType="uniform"
                     android:lines="1"
-                    android:text="TextView"
+                    android:text="@string/cardDefault"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
 
@@ -115,17 +114,17 @@
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Luogo di Nascita: " />
+                    android:text="@string/cardComune" />
 
                 <TextView
                     android:id="@+id/tvDetailLuogo"
                     style="@style/cvDetailText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:autoSizeTextType="uniform"
                     android:lines="1"
-                    android:text="TextView"
+                    android:text="@string/cardDefault"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
 
@@ -139,17 +138,17 @@
                     android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sesso: " />
+                    android:text="@string/cardGenere" />
 
                 <TextView
                     android:id="@+id/tvDetailSesso"
                     style="@style/cvDetailText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:autoSizeTextType="uniform"
                     android:lines="1"
-                    android:text="TextView"
+                    android:text="@string/cardDefault"
                     android:textAlignment="viewEnd" />
             </LinearLayout>
 
@@ -163,8 +162,6 @@
                 android:layout_height="35dp"
                 android:layout_margin="0dp"
                 android:background="@drawable/code_button"
-
-                android:text="Button"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activityBackgroundColor"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -35,7 +35,7 @@
             android:id="@+id/swEstero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nato all'estero"
+            android:text="@string/formNatoEstero"
             android:layout_gravity="center"/>
 
         <androidx.legacy.widget.Space
@@ -52,7 +52,7 @@
                 android:id="@+id/etNome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome"
+                android:hint="@string/formNome"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +70,7 @@
                 android:id="@+id/etCognome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Cognome"
+                android:hint="@string/formCognome"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,9 +89,9 @@
             android:id="@+id/atComuni"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:hint="Comune di nascita"
-            android:layout_marginLeft="0dp"
-            android:paddingLeft="8dp"
+            android:hint="@string/formComune"
+            android:layout_marginStart="0dp"
+            android:paddingStart="8dp"
             android:completionThreshold="1"
             android:inputType="textCapCharacters" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -105,13 +105,13 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/outlined_button"
-            android:drawableRight="?attr/calendarIcon"
-            android:paddingLeft="10dp"
-            android:text="Data di Nascita"
+            android:drawableEnd="?attr/calendarIcon"
+            android:paddingStart="10dp"
+            android:text="@string/formData"
             android:textSize="18sp"
             android:textColor="?android:textColorHint"
             android:textAlignment="textStart"
-            android:paddingRight="15dp"
+            android:paddingEnd="15dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif"
             android:textAllCaps="false"/>
@@ -131,13 +131,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingLeft="8dp"
-                android:text="Genere: "
+                android:paddingStart="8dp"
+                android:text="@string/formGenere"
                 android:textColor="?android:textColorHint"
                 android:textSize="19sp" />
 
             <RadioGroup
-                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
                 android:id="@+id/rgGender"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -166,11 +166,11 @@
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingLeft="8dp"
-            android:text="Codice Fiscale:"
+            android:paddingStart="8dp"
+            android:text="@string/formCodice"
             android:textColor="?android:textColorHint"
             android:textSize="19sp" />
 
@@ -193,7 +193,7 @@
                 android:textAlignment="center"
                 android:textColor="?attr/textColorNormal"
                 android:lines="1"
-                android:textSize="40dp"
+                android:textSize="40sp"
                 app:autoSizeTextType="uniform" />
 
         </LinearLayout>
@@ -217,7 +217,6 @@
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:src="@drawable/save"
-                android:text="Salva nel database"
                 android:visibility="invisible"
                 android:textColor="@android:color/white" />
 
@@ -266,6 +265,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/tick" />
+        app:srcCompat="@drawable/tick"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,8 +29,24 @@
     <string name="clipboardCode">Codice Fiscale copiato negli appunti</string>
     <string name="shareCode">Condividi il Codice tramite</string>
     <string name="fillForm">Inserisci tutti i dati correttamente</string>
+
+    <string name="formNatoEstero">Nato all\'estero: </string>
+    <string name="formNome">Nome</string>
+    <string name="formCognome">Cognome</string>
     <string name="formComune">Comune di nascita</string>
     <string name="formStatoEstero">Stato Estero di nascita</string>
+    <string name="formData">Data di nascita</string>
+    <string name="formGenere">Genere: </string>
+    <string name="formCodice">Codice Fiscale: </string>
+    <string name="formSalva">Salva Profilo</string>
+
+    <string name="cardNome">Nome: </string>
+    <string name="cardCognome">Cognome: </string>
+    <string name="cardComune">Luogo di Nascita: </string>
+    <string name="cardData">Data di Nascita: </string>
+    <string name="cardGenere">Sesso: </string>
+    <string name="cardDefault">text</string>
+
     <string name="bubbleMainNome">Inserisci i tuoi dati</string>
     <string name="bubbleMainFab">Premi il pulsante per calcolare il codice fiscale</string>
     <string name="bubbleCalcRisultato">Qui si trova il codice fiscale che hai calcolato</string>
@@ -48,6 +64,16 @@
     <string name="noProfile">Non hai ancora impostato un profilo personale</string>
     <string name="deleteElement">Elemento rimosso</string>
     <string name="undoElement">ANNULLA</string>
+
+
+    <string name="settingsDark">Utilizza il tema scuro</string>
+    <string name="settingsProfile">Modifica il tuo profilo personale</string>
+    <string name="settingsIntro">Mostra nuovamente l\'introduzione</string>
+    <string name="settingsWipe">Elimina tutti i codici salvati</string>
+
+    <string name="emptySaved">Non hai ancora salvato nessun codice fiscale</string>
+    <string name="emptyProfile">Non hai ancora impostato un profilo personale. Aggiungine uno cliccando sul pulsante in basso</string>
+
 
 
 </resources>

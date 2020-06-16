@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activityBackgroundColor">
@@ -38,7 +37,7 @@
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
         android:textAlignment="center"
-        android:text="Non hai ancora impostato un profilo personale. Aggiungine uno cliccando sul pulsante in basso"
+        android:text="@string/emptyProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -53,6 +52,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/plus" />
+        app:srcCompat="@drawable/plus"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

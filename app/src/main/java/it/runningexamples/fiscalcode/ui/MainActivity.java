@@ -50,7 +50,6 @@ import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 //TODO Selezione multipla cardview
 //TODO Traduzioni
-//TODO Stringhe non hardcoded (iniziato da danilo)
 //TODO Ripulire codice
 //TODO Organizzare in cartelle drawable
 //TODO Creare classi ausiliarie
