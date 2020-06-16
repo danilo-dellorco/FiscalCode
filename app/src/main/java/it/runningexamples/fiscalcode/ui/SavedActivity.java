@@ -3,10 +3,13 @@ package it.runningexamples.fiscalcode.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
@@ -70,6 +73,7 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         menu.findItem(R.id.deleteAll).setVisible(false);
         menu.findItem(R.id.selectedCounter).setVisible(false);
         menu.findItem(R.id.shareSelected).setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -145,6 +149,11 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.putExtra(Intent.EXTRA_TEXT, lastSelected.getFinalFiscalCode());
         sharingIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sharingIntent, "Condividi Codice Tramite"));
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.shareCode)));
+    }
+
+    @Override
+    public void changeColorActioBar(int color) {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
     }
 }

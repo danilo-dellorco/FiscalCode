@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +103,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         counterSelected = 0;
         adapterCallback.counter(false, true);
         adapterCallback.showHideItem(true, false);
+        adapterCallback.changeColorActioBar(getActionColor());
     }
 
     private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
@@ -114,7 +116,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             currentItem.setSelected(true);
             lastSelected = currentItem;
             adapterCallback.counter(true, false);
-            counterSelected++;
+            ++counterSelected;
         } else {
             if (--counterSelected == 0) {
                 adapterCallback.showHideItem(true, false);
@@ -130,9 +132,36 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
           /* parametro utilizzato per gestire
          la selezione multipla anche con l'OnClick.
          se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
-        selectionON = savedCF.size() > 0;
+        if (counterSelected == 0){
+            Log.d("CodiceFiscale", "colore1 "+ getActionColor());
+            adapterCallback.changeColorActioBar(getActionColor());
+            selectionON = false;
+        }
+        if (counterSelected > 0){
+            Log.d("CodiceFiscale", "colore");
+            adapterCallback.changeColorActioBar(getActionSelectedColor());
+            selectionON = true;
+        }
+    }
+    private int getActionColor(){
+        int colorId;
+        if (preferenceManager.getTheme() == 1){
+            colorId = ContextCompat.getColor(mContext, R.color.colorActionBarDark);
+        }else{
+            colorId = ContextCompat.getColor(mContext, R.color.colorActionBarLight);
+        }
+        return colorId;
     }
 
+    private int getActionSelectedColor(){
+        int colorId;
+        if (preferenceManager.getTheme() == 1){
+            colorId = ContextCompat.getColor(mContext, R.color.colorAccentDark);
+        }else{
+            colorId = ContextCompat.getColor(mContext, R.color.colorAccentLight);
+        }
+        return colorId;
+    }
     private int getSelectionColor() {
         int colorId;
         if (preferenceManager.getTheme() == 1) {
@@ -223,5 +252,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         void counter(boolean add, boolean setZero);
 
         void getLastSelected(CodiceFiscaleEntity lastSelected);
+
+        void changeColorActioBar(int color);
     }
 }
