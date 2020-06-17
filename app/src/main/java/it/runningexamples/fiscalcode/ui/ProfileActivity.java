@@ -1,3 +1,8 @@
+/**
+ * Activity che gestisce il layout del Profilo Personale, dove vengono mostrati i propri dati
+ * salvati, con relativo codice fiscale e barcode.
+ */
+
 package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.entity.FiscalBarcode;
@@ -28,6 +31,41 @@ public class ProfileActivity extends AppCompatActivity{
     CodiceFiscaleEntity codice;
     Holder holder;
     HolderEmpty holderEmpty;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtilities.applyActivityTheme(this);    //Applica il tema impostato nelle preferenze ad ogni avvio
+        codice = AppDatabase.getInstance(this).codiceFiscaleDAO().getPersonalCode();    //Ottiene dal Database il codice salvato come "personale"
+        super.onCreate(savedInstanceState);
+
+        //Se non è stato salvato un codice personale viene mostrata una interfaccia apposita
+        if (codice == null){
+            setContentView(R.layout.layout_empty_profile);
+            holderEmpty = new HolderEmpty();
+        }
+        else{
+            setContentView(R.layout.activity_profile);
+            holder = new Holder();
+        }
+    }
+
+    /*
+    Sulla ripresa dell'activity si verifica se è stato impostato un profilo personale
+    e si applica il layout corretto
+     */
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode() != null){
+            setContentView(R.layout.activity_profile);
+            codice = AppDatabase.getInstance(this).codiceFiscaleDAO().getPersonalCode();
+            holder = new Holder();
+        }
+        else{
+            setContentView(R.layout.layout_empty_profile);
+            holderEmpty = new HolderEmpty();
+        }
+    }
 
     //Holder che gestisce il layout della schermata Profilo quando nessun profilo è salvato
     public class HolderEmpty implements View.OnClickListener{
@@ -80,12 +118,16 @@ public class ProfileActivity extends AppCompatActivity{
             } else {
                 sesso.setText(R.string.genereFemmina);
             }
+
             personalCard.setOnClickListener(this);
             ivBarcode.setOnClickListener(this);
             code.setOnClickListener(this);
+
+            // Genera il barcode del codice
             FiscalBarcode barcode = new FiscalBarcode(codiceStringa);
             ivBarcode.setImageBitmap(barcode.generateBarcode());
 
+            //Imposta la Toolbar come una ActionBar
             Toolbar toolbarProfile = findViewById(R.id.toolbarProfile);
             setSupportActionBar(toolbarProfile);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -126,41 +168,14 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
-        codice = AppDatabase.getInstance(this).codiceFiscaleDAO().getPersonalCode();
-        super.onCreate(savedInstanceState);
-        if (codice == null){
-            setContentView(R.layout.layout_empty_profile);
-            holderEmpty = new HolderEmpty();
-        }
-        else{
-            setContentView(R.layout.activity_profile);
-            holder = new Holder();
-        }
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode() != null){
-            setContentView(R.layout.activity_profile);
-            codice = AppDatabase.getInstance(this).codiceFiscaleDAO().getPersonalCode();
-            holder = new Holder();
-        }
-        else{
-            setContentView(R.layout.layout_empty_profile);
-            holderEmpty = new HolderEmpty();
-        }
-    }
-
+    //Imposto il back button della toolbar per eseguire l'azione onBackPressed()
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
+    //Imposta il menu della toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode() != null){

@@ -1,3 +1,8 @@
+/**
+ * Activity che gestisce il layout principale, dove è possibile calcolare
+ * il proprio codice fiscale ed accedere a tutte le altre activity
+ */
+
 package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AlertDialog;
@@ -53,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String CALC = "calc"; //NON-NLS
     public static CodiceFiscaleEntity codiceFiscaleEntity;
     public PreferenceManager prefs;
-
     Holder holder;
 
     @Override
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    //Classe Holder per inizializzare tutti gli oggetti del layout
+    //Classe Holder utilizzata per inizializzare tutti gli oggetti del layout
     private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener, Toolbar.OnMenuItemClickListener {
         Parser parser;
         List<Comune> comuniList;
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //Metodo per impostare l'autocompleteTextView relativa ai comuni
+        //Metodo per impostare l'autocompleteTextView relativa ai comuni/stati
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
                 ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(MainActivity.this,
@@ -176,12 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Imposta il dialog relativo al DatePicker
         private void setUpDialogDate() {
-            View.OnClickListener dateClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDatePickerDialog(v);
-                }
-            };
+            View.OnClickListener dateClickListener = v -> showDatePickerDialog(v);
             btnBirthday.setOnClickListener(dateClickListener);
         }
 
@@ -198,34 +197,27 @@ public class MainActivity extends AppCompatActivity {
                 hideKeyboard();
                 tryCalc();
             }
-
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
-
             if (v.getId() == R.id.btnSaveDB) {
                 saveCodeDB(v);
             }
-
             if (v.getId() == R.id.btnCopy){     //Copia il codice calcolato negli appunti
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(null, tvRisultato.getText());
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(getApplicationContext(),getString(R.string.clipboardCode),Toast.LENGTH_SHORT).show();
             }
-
             if (v.getId() == R.id.btnShare){    //Intent per condividere il codice calcolato
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, tvRisultato.getText());
                 sharingIntent.setType("text/plain"); //NON-NLS
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.shareCode)));
             }
-
             if (v.getId() == R.id.btnDelete){
                 resetForm();
             }
-
-
         }
 
         /*
@@ -261,7 +253,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //Metodo che resetta il campo Comune se si effettua lo switch da comune a stato estero e viceversa
+        /*
+        Metodo che cambia l'AutoCompleteTextView se si effettua lo switch da comune a stato estero
+        e viceversa eliminando il testo inserito in precedenza
+         */
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             atComuni.getText().clear();
@@ -292,8 +287,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
-    //END HOLDER
-
 
     //Metodo che nasconde la tastiera se nessuna view ha il focus
     private void hideKeyboard() {
@@ -319,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Metodo che calcola il codice fiscale tramite computeCF e mostra i pulsanti cliccabili
+    //Metodo che calcola il codice fiscale tramite computeCF e mostra i pulsanti per la gestione del codice
     private void tryCalc(){
         if (holder.computeCF()) {
             if (prefs.isFirstActivity(CALC)){

@@ -1,3 +1,7 @@
+/**
+ * Adapter per la RecyclerView
+ */
+
 package it.runningexamples.fiscalcode.ui;
 
 import android.content.ClipData;
@@ -5,7 +9,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,29 +63,25 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         holder.btnCode.setOnClickListener(this);
         stringCode = holder.btnCode.getText().toString();
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!currentItem.isSelected() & !selectionON) {
-                    Intent intent = new Intent(mContext, CFDetail.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
-                    intent.putExtra("CF", currentItem);      // PARCELABLE
-                    mContext.startActivity(intent);
-                } else {
-                    multipleSelection(currentItem, holder, position);
-                }
+        // Gestione del click sulla singola cardview per la selezione multipla o per mostrare
+        // il codice a barre
+        holder.itemView.setOnClickListener(view -> {
+            if (!currentItem.isSelected() & !selectionON) {
+                Intent intent = new Intent(mContext, CFDetail.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("CF", currentItem);      // PARCELABLE
+                mContext.startActivity(intent);
+            } else {
+                multipleSelection(currentItem, holder, position);
             }
         });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                multipleSelection(currentItem, holder, position);
-                return true;
-            }
+        holder.itemView.setOnLongClickListener(v -> {
+            multipleSelection(currentItem, holder, position);
+            return true;
         });
     }
 
+    // Metodo che permette di eliminare i codici scelti nella selezione multipla
     void deleteSelected() {
         int itemCount = savedCF.size();
         for (int i = 0; i < savedCF.size(); i++) {
@@ -101,6 +100,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         adapterCallback.disableSwipe(true);
     }
 
+    // Metodo che permette di effettuare la selezione multipla
     private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
         if (!currentItem.isSelected()) {
             if (counterSelected == 0) {
@@ -119,21 +119,17 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             currentItem.setSelected(false);
             adapterCallback.counter(false, false);
         }
-        /*  cambiando semplicemente il colore dell'itemview, viene cambiato il colore di tutta la "riga" della recyclerView e quindi vengono
-            tolti i bordi arrotondati */
+
+        // Cambio colore al background della cardview selezionata mantenendo la forma arrotondata
         Drawable roundRectShape = holder.itemView.getBackground();
         roundRectShape.setTint(currentItem.isSelected() ? ThemeUtilities.getSelectionColor(mContext) : ThemeUtilities.getCardColor(mContext));
         holder.itemView.setBackground(roundRectShape);
-          /* parametro utilizzato per gestire
-         la selezione multipla anche con l'OnClick.
-         se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
+
         if (counterSelected == 0){
-            Log.d("CodiceFiscale", "colore1 "+ ThemeUtilities.getActionColor(mContext));
             adapterCallback.changeColorActionBar(ThemeUtilities.getActionColor(mContext));
             selectionON = false;
         }
         if (counterSelected > 0){
-            Log.d("CodiceFiscale", "colore");
             adapterCallback.changeColorActionBar(ThemeUtilities.getActionSelectedColor(mContext));
             selectionON = true;
         }
@@ -144,6 +140,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         }
     }
 
+    //Metodo che permette di eliminare un oggetto in seguito allo swipe
     void deleteItem(int position, RecyclerView rcv) {
         lastDeleted = savedCF.get(position);
         lastDeletedPosition = position;
@@ -153,13 +150,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         showUndoSnackBar(rcv);
     }
 
-    private void undoDelete() {
-        savedCF.add(lastDeleted);
-        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
-        notifyDataSetChanged();
-        lastDeleted = null;
-    }
-
+    //Metodo che permette di condividere un codice dopo averlo selezionato
     public void shareSelected() {
         adapterCallback.getLastSelected(lastSelected);
     }
@@ -169,16 +160,20 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         return savedCF.size();
     }
 
+    //Metodo che mostra una Snackbar dopo aver eliminato un elemento con lo swipe, e permette
+    //tramite il pulsante "UNDO" di ripristinarlo
     private void showUndoSnackBar(RecyclerView recyclerView) {
-
         Snackbar snackbar = Snackbar.make(recyclerView, R.string.deleteElement, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.undoElement, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                undoDelete();
-            }
-        });
+        snackbar.setAction(R.string.undoElement, v -> undoDelete());
         snackbar.show();
+    }
+
+    //Metodo che permette di ripristinare l'ultimo elemento eliminato dopo uno swipe
+    private void undoDelete() {
+        savedCF.add(lastDeleted);
+        AppDatabase.getInstance(mContext).codiceFiscaleDAO().saveNewCode(lastDeleted);
+        notifyDataSetChanged();
+        lastDeleted = null;
     }
 
     public Context getContext() {
@@ -186,7 +181,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) { //Copia il codice negli appunti
         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(null, stringCode);
         clipboard.setPrimaryClip(clip);
@@ -210,15 +205,12 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         }
     }
 
+    // Interfaccia utilizzata per comunicare con la Saved Activity
     public interface AdapterCallback {
         void showHideItem(boolean delete, boolean share);
-
         void counter(boolean add, boolean setZero);
-
         void getLastSelected(CodiceFiscaleEntity lastSelected);
-
         void changeColorActionBar(int color);
-
         void disableSwipe(boolean state);
     }
 }

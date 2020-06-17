@@ -1,3 +1,9 @@
+/**
+ * Activity che gestisce il layout dove viene mostrato il barcode relativo
+ * ad un Codice fiscale
+ */
+
+
 package it.runningexamples.fiscalcode.ui;
 
 import android.graphics.Bitmap;
@@ -6,16 +12,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.entity.FiscalBarcode;
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
-public class CFDetail extends AppCompatActivity {
 
+// Classe che gestisce la generazione del barcode
+public class CFDetail extends AppCompatActivity {
     TextView tv;
     ImageView ivBarcode;
     private static final String PAR_KEY = "CF"; //NON-NLS

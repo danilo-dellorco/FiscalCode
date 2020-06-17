@@ -1,16 +1,19 @@
+/**
+ * Classe ausiliaria utilizzata per la gestione del Tema. In questo modo non è necessario
+ * all'interno delle varie activity utilizzare esplicitamente le shared preference ed i
+ * metodi per settare i diversi colori.
+ */
+
 package it.runningexamples.fiscalcode.tools;
 
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.ui.MainActivity;
-import it.runningexamples.fiscalcode.ui.SettingsActivity;
 
 public class ThemeUtilities extends AppCompatActivity {
     private static final int THEME_LIGHT = 0;
@@ -29,6 +32,8 @@ public class ThemeUtilities extends AppCompatActivity {
         }
     }
 
+    // Metodo utilizzato per ottenere il colore della ActionBar se non si è nello stato
+    // di selezione multipla, in base al tema impostato
     public static int getActionColor(Context mContext){
         int colorId;
         PreferenceManager prefs = new PreferenceManager(mContext);
@@ -40,6 +45,8 @@ public class ThemeUtilities extends AppCompatActivity {
         return colorId;
     }
 
+    // Metodo utilizzato per ottenere il colore della ActionBar se nello stato
+    // di selezione multipla, in base al tema impostato
     public static int getActionSelectedColor(Context mContext){
         int colorId;
         PreferenceManager prefs = new PreferenceManager(mContext);
@@ -50,6 +57,9 @@ public class ThemeUtilities extends AppCompatActivity {
         }
         return colorId;
     }
+
+    // Metodo utilizzato per ottenere il colore della CardView nello stato di
+    // selezione multipla, in base al tema impostato
     public static int getSelectionColor(Context mContext) {
         int colorId;
         PreferenceManager prefs = new PreferenceManager(mContext);
@@ -62,6 +72,8 @@ public class ThemeUtilities extends AppCompatActivity {
         return colorId;
     }
 
+    // Metodo utilizzato per ottenere il colore della CardView se non si è nello stato di
+    // selezione multipla, in base al tema impostato
     public static int getCardColor(Context mContext) {
         int colorId;
         PreferenceManager prefs = new PreferenceManager(mContext);
@@ -73,6 +85,8 @@ public class ThemeUtilities extends AppCompatActivity {
         return colorId;
     }
 
+    // Metodo utilizzato per impostare il colore del testo nel bottone del DatePicker dopo
+    // aver inserito correttamente una data. Il colore viene scelto in base al tema impostato
     public static void setDateTextColor(Context context, Button button) {
         PreferenceManager prefs = new PreferenceManager(context);
         if (prefs.getTheme() == 0) {
@@ -83,6 +97,9 @@ public class ThemeUtilities extends AppCompatActivity {
         }
     }
 
+    // Metodo utilizzato per impostare il colore del testo nel bottone del DatePicker a quello
+    // di default dopo aver resettato manualmente il form per il calcolo.
+    // Il colore viene scelto in base al tema impostato.
     public static void resetDateTextColor(Context context, Button button) {
         PreferenceManager prefs = new PreferenceManager(context);
         if (prefs.getTheme() == 0) {
@@ -93,6 +110,7 @@ public class ThemeUtilities extends AppCompatActivity {
         }
     }
 
+    // Metodo utilizzato per riavviare l'applicazione quando viene cambiato il tema.
     public static void restartApp(Context context) {
         Intent mStartActivity = new Intent(context, MainActivity.class);
         mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

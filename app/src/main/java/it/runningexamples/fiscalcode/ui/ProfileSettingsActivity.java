@@ -1,3 +1,8 @@
+/**
+ * Activity che permette di modificare i dati del proprio Profilo Personale, oppure di impostare
+ * un nuovo profilo.
+ */
+
 package it.runningexamples.fiscalcode.ui;
 
 import android.content.Context;
@@ -18,27 +23,21 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.entity.Comune;
 import it.runningexamples.fiscalcode.entity.Parser;
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.entity.Stato;
-import it.runningexamples.fiscalcode.tools.PreferenceManager;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
@@ -48,22 +47,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        ThemeUtilities.applyActivityTheme(this);    //Applica il tema impostato nelle preferenze ad ogni avvio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         holder = new Holder();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_bar_menu_settings, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     @SuppressWarnings("HardCodedStringLiteral")
@@ -77,14 +64,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         Toolbar toolbar;
         Switch swEstero;
         TextView tvRisultato;
-        Button btnBirthday, button;
+        Button btnBirthday;
         EditText etName, etSurname;
         RadioGroup rgGender;
-
         Button btnSaveProfile;
-
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
-
         AdapterView.OnItemClickListener onItemClickListener;
 
         public Holder() {
@@ -93,41 +77,29 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             btnBirthday = findViewById(R.id.btnData);
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
-
             atComuni = findViewById(R.id.atComuni);
-            parser = new Parser(ProfileSettingsActivity.this);
             swEstero = findViewById(R.id.swEstero);
+            toolbar = findViewById(R.id.toolbar);
+            autocompleteLayout = findViewById(R.id.autocompleteLayout);
+            btnSaveProfile = findViewById(R.id.btnSaveProfile);
             swEstero.setOnCheckedChangeListener(this);
+            btnSaveProfile.setOnClickListener(this);
 
+            //Imposta il parser per l'AutoComplete
+            parser = new Parser(ProfileSettingsActivity.this);
             comuniList = parser.parserComuni();
             statiList = parser.parserStati();
 
-            toolbar = findViewById(R.id.toolbar);
-            btnSaveProfile = findViewById(R.id.btnSaveProfile);
-            btnSaveProfile.setOnClickListener(this);
-            autocompleteLayout = findViewById(R.id.autocompleteLayout);
+            //Imposta la Toolbar come una ActionBar
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setOnMenuItemClickListener(this);
 
+            //Esegue il tutorial al primo avvio
             setUpDialogDate();
             setUpAutoCompleteTextView();
             codiceFiscaleEntity = AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getPersonalCode();
-
-            if (codiceFiscaleEntity != null){
-                etName.setText(codiceFiscaleEntity.getNome());
-                etSurname.setText(codiceFiscaleEntity.getCognome());
-                atComuni.setText(codiceFiscaleEntity.getLuogoNascita(), false);
-                btnBirthday.setText(codiceFiscaleEntity.getDataNascita());
-                tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
-                tvRisultato.setVisibility(View.VISIBLE);
-                Context context = getApplicationContext();
-                ThemeUtilities.setDateTextColor(context,btnBirthday);
-                if (codiceFiscaleEntity.getGenere().equals("M")){
-                    rgGender.check(R.id.rbMale);
-                }
-            }
-
+            setUpProfile(codiceFiscaleEntity);
         }
 
         //Metodo per impostare l'autocompleteTextView relativa ai comuni
@@ -141,16 +113,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         R.layout.autocomplete_layout, R.id.tvAutoCompleteItem, statiList);
                 atComuni.setAdapter(statoArrayAdapter);
             }
-            onItemClickListener = new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (swEstero.isChecked()) {
-                        statoSelected = (Stato) parent.getItemAtPosition(position);
-                        hideKeyboard();
-                    } else {
-                        comuneSelected = (Comune) parent.getItemAtPosition(position);
-                        hideKeyboard();
-                    }
+            onItemClickListener = (parent, view, position, id) -> {
+                if (swEstero.isChecked()) {
+                    statoSelected = (Stato) parent.getItemAtPosition(position);
+                    hideKeyboard();
+                } else {
+                    comuneSelected = (Comune) parent.getItemAtPosition(position);
+                    hideKeyboard();
                 }
             };
             atComuni.setOnItemClickListener(onItemClickListener);
@@ -167,10 +136,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             btnBirthday.setOnClickListener(dateClickListener);
         }
 
+        // Mostra il dialog per la scelta della data
         private void showDatePickerDialog(View v) {
             DialogFragment newFragment = new DatePickerFragment(getApplicationContext());
             newFragment.show(getSupportFragmentManager(), DATE_TAG);
         }
+
 
 
         @Override
@@ -206,7 +177,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             int radioID = rgGender.getCheckedRadioButtonId();
 
             String gender = (String) ((RadioButton) findViewById(radioID)).getText();
-            // Get birthday
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date birthDay = null;
             try {
@@ -227,16 +197,19 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     codiceFiscaleEntity = new CodiceFiscaleEntity(name, surname, birthDay, gender, comuneSelected, null,1);
                 }
                 String fiscalCode = codiceFiscaleEntity.calculateCF();
-
                 tvRisultato.setText(fiscalCode);
                 tvRisultato.setVisibility(View.VISIBLE);
-
                 return true;
             }else{
                 Toast.makeText(getApplicationContext(), getString(R.string.fillForm), Toast.LENGTH_LONG).show();
                 return false;
             }
         }
+
+        /*
+        Metodo che cambia l'AutoCompleteTextView se si effettua lo switch da comune a stato estero
+        e viceversa eliminando il testo inserito in precedenza
+        */
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             atComuni.getText().clear();
@@ -280,6 +253,23 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
+    // Metodo che imposta i dati del form in base a quelli del profilo attualmente salvato
+    private void setUpProfile(CodiceFiscaleEntity entityProfile){
+        if (entityProfile != null){
+            holder.etName.setText(entityProfile.getNome());
+            holder.etSurname.setText(entityProfile.getCognome());
+            holder.atComuni.setText(entityProfile.getLuogoNascita(), false);
+            holder.btnBirthday.setText(entityProfile.getDataNascita());
+            holder.tvRisultato.setText(entityProfile.getFinalFiscalCode());
+            holder.tvRisultato.setVisibility(View.VISIBLE);
+            Context context = getApplicationContext();
+            ThemeUtilities.setDateTextColor(context,holder.btnBirthday);
+            if (entityProfile.getGenere().equals("M")){
+                holder.rgGender.check(R.id.rbMale);
+            }
+        }
+    }
+
     //Metodo che elimina il profilo personale e resetta i campi del form
     public void resetProfile(){
         AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
@@ -287,6 +277,20 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         holder.etSurname.getText().clear();
         holder.atComuni.getText().clear();
         recreate();
+    }
+
+    //Imposta il menu della toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_bar_menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //Imposto il back button della toolbar per eseguire l'azione onBackPressed()
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
 

@@ -1,9 +1,13 @@
+/**
+ * Activity che gestisce il layout delle impostazioni, dove è possibile cambiare tema, impostare
+ * un profilo personale o cancellare tutti i dati nel database
+ */
+
 package it.runningexamples.fiscalcode.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.google.android.material.snackbar.Snackbar;
-
-
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
@@ -36,6 +37,8 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         int theme = prefs.getTheme();
         swDarkMode = null;
 
+        // Controllo il tema scelto nelle shared preference, applico il tema scelto dall'utente e
+        // mostro di conseguenza lo switch per il tema scuro come attivo/non attivo
         if (theme == THEME_LIGHT) {
             setTheme(R.style.LightTheme);
             super.onCreate(savedInstanceState);
@@ -57,20 +60,26 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         btnProfile.setOnClickListener(this);
         btnIntro.setOnClickListener(this);
         swDarkMode.setOnCheckedChangeListener(this);
+
+        // Imposto la toolbar come una ActionBar
         Toolbar toolbarSettings = findViewById(R.id.toolbarSettings);
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Mostra il tutorial al primo avvio
         if (prefs.isFirstActivity(SETTINGS)){
             firstTutorial();
         }
     }
 
+    // Imposto il back button della toolbar per eseguire l'azione onBackPressed()
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
+    // Listener dell'azione eseguita sullo switch per impostare il tema
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         lastTheme = prefs.getTheme();
@@ -99,15 +108,16 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
         }
     }
 
+    // Metodo che cancella tutte le entry all'interno del database
     public void deleteDB() {
         AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().deleteAll();
         Snackbar.make(getWindow().getDecorView().getRootView(), R.string.dataEliminated, Snackbar.LENGTH_LONG).show();
     }
 
+    // Metodo che mostra un Dialog di conferma per l'applicazione del tema
     public void showDialogRestart(String textToShow, final Boolean clearApp) {
         new AlertDialog.Builder(this)
                 .setMessage(textToShow)
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -121,8 +131,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!clearApp) {
-                            /* Quando viene scelto "Annulla" riporta lo switch nello stato precedente */
+                        if (!clearApp) {                                                    // Quando viene scelto "Annulla" riporta lo switch nello stato precedente
                             prefs.setThemePref(lastTheme);
                             swDarkMode.setOnCheckedChangeListener (null);
                             swDarkMode.setChecked (!lastChecked);
@@ -132,6 +141,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                 }).show();
     }
 
+    //Metodo che mostra il tutorial della schermata una volta calcolato il primo codice
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SettingsActivity.this);
         builder1.title(getString(R.string.bubbleSettingsDark));
