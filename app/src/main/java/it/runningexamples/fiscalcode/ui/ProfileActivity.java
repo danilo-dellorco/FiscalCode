@@ -29,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity{
     Holder holder;
     HolderEmpty holderEmpty;
 
+    //Holder che gestisce il layout della schermata Profilo quando nessun profilo è salvato
     public class HolderEmpty implements View.OnClickListener{
         FloatingActionButton btnNewProfile;
 
@@ -47,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
+    //Holder che gestisce il layout della schermata Profilo quando è impostato un profilo personale
     public class Holder implements View.OnClickListener, Toolbar.OnMenuItemClickListener{
         String codiceStringa;
         CodiceFiscaleEntity codice;
@@ -66,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity{
             sesso = personalCard.findViewById(R.id.tvDetailSesso);
             code = personalCard.findViewById(R.id.btnDetailCode);
 
+            // Imposta i dati del profilo sulla CardView
             nome.setText(codice.getNome());
             cognome.setText(codice.getCognome());
             luogo.setText(codice.getLuogoNascita());
@@ -91,15 +94,18 @@ public class ProfileActivity extends AppCompatActivity{
 
         @Override
         public void onClick(View v) {
+            // Copia il codice fiscale negli appunti
             if (v.getId() == R.id.btnDetailCode){
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(null, codiceStringa);
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(getApplicationContext(),getString(R.string.clipboardCode),Toast.LENGTH_SHORT).show();
             }
+
+            // Apre la schermata del codice a barre
             else {
                 Intent intent = new Intent(ProfileActivity.this, CFDetail.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     // altrimenti non funziona :(
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("CF", codice);      //NON-NLS
                 startActivity(intent);
             }

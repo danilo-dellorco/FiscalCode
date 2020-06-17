@@ -99,4 +99,5 @@ public class ThemeUtilities extends AppCompatActivity {
         PendingIntent.getActivity(context, PENDING_ID, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
         System.exit(0);
     }
+
 }

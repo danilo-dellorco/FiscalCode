@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        ThemeUtilities.applyActivityTheme(this);    //Applica il tema impostato nelle preferenze ad ogni avvio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         holder = new Holder();

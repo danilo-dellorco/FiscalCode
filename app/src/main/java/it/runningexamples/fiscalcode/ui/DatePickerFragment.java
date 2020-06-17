@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import it.runningexamples.fiscalcode.R;
-import it.runningexamples.fiscalcode.tools.PreferenceManager;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener  {
@@ -40,6 +39,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     @SuppressWarnings("HardCodedStringLiteral")
+    // Imposta il testo del bottone in base alla data selezionata
+    // Imposta il colore del testo da hint a normal
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
             Button btnData = getActivity().findViewById(R.id.btnData);

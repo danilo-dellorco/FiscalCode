@@ -130,7 +130,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         }
 
-
+        //Metodo per impostare l'autocompleteTextView relativa ai comuni
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
                 ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(ProfileSettingsActivity.this,
@@ -141,7 +141,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         R.layout.autocomplete_layout, R.id.tvAutoCompleteItem, statiList);
                 atComuni.setAdapter(statoArrayAdapter);
             }
-
             onItemClickListener = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -156,6 +155,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             };
             atComuni.setOnItemClickListener(onItemClickListener);
         }
+
+        // Imposta il dialog relativo al DatePicker
         private void setUpDialogDate() {
             View.OnClickListener dateClickListener = new View.OnClickListener() {
                 @Override
@@ -193,6 +194,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 }
             }
         }
+
+
+        /*
+        Metodo che calcola il codice fiscale tramite i dati inseriti nel form. Se tutti i campi
+        sono inseriti correttamente viene calcolato il codice e ritorna true, altrimenti false.
+        */
         private boolean computeCF() {
             String surname = etSurname.getText().toString();
             String name = etName.getText().toString();
@@ -264,14 +271,16 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo che nasconde la tastiera se nessuna view ha il focus
     private void hideKeyboard() {
-        View view = this.getCurrentFocus(); // controlla se non ci sono focus attivi
+        View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
+    //Metodo che elimina il profilo personale e resetta i campi del form
     public void resetProfile(){
         AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().removePersonal(codiceFiscaleEntity.getFinalFiscalCode());
         holder.etName.getText().clear();

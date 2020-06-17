@@ -18,15 +18,15 @@ public class CFDetail extends AppCompatActivity {
 
     TextView tv;
     ImageView ivBarcode;
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String PAR_KEY = "CF";
+    private static final String PAR_KEY = "CF"; //NON-NLS
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtilities.applyActivityTheme(this);
+        ThemeUtilities.applyActivityTheme(this);    //Applica il tema impostato nelle preferenze ad ogni avvio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_cfdetail);
-        // Gestione luminosità schermo
+
+        // Aumenta la luminosità dello schermo per mostrare meglio il Barcode
         WindowManager.LayoutParams layout = getWindow().getAttributes();
         layout.screenBrightness = 1F;
         getWindow().setAttributes(layout);
@@ -37,6 +37,7 @@ public class CFDetail extends AppCompatActivity {
         CodiceFiscaleEntity cf = getIntent().getExtras().getParcelable(PAR_KEY);
         tv.setText(cf.getFinalFiscalCode());
 
+        //Crea la bitmap del barcode in base al codice fiscale
         Bitmap fiscalBarcode = new FiscalBarcode(cf.getFinalFiscalCode()).generateBarcode();
         ivBarcode.setImageBitmap(fiscalBarcode);
         Toolbar toolbarDetail = findViewById(R.id.toolbarDetail);
