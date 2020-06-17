@@ -104,6 +104,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         adapterCallback.counter(false, true);
         adapterCallback.showHideItem(true, false);
         adapterCallback.changeColorActionBar(ThemeUtilities.getActionColor(mContext));
+        adapterCallback.disableSwipe(true);
     }
 
     private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
@@ -141,6 +142,11 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             Log.d("CodiceFiscale", "colore");
             adapterCallback.changeColorActionBar(ThemeUtilities.getActionSelectedColor(mContext));
             selectionON = true;
+        }
+        if (selectionON){
+            adapterCallback.disableSwipe(false);
+        }else {
+            adapterCallback.disableSwipe(true);
         }
     }
 
@@ -218,5 +224,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         void getLastSelected(CodiceFiscaleEntity lastSelected);
 
         void changeColorActionBar(int color);
+
+        void disableSwipe(boolean state);
     }
 }

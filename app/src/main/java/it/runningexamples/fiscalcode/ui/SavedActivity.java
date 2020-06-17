@@ -149,6 +149,15 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
         window.setStatusBarColor(color);
     }
 
+    @Override
+    public void disableSwipe(boolean state) {
+        if (!state){
+            itemTouchHelper.attachToRecyclerView(null);
+        }else{
+            itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        }
+    }
+
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(SavedActivity.this);
         builder1.title(getString(R.string.bubbleSavedCard));
