@@ -4,13 +4,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,18 +26,14 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.R;
@@ -50,7 +44,6 @@ import it.runningexamples.fiscalcode.tools.PreferenceManager;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 //TODO Ripulire codice
-//TODO Creare classi ausiliarie
 //TODO Commentare codice
 //TODO bloccare landscape
 
@@ -71,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         holder = new Holder();
     }
 
+    //Chiede una conferma prima di uscire dall'applicazione quando si preme il pulsante indietro
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -85,13 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    //Imposta il menu della toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-
+    //Classe Holder per inizializzare tutti gli oggetti del layout
     private class Holder implements View.OnClickListener,Switch.OnCheckedChangeListener, Toolbar.OnMenuItemClickListener {
         Parser parser;
         List<Comune> comuniList;
@@ -106,11 +101,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnBirthday;
         EditText etName, etSurname;
         RadioGroup rgGender;
-
         ImageButton btnSaveDB,btnCopy,btnShare,btnDelete;
-
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
-
         AdapterView.OnItemClickListener onItemClickListener;
 
         public Holder() {
@@ -120,39 +112,43 @@ public class MainActivity extends AppCompatActivity {
             etName = findViewById(R.id.etNome);
             etSurname = findViewById(R.id.etCognome);
             btnCalcola = findViewById(R.id.btnCalcola);
-            btnCalcola.setOnClickListener(this);
-
             atComuni = findViewById(R.id.atComuni);
-            parser = new Parser(MainActivity.this);
             swEstero = findViewById(R.id.swEstero);
-            swEstero.setOnCheckedChangeListener(this);
-
-            comuniList = parser.parserComuni();
-            statiList = parser.parserStati();
-
             toolbar = findViewById(R.id.toolbar);
             btnSaveDB = findViewById(R.id.btnSaveDB);
             btnCopy = findViewById(R.id.btnCopy);
             btnShare = findViewById(R.id.btnShare);
             btnDelete = findViewById(R.id.btnDelete);
+            autocompleteLayout = findViewById(R.id.autocompleteLayout);
+
+            btnCalcola.setOnClickListener(this);
+            swEstero.setOnCheckedChangeListener(this);
             btnSaveDB.setOnClickListener(this);
             btnCopy.setOnClickListener(this);
             btnShare.setOnClickListener(this);
             btnDelete.setOnClickListener(this);
-            autocompleteLayout = findViewById(R.id.autocompleteLayout);
+
+            //Imposta la Toolbar come una ActionBar
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             toolbar.setOnMenuItemClickListener(this);
 
+            //Imposta il parser per l'AutoComplete
+            parser = new Parser(MainActivity.this);
+            comuniList = parser.parserComuni();
+            statiList = parser.parserStati();
+
             setUpDialogDate();
             setUpAutoCompleteTextView();
+
+            //Esegue il tutorial al primo avvio
             prefs = new PreferenceManager(getApplicationContext());
             if (prefs.isFirstActivity(MAIN)){
                 firstTutorial();
             }
         }
 
-
+        //Metodo per impostare l'autocompleteTextView relativa ai comuni
         private void setUpAutoCompleteTextView() {
             if (!swEstero.isChecked()) {
                 ArrayAdapter<Comune> comuneArrayAdapter = new ArrayAdapter<>(MainActivity.this,
@@ -177,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
             };
             atComuni.setOnItemClickListener(onItemClickListener);
         }
+
+        // Imposta il dialog relativo al DatePicker
         private void setUpDialogDate() {
             View.OnClickListener dateClickListener = new View.OnClickListener() {
                 @Override
@@ -187,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
             btnBirthday.setOnClickListener(dateClickListener);
         }
 
+        // Mostra il dialog del DatePicker
         private void showDatePickerDialog(View v) {
             DialogFragment newFragment = new DatePickerFragment(getApplicationContext());
             newFragment.show(getSupportFragmentManager(), DATE_TAG);
@@ -197,47 +196,31 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (v.getId() == R.id.btnCalcola) {
                 hideKeyboard();
-                if (computeCF()) {
-                    if (prefs.isFirstActivity(CALC)){
-                        calcTutorial();
-                    }
-                    btnSaveDB.setVisibility(View.VISIBLE);
-                    btnCopy.setVisibility(View.VISIBLE);
-                    btnShare.setVisibility(View.VISIBLE);
-                    btnDelete.setVisibility(View.VISIBLE);
-
-                }
-
+                tryCalc();
             }
+
             if (v.getId() == R.id.btnData){
                 showDatePickerDialog(v);
             }
-            if (v.getId() == R.id.btnSaveDB) {       // bisogna prima aver calcolato il codice fiscale
-                Snackbar sn;
-                if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) == 0) {
-                    AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
-                    sn = Snackbar.make(v, getString(R.string.savedElement), Snackbar.LENGTH_LONG);
-                    sn.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
-                    sn.show();
-                } else {
-                    sn = Snackbar.make(v, getString(R.string.presentElement), Snackbar.LENGTH_LONG);
-                    sn.getView().setBackgroundColor(getColor(R.color.colorOutlineRed));
-                    sn.show();
-                }
+
+            if (v.getId() == R.id.btnSaveDB) {
+                saveCodeDB(v);
             }
 
-            if (v.getId() == R.id.btnCopy){
+            if (v.getId() == R.id.btnCopy){     //Copia il codice calcolato negli appunti
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(null, tvRisultato.getText());
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(getApplicationContext(),getString(R.string.clipboardCode),Toast.LENGTH_SHORT).show();
             }
-            if (v.getId() == R.id.btnShare){
+
+            if (v.getId() == R.id.btnShare){    //Intent per condividere il codice calcolato
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, tvRisultato.getText());
                 sharingIntent.setType("text/plain"); //NON-NLS
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.shareCode)));
             }
+
             if (v.getId() == R.id.btnDelete){
                 resetForm();
             }
@@ -245,13 +228,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        /*
+        Metodo che calcola il codice fiscale tramite i dati inseriti nel form. Se tutti i campi
+        sono inseriti correttamente viene calcolato il codice e ritorna true, altrimenti false.
+         */
         private boolean computeCF() {
             String surname = etSurname.getText().toString();
             String name = etName.getText().toString();
             int radioID = rgGender.getCheckedRadioButtonId();
 
             String gender = (String) ((RadioButton) findViewById(radioID)).getText();
-            // Get birthday
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //NON-NLS
             Date birthDay = null;
             try {
@@ -274,6 +260,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         }
+
+        //Metodo che resetta il campo Comune se si effettua lo switch da comune a stato estero e viceversa
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             atComuni.getText().clear();
@@ -304,11 +292,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+    //END HOLDER
 
 
-
+    //Metodo che nasconde la tastiera se nessuna view ha il focus
     private void hideKeyboard() {
-        // Check if no view has focus
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -316,6 +304,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo che salva il codice calcolato nel database e mostra una snackbar con il risultato
+    private void saveCodeDB(View v) {
+        Snackbar sn;
+        if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getCode(codiceFiscaleEntity.getFinalFiscalCode()) == 0) {
+            AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().saveNewCode(codiceFiscaleEntity);
+            sn = Snackbar.make(v, getString(R.string.savedElement), Snackbar.LENGTH_LONG);
+            sn.getView().setBackgroundColor(getColor(R.color.greenSnackbar));
+            sn.show();
+        } else {
+            sn = Snackbar.make(v, getString(R.string.presentElement), Snackbar.LENGTH_LONG);
+            sn.getView().setBackgroundColor(getColor(R.color.colorOutlineRed));
+            sn.show();
+        }
+    }
+
+    //Metodo che calcola il codice fiscale tramite computeCF e mostra i pulsanti cliccabili
+    private void tryCalc(){
+        if (holder.computeCF()) {
+            if (prefs.isFirstActivity(CALC)){
+                calcTutorial();
+            }
+            holder.btnSaveDB.setVisibility(View.VISIBLE);
+            holder.btnCopy.setVisibility(View.VISIBLE);
+            holder.btnShare.setVisibility(View.VISIBLE);
+            holder.btnDelete.setVisibility(View.VISIBLE);
+        }
+    }
+
+    //Metodo utilizzato per resettare tutti i valori del form a quelli di default
     public void resetForm(){
         holder.swEstero.setChecked(false);
         holder.rgGender.check(R.id.rbFemale);
@@ -333,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
         holder.btnSaveDB.setVisibility(View.INVISIBLE);
     }
 
+    //Metodo che mostra il tutorial della schermata al primo avvio
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
         builder1.title(getString(R.string.bubbleMainNome));
@@ -349,6 +367,7 @@ public class MainActivity extends AppCompatActivity {
         prefs.setFirstActivity(MAIN,false);
     }
 
+    //Metodo che mostra il tutorial della schermata una volta calcolato il primo codice
     private void calcTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
         builder1.title(getString(R.string.bubbleCalcRisultato));
@@ -384,8 +403,5 @@ public class MainActivity extends AppCompatActivity {
         sequence.show();
         prefs.setFirstActivity(CALC,false);
     }
-
-
-
 }
 
