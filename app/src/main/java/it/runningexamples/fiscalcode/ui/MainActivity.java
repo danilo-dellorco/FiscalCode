@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -70,11 +69,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.confirmExit)
                 .setCancelable(false)
-                .setPositiveButton(R.string.choicePositive, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.finish();
-                    }
-                })
+                .setPositiveButton(R.string.choicePositive, (dialog, id) -> MainActivity.this.finish())
                 .setNegativeButton(R.string.choiceNegative, null)
                 .show();
     }
@@ -105,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
         AdapterView.OnItemClickListener onItemClickListener;
 
-        public Holder() {
+        Holder() {
             tvRisultato = findViewById(R.id.tvRisultato);
             rgGender = findViewById(R.id.rgGender);
             btnBirthday = findViewById(R.id.btnData);
@@ -159,16 +154,13 @@ public class MainActivity extends AppCompatActivity {
                         R.layout.autocomplete_layout, R.id.tvAutoCompleteItem, statiList);
                     atComuni.setAdapter(statoArrayAdapter);
             }
-            onItemClickListener = new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (swEstero.isChecked()) {
-                        statoSelected = (Stato) parent.getItemAtPosition(position);
-                        hideKeyboard();
-                    } else {
-                        comuneSelected = (Comune) parent.getItemAtPosition(position);
-                        hideKeyboard();
-                    }
+            onItemClickListener = (parent, view, position, id) -> {
+                if (swEstero.isChecked()) {
+                    statoSelected = (Stato) parent.getItemAtPosition(position);
+                    hideKeyboard();
+                } else {
+                    comuneSelected = (Comune) parent.getItemAtPosition(position);
+                    hideKeyboard();
                 }
             };
             atComuni.setOnItemClickListener(onItemClickListener);
@@ -176,12 +168,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Imposta il dialog relativo al DatePicker
         private void setUpDialogDate() {
-            View.OnClickListener dateClickListener = v -> showDatePickerDialog(v);
+            View.OnClickListener dateClickListener = v -> showDatePickerDialog();
             btnBirthday.setOnClickListener(dateClickListener);
         }
 
         // Mostra il dialog del DatePicker
-        private void showDatePickerDialog(View v) {
+        private void showDatePickerDialog() {
             DialogFragment newFragment = new DatePickerFragment(getApplicationContext());
             newFragment.show(getSupportFragmentManager(), DATE_TAG);
         }
@@ -194,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 tryCalc();
             }
             if (v.getId() == R.id.btnData){
-                showDatePickerDialog(v);
+                showDatePickerDialog();
             }
             if (v.getId() == R.id.btnSaveDB) {
                 saveCodeDB(v);
@@ -202,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
             if (v.getId() == R.id.btnCopy){     //Copia il codice calcolato negli appunti
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(null, tvRisultato.getText());
+                assert clipboard != null;
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(getApplicationContext(),getString(R.string.clipboardCode),Toast.LENGTH_SHORT).show();
             }
