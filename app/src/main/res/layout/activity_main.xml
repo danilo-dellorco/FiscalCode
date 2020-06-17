@@ -161,7 +161,7 @@
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="20dp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -253,6 +253,22 @@
                 android:src="@drawable/share"
                 android:visibility="invisible"
                 android:textColor="@android:color/white" />
+
+            <androidx.legacy.widget.Space
+                android:id="@+id/space4"
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/delete_top"
+                android:visibility="invisible"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
     </LinearLayout>
@@ -262,8 +278,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:fabCustomSize="70dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

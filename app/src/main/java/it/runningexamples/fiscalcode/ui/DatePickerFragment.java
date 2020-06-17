@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener  {
     Context context;
@@ -37,17 +38,12 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
         return datePickerDialog;
     }
+
     @SuppressWarnings("HardCodedStringLiteral")
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
             Button btnData = getActivity().findViewById(R.id.btnData);
             btnData.setText(String.format("%02d/%02d/%d", day, month + 1, year));
-            PreferenceManager prefs = new PreferenceManager(context);
-            if (prefs.getTheme() == 0) {
-                btnData.setTextColor(Color.parseColor("#3C3C3C"));
-            }
-            else{
-                btnData.setTextColor(Color.parseColor("#FFFFFF"));
-            }
+            ThemeUtilities.setDateTextColor(context,btnData);
     }
 }

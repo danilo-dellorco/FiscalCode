@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
-import it.runningexamples.fiscalcode.tools.AppUtilities;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity implements Switch.OnCheckedChangeListener, View.OnClickListener {
@@ -115,7 +114,7 @@ public class SettingsActivity extends AppCompatActivity implements Switch.OnChec
                         if (clearApp) {
                             deleteDB();
                         } else {
-                            AppUtilities.restartApp(SettingsActivity.this);
+                            ThemeUtilities.restartApp(SettingsActivity.this);
                         }
                     }
                 })

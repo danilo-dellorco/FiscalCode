@@ -20,7 +20,7 @@ import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
-import it.runningexamples.fiscalcode.tools.AppUtilities;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -39,7 +39,7 @@ public class SavedActivity extends AppCompatActivity implements RecyclerAdapter.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppUtilities.applyActivityTheme(this);
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         if (AppDatabase.getInstance(getApplicationContext()).codiceFiscaleDAO().getDbSize() == 0) {
             setContentView(R.layout.layout_empty_list);

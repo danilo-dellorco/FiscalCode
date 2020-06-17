@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +47,7 @@ import it.runningexamples.fiscalcode.entity.Comune;
 import it.runningexamples.fiscalcode.entity.Parser;
 import it.runningexamples.fiscalcode.entity.Stato;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
-import it.runningexamples.fiscalcode.tools.AppUtilities;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 //TODO Ripulire codice
 //TODO Creare classi ausiliarie
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppUtilities.applyActivityTheme(this);
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         holder = new Holder();
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         EditText etName, etSurname;
         RadioGroup rgGender;
 
-        ImageButton btnSaveDB,btnCopy,btnShare;
+        ImageButton btnSaveDB,btnCopy,btnShare,btnDelete;
 
         com.google.android.material.textfield.TextInputLayout autocompleteLayout;
 
@@ -133,9 +134,11 @@ public class MainActivity extends AppCompatActivity {
             btnSaveDB = findViewById(R.id.btnSaveDB);
             btnCopy = findViewById(R.id.btnCopy);
             btnShare = findViewById(R.id.btnShare);
+            btnDelete = findViewById(R.id.btnDelete);
             btnSaveDB.setOnClickListener(this);
             btnCopy.setOnClickListener(this);
             btnShare.setOnClickListener(this);
+            btnDelete.setOnClickListener(this);
             autocompleteLayout = findViewById(R.id.autocompleteLayout);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -201,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
                     btnSaveDB.setVisibility(View.VISIBLE);
                     btnCopy.setVisibility(View.VISIBLE);
                     btnShare.setVisibility(View.VISIBLE);
+                    btnDelete.setVisibility(View.VISIBLE);
+
                 }
 
             }
@@ -233,6 +238,10 @@ public class MainActivity extends AppCompatActivity {
                 sharingIntent.setType("text/plain"); //NON-NLS
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.shareCode)));
             }
+            if (v.getId() == R.id.btnDelete){
+                resetForm();
+            }
+
 
         }
 
@@ -307,6 +316,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void resetForm(){
+        holder.swEstero.setChecked(false);
+        holder.rgGender.check(R.id.rbFemale);
+        codiceFiscaleEntity = null;
+        holder.tvRisultato.setText(null);
+        holder.btnBirthday.setText(R.string.formData);
+        ThemeUtilities.resetDateTextColor(getApplicationContext(),holder.btnBirthday);
+        holder.etName.getText().clear();
+        holder.etSurname.getText().clear();
+        holder.atComuni.getText().clear();
+        holder.etName.requestFocus();
+        holder.btnDelete.setVisibility(View.INVISIBLE);
+        holder.btnShare.setVisibility(View.INVISIBLE);
+        holder.btnCopy.setVisibility(View.INVISIBLE);
+        holder.btnSaveDB.setVisibility(View.INVISIBLE);
+    }
+
     private void firstTutorial(){
         BubbleShowCaseBuilder builder1 = new BubbleShowCaseBuilder(MainActivity.this);
         builder1.title(getString(R.string.bubbleMainNome));
@@ -358,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
         sequence.show();
         prefs.setFirstActivity(CALC,false);
     }
+
 
 
 }

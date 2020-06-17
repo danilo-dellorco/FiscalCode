@@ -39,7 +39,7 @@ import it.runningexamples.fiscalcode.entity.Parser;
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.entity.Stato;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
-import it.runningexamples.fiscalcode.tools.AppUtilities;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
     private static final String DATE_TAG = "datePicker"; //NON-NLS
@@ -48,7 +48,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppUtilities.applyActivityTheme(this);
+        ThemeUtilities.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         holder = new Holder();
@@ -122,13 +122,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 tvRisultato.setText(codiceFiscaleEntity.getFinalFiscalCode());
                 tvRisultato.setVisibility(View.VISIBLE);
                 Context context = getApplicationContext();
-                PreferenceManager prefs = new PreferenceManager(context);
-                if (prefs.getTheme() == 0) {
-                    btnBirthday.setTextColor(ContextCompat.getColor(context,R.color.colorTextNormalLight));
-                }
-                else{
-                    btnBirthday.setTextColor(ContextCompat.getColor(context,R.color.colorTextNormalDark));
-                }
+                ThemeUtilities.setDateTextColor(context,btnBirthday);
                 if (codiceFiscaleEntity.getGenere().equals("M")){
                     rgGender.check(R.id.rbMale);
                 }

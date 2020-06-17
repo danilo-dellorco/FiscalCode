@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -23,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.db.AppDatabase;
 import it.runningexamples.fiscalcode.db.CodiceFiscaleEntity;
-import it.runningexamples.fiscalcode.tools.PreferenceManager;
+import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 import java.util.List;
 
@@ -34,14 +35,12 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
     private int lastDeletedPosition, counterSelected;
     private String stringCode;
     public boolean selectionON = false;
-    private PreferenceManager preferenceManager;
     private AdapterCallback adapterCallback;
 
     RecyclerAdapter(Context ctx, AdapterCallback callback) {
         this.mContext = ctx;
         this.adapterCallback = callback;
         this.savedCF = AppDatabase.getInstance(mContext).codiceFiscaleDAO().getAll();
-        preferenceManager = new PreferenceManager(mContext);
     }
 
     @NonNull
@@ -104,7 +103,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         counterSelected = 0;
         adapterCallback.counter(false, true);
         adapterCallback.showHideItem(true, false);
-        adapterCallback.changeColorActionBar(getActionColor());
+        adapterCallback.changeColorActionBar(ThemeUtilities.getActionColor(mContext));
     }
 
     private void multipleSelection(CodiceFiscaleEntity currentItem, Holder holder, int pos) {
@@ -128,59 +127,21 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
         /*  cambiando semplicemente il colore dell'itemview, viene cambiato il colore di tutta la "riga" della recyclerView e quindi vengono
             tolti i bordi arrotondati */
         Drawable roundRectShape = holder.itemView.getBackground();
-        roundRectShape.setTint(currentItem.isSelected() ? getSelectionColor() : getCardColor());
+        roundRectShape.setTint(currentItem.isSelected() ? ThemeUtilities.getSelectionColor(mContext) : ThemeUtilities.getCardColor(mContext));
         holder.itemView.setBackground(roundRectShape);
           /* parametro utilizzato per gestire
          la selezione multipla anche con l'OnClick.
          se la selezione multipla è in atto, allora anche la onClick aggiungerà elementi*/
         if (counterSelected == 0){
-            Log.d("CodiceFiscale", "colore1 "+ getActionColor());
-            adapterCallback.changeColorActionBar(getActionColor());
+            Log.d("CodiceFiscale", "colore1 "+ ThemeUtilities.getActionColor(mContext));
+            adapterCallback.changeColorActionBar(ThemeUtilities.getActionColor(mContext));
             selectionON = false;
         }
         if (counterSelected > 0){
             Log.d("CodiceFiscale", "colore");
-            adapterCallback.changeColorActionBar(getActionSelectedColor());
+            adapterCallback.changeColorActionBar(ThemeUtilities.getActionSelectedColor(mContext));
             selectionON = true;
         }
-    }
-    private int getActionColor(){
-        int colorId;
-        if (preferenceManager.getTheme() == 1){
-            colorId = ContextCompat.getColor(mContext, R.color.colorActionBarDark);
-        }else{
-            colorId = ContextCompat.getColor(mContext, R.color.colorActionBarLight);
-        }
-        return colorId;
-    }
-
-    private int getActionSelectedColor(){
-        int colorId;
-        if (preferenceManager.getTheme() == 1){
-            colorId = ContextCompat.getColor(mContext, R.color.colorAccentDark);
-        }else{
-            colorId = ContextCompat.getColor(mContext, R.color.colorAccentLight);
-        }
-        return colorId;
-    }
-    private int getSelectionColor() {
-        int colorId;
-        if (preferenceManager.getTheme() == 1) {
-            colorId = ContextCompat.getColor(mContext, R.color.colorCardSelectedDark);
-        } else {
-            colorId = ContextCompat.getColor(mContext, R.color.colorCardSelectedLight);
-        }
-        return colorId;
-    }
-
-    private int getCardColor() {
-        int colorId;
-        if (preferenceManager.getTheme() == 1) {
-            colorId = ContextCompat.getColor(mContext, R.color.colorCardDark);
-        } else {
-            colorId = ContextCompat.getColor(mContext, R.color.colorCardLight);
-        }
-        return colorId;
     }
 
     void deleteItem(int position, RecyclerView rcv) {
@@ -247,10 +208,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder> imple
             btnCode = itemView.findViewById(R.id.btnDetailCode);
             cardView = itemView.findViewById(R.id.card_view);
         }
-    }
-
-    public boolean isSelectionON(){
-        return this.selectionON;
     }
 
     public interface AdapterCallback {
