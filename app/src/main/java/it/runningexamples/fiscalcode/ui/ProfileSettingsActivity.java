@@ -43,7 +43,7 @@ import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 public class ProfileSettingsActivity extends AppCompatActivity {
     private static final String DATE_TAG = "datePicker"; //NON-NLS
     public static CodiceFiscaleEntity codiceFiscaleEntity;
-    Holder holder;
+    public Holder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,6 +242,23 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             }
             return false;
         }
+
+        // Metodo che imposta i dati del form in base a quelli del profilo attualmente salvato
+        private void setUpProfile(CodiceFiscaleEntity entityProfile){
+            if (entityProfile != null){
+                etName.setText(entityProfile.getNome());
+                etSurname.setText(entityProfile.getCognome());
+                atComuni.setText(entityProfile.getLuogoNascita(), false);
+                btnBirthday.setText(entityProfile.getDataNascita());
+                tvRisultato.setText(entityProfile.getFinalFiscalCode());
+                tvRisultato.setVisibility(View.VISIBLE);
+                Context context = getApplicationContext();
+                ThemeUtilities.setDateTextColor(context,btnBirthday);
+                if (entityProfile.getGenere().equals("M")){
+                    rgGender.check(R.id.rbMale);
+                }
+            }
+        }
     }
 
     //Metodo che nasconde la tastiera se nessuna view ha il focus
@@ -250,23 +267,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
-
-    // Metodo che imposta i dati del form in base a quelli del profilo attualmente salvato
-    private void setUpProfile(CodiceFiscaleEntity entityProfile){
-        if (entityProfile != null){
-            holder.etName.setText(entityProfile.getNome());
-            holder.etSurname.setText(entityProfile.getCognome());
-            holder.atComuni.setText(entityProfile.getLuogoNascita(), false);
-            holder.btnBirthday.setText(entityProfile.getDataNascita());
-            holder.tvRisultato.setText(entityProfile.getFinalFiscalCode());
-            holder.tvRisultato.setVisibility(View.VISIBLE);
-            Context context = getApplicationContext();
-            ThemeUtilities.setDateTextColor(context,holder.btnBirthday);
-            if (entityProfile.getGenere().equals("M")){
-                holder.rgGender.check(R.id.rbMale);
-            }
         }
     }
 

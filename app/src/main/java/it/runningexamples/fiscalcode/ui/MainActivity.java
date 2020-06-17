@@ -48,10 +48,6 @@ import it.runningexamples.fiscalcode.entity.Stato;
 import it.runningexamples.fiscalcode.tools.PreferenceManager;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
-//TODO Ripulire codice
-//TODO Commentare codice
-//TODO bloccare landscape
-
 public class MainActivity extends AppCompatActivity {
     private static final String DATE_TAG = "datePicker"; //NON-NLS
     private static final String MAIN = "main"; //NON-NLS
