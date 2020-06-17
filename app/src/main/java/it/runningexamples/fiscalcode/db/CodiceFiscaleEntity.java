@@ -1,5 +1,8 @@
-package it.runningexamples.fiscalcode.db;
+/** Un oggetto 'CodiceFiscaleEntity' è dotato di metodi e attribuiti finalizzati al calcolo finale del codice fiscale.
+   Rappresenta inoltre una entity per il Database interno, che gestisce tutti i codici fiscali che l'utente vuole salvare.
+ */
 
+package it.runningexamples.fiscalcode.db;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,8 +19,6 @@ import java.util.Map;
 
 import it.runningexamples.fiscalcode.entity.Comune;
 import it.runningexamples.fiscalcode.entity.Stato;
-
-
 @SuppressWarnings("ALL")
 @Entity
 public class CodiceFiscaleEntity implements Parcelable {
@@ -51,7 +52,7 @@ public class CodiceFiscaleEntity implements Parcelable {
     private static Date birthday;
     private boolean isSelected;
 
-
+    // HashMap(Mese, CodiceMese) utilizzata per attribuire al mese di nascita, il codice numerico univoco
     private static Map monthCode = new HashMap<Integer, Character>() {{
         put(1, 'A');
         put(2, 'B');
@@ -67,6 +68,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         put(12, 'T');
     }};
 
+    // HashMap(Carattere, codiceCarattere) utilizzata per calcolare l'ultimo carattere di controllo presente nel codice fiscale
     private static Map evenCode = new HashMap<Character, Integer>() {{
         put('0', 0);
         put('1', 1);
@@ -106,6 +108,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         put('Z', 25);
     }};
 
+    // HashMap(codiceCarattere, carattere) utilizzata per calcolare l'ultimo carattere di controllo presente nel codice fiscale
     private static Map remainderCode = new HashMap<Integer, Character>() {{
         put(0, 'A');
         put(1, 'B');
@@ -135,6 +138,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         put(25, 'Z');
     }};
 
+    // HashMap(Carattere, codiceCarattere) utilizzata per calcolare l'ultimo carattere di controllo presente nel codice fiscale
     private static Map oddCode = new HashMap<Character, Integer>() {{
         put('0', 1);
         put('1', 0);
@@ -191,67 +195,37 @@ public class CodiceFiscaleEntity implements Parcelable {
         }
     }
 
-    protected CodiceFiscaleEntity(Parcel in) {
-        finalFiscalCode = in.readString();
-        nome = in.readString();
-        cognome = in.readString();
-        comune = in.readString();
-        data = in.readString();
-        genere = in.readString();
-        personale = in.readInt();
+    @Override
+    public int describeContents() {
+        return 0;
     }
-
-    public static final Creator<CodiceFiscaleEntity> CREATOR = new Creator<CodiceFiscaleEntity>() {
-        @Override
-        public CodiceFiscaleEntity createFromParcel(Parcel in) {
-            return new CodiceFiscaleEntity(in);
-        }
-
-        @Override
-        public CodiceFiscaleEntity[] newArray(int size) {
-            return new CodiceFiscaleEntity[size];
-        }
-    };
-
+    // Metodi getter
     public String getNome() {
         return nome;
     }
-
     public String getCognome() {
         return cognome;
     }
-
     public String getDataNascita() {
         return data;
     }
-
     public String getGenere() {
         return genere;
     }
-
     public String getComune() {
         return String.format("%s (%s)", comuneNascita.getName(), comuneNascita.getProv());
     }
-
     public String getLuogoNascita() {
         return comune;
     }
-
+    public String getStatoNascita() {
+        return statoNascita.getName();
+    }
     public String getFinalFiscalCode() {
         return finalFiscalCode;
     }
 
-    public void setSelected(boolean selected){
-        isSelected = selected;
-    }
-    public boolean isSelected(){
-        return isSelected;
-    }
-
-    public String getStatoNascita() {
-        return statoNascita.getName();
-    }
-
+    // Metodo principale finalizzato al calcolo finale del codice fiscale
     public String calculateCF() {
         String surnameCode = getSurnameCF();
         String nameCode = getNameCF();
@@ -262,12 +236,12 @@ public class CodiceFiscaleEntity implements Parcelable {
         return finalFiscalCode;
     }
 
+    // Metodo asuiliare per il calcolo del carattere finale di controllo
     private String checkCharacter(String result) {
 
-        char[] fiscalCodeCharArray = result.toCharArray();  // Get array of character
-
+        char[] fiscalCodeCharArray = result.toCharArray();
         int sum = 0;
-
+        // Somma dei valori di tutti i caratteri che compongono il codice, utilizzando le hashMap
         for (int i = 0; i < fiscalCodeCharArray.length; i++) {  // Sum all character code
             Character character = fiscalCodeCharArray[i];
             if ((i + 1) % 2 == 0) {
@@ -276,16 +250,17 @@ public class CodiceFiscaleEntity implements Parcelable {
                 sum = sum + (int) oddCode.get(character);
             }
         }
-
         return (remainderCode.get(sum % 26)).toString();
     }
 
+    // Metodo asuiliare per il calcolo della aprte del codice fiscale relativo al nome
     private String getNameCF() {
 
+        // Eliminazione di eventuali spazi bianchi
         nome = nome.replaceAll(" ", "").toUpperCase();
         String nameCons = "";
         String nameVows = "";
-
+        // Divisione tra vocali e consonanti
         nameCons = nome.replaceAll("[AEIOU]", "");
         nameVows = nome.replaceAll("[BCDFGHJKLMNPQRSTVWXYZ]", "");
 
@@ -324,13 +299,14 @@ public class CodiceFiscaleEntity implements Parcelable {
         } else {
             result = "XXX";
         }
-
         return result;
     }
 
+    // Metodo asuiliare per il calcolo della aprte del codice fiscale relativo al cognonome
     private String getSurnameCF() {
+        // Eliminazione di eventuali spazi bianchi
         cognome = cognome.replaceAll(" ", "").toUpperCase();
-
+        // Divisione tra vocali e consonanti
         String surnameCons = "";
         String surnameVows = "";
 
@@ -360,7 +336,7 @@ public class CodiceFiscaleEntity implements Parcelable {
                 } else {
                     result = surnameCons + "XX";
                 }
-            } else {// no consonants
+            } else { // non ci sono altre consonanti
                 if (surnameVows.length() >= 3) {
                     result = surnameVows.substring(0, 3);
                 } else if (surnameVows.length() == 2) {
@@ -372,34 +348,60 @@ public class CodiceFiscaleEntity implements Parcelable {
                 }
             }
         }
-
         return result;
-
     }
 
+    // Metodo asuiliare per il calcolo della aprte del codice fiscale relativo alla data di nascita
     private String getBirthdayCF() {
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // Get day into two digit
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // ottenimento giorno nascita in forma dd
         int day = Integer.parseInt(dayFormat.format(this.birthday));
 
-        SimpleDateFormat monthFormat = new SimpleDateFormat("M");  // Get month into one digit
+        SimpleDateFormat monthFormat = new SimpleDateFormat("M"); // ottenimento mese nascita in forma M
         int month = Integer.parseInt(monthFormat.format(this.birthday));
 
-        SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // Get last two digit of year
+        SimpleDateFormat yearFormat = new SimpleDateFormat("YY");  // ottenimento anno nascita in forma YY
         int year = Integer.parseInt(yearFormat.format(this.birthday));
 
-        data = String.format("%d/%d/%d", day, month, year);         // setto la data per il database
-        // Return the string coded with female having +40 to day code
+        data = String.format("%d/%d/%d", day, month, year);         // Settaggio data per inserimento nel database in formato dd/MM/YY
+
+        // Nel caso in cui il soggetto sia una donna, giorno di nascita +40
         if (genere.equals("F")) {
             return String.valueOf(year) + monthCode.get(month) + String.format("%02d", day + 40);
         }
         return String.format("%02d", year) + monthCode.get(month) + String.format("%02d", day);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    // Metodi per la gestione della selezione multipla effettuata nella RecyclerView
+    public void setSelected(boolean selected){
+        isSelected = selected;
     }
 
+    public boolean isSelected(){
+        return isSelected;
+    }
+
+
+    /* Metodi per la gestione dell'interfaccia Parcelable */
+    public static final Creator<CodiceFiscaleEntity> CREATOR = new Creator<CodiceFiscaleEntity>() {
+        @Override
+        public CodiceFiscaleEntity createFromParcel(Parcel in) {
+            return new CodiceFiscaleEntity(in);
+        }
+
+        @Override
+        public CodiceFiscaleEntity[] newArray(int size) {
+            return new CodiceFiscaleEntity[size];
+        }
+    };
+    protected CodiceFiscaleEntity(Parcel in) {
+        finalFiscalCode = in.readString();
+        nome = in.readString();
+        cognome = in.readString();
+        comune = in.readString();
+        data = in.readString();
+        genere = in.readString();
+        personale = in.readInt();
+    }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(finalFiscalCode);
