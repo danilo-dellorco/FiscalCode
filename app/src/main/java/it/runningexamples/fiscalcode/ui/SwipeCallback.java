@@ -40,9 +40,9 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        if (direction == ItemTouchHelper.LEFT){
-            recyclerAdapter.deleteItem(position, rcv);
-        }else{
+        if (direction == ItemTouchHelper.LEFT) {
+                recyclerAdapter.deleteItem(position, rcv);
+        } else {
             recyclerAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
         }
     }
