@@ -351,7 +351,7 @@ public class CodiceFiscaleEntity implements Parcelable {
         return result;
     }
 
-    // Metodo asuiliare per il calcolo della aprte del codice fiscale relativo alla data di nascita
+    // Metodo asuiliare per il calcolo della parte del codice fiscale relativo alla data di nascita
     private String getBirthdayCF() {
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");  // ottenimento giorno nascita in forma dd
         int day = Integer.parseInt(dayFormat.format(this.birthday));

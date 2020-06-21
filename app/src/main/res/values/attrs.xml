@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Definizione attributi -->
+    <attr name="calendarIcon" format="reference"/>
+    <attr name="outlineButtonColor" format="reference"/>
+    <attr name="outlineLight" format="reference"/>
+    <attr name="settingsProfileIcon" format="reference"/>
+    <attr name="settingsThemeIcon" format="reference"/>
+    <attr name="settingsDeleteIcon" format="reference"/>
+    <attr name="settingsIntroIcon" format="reference"/>
+    <attr name="activityBackgroundColor" format="reference"/>
+    <attr name="iconCityAutoComplete" format="reference"/>
+    <attr name="filledButtonColor" format="reference"/>
+    <attr name="cardViewColor" format="reference"/>
+    <attr name="cardViewTextColor" format="reference"/>
+    <attr name="cardViewButtonPressed" format="reference"/>
+    <attr name="textColorNormal" format="reference"/>
+</resources>

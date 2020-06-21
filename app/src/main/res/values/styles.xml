@@ -1,22 +1,5 @@
 <resources>
 
-    <!-- Definizione attributi -->
-    <attr name="calendarIcon" format="reference"/>
-    <attr name="outlineButtonColor" format="reference"/>
-    <attr name="outlineLight" format="reference"/>
-    <attr name="settingsProfileIcon" format="reference"/>
-    <attr name="settingsThemeIcon" format="reference"/>
-    <attr name="settingsDeleteIcon" format="reference"/>
-    <attr name="settingsIntroIcon" format="reference"/>
-    <attr name="activityBackgroundColor" format="reference"/>
-    <attr name="iconCityAutoComplete" format="reference"/>
-    <attr name="filledButtonColor" format="reference"/>
-    <attr name="cardViewColor" format="reference"/>
-    <attr name="cardViewTextColor" format="reference"/>
-    <attr name="cardViewButtonPressed" format="reference"/>
-    <attr name="textColorNormal" format="reference"/>
-
-
     <!-- Definizione tema Light -->
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorActionBarLight</item>
@@ -60,6 +43,15 @@
         <item name="iconCityAutoComplete">@drawable/city_dark</item>
     </style>
 
+    <style name="DatePickerDialogDark" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:background">@color/colorBackgroundDark</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
+        <item name="colorControlActivated">@color/colorAccentDark</item>
+        <item name="colorControlHighlight">@color/colorCardDark</item>
+    </style>
+
 
 
     <!-- Stile testo fisso cardview -->
@@ -80,15 +72,6 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@drawable/splash_screen</item>
         <item name="colorPrimaryDark">@color/colorSplashStatus</item>
-    </style>
-
-    <style name="DatePickerDialogDark" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="android:background">@color/colorBackgroundDark</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/grey</item>
-        <item name="colorAccent">@color/colorAccentDark</item>
-        <item name="colorControlActivated">@color/colorAccentDark</item>
-        <item name="colorControlHighlight">@color/colorCardDark</item>
     </style>
 
 </resources>

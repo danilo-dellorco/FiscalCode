@@ -19,7 +19,6 @@ import it.runningexamples.fiscalcode.R;
 import it.runningexamples.fiscalcode.tools.ThemeUtilities;
 
 
-// Classe che gestisce la generazione del barcode
 public class CFDetail extends AppCompatActivity {
     TextView tv;
     ImageView ivBarcode;
